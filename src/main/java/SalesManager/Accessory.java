@@ -1,6 +1,6 @@
 package SalesManager;
 
-public class Accessory extends Product{
+public class Accessory extends ProductManager{
     private String material;
     private String accessoryType;
 }

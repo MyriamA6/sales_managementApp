@@ -15,11 +15,18 @@ public class Catalog {
             CustomerManager cM = new CustomerManager();
             cM.addAnElement(conn);
             Statement stmt=conn.createStatement();
+
+
+
+
+
             String sql = "SELECT * FROM Customer";
             ResultSet res = stmt.executeQuery(sql);
             while (res.next()) {
                 System.out.println(res.getString("first_name") + " " + res.getString("last_name"));
             }
+
+
 
         }
         catch (SQLException e) {
@@ -31,5 +38,7 @@ public class Catalog {
         }
 
     }
+
+
 
 }

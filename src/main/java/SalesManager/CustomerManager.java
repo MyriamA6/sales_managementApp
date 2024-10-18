@@ -12,6 +12,7 @@ public class CustomerManager implements DataManager{
     @Override
     public void addAnElement(Connection co) {
         try {
+
             System.out.println("Enter First Name: ");
             String firstName = scan.nextLine();
             System.out.println("Enter Last Name: ");
@@ -34,6 +35,7 @@ public class CustomerManager implements DataManager{
         }
         catch(SQLException e){
             System.out.println(e.getMessage());
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -41,7 +43,104 @@ public class CustomerManager implements DataManager{
 
     @Override
     public void modifyAnElement(Connection co) {
+        try {
+            System.out.println("Enter the email of the customer you want to modify: ");
+            long customerMail = scan.nextLong();
+            scan.nextLine();
 
+            System.out.println("Which field do you want to modify?");
+            System.out.println("1. First Name");
+            System.out.println("2. Last Name");
+            System.out.println("3. Address");
+            System.out.println("4. Email");
+            System.out.println("5. Phone Number");
+            System.out.println("Enter the numbers of the fields you want to modify (comma-separated, e.g., 1,3,5):");
+
+            String choices = scan.nextLine();
+            String[] choicesToModify = choices.split(",");
+
+            StringBuilder sql = new StringBuilder("UPDATE Customer SET ");
+            boolean firstField = true;
+
+            String newFirstName= null, newLastName=null, newAddress=null, newEmail=null, newPhone=null;
+
+            for (String choice : choicesToModify) {
+                switch (choice.trim()) {
+                    case "1":
+                        System.out.println("Enter new First Name: ");
+                        newFirstName = scan.nextLine();
+                        if (!firstField) sql.append(", ");
+                        sql.append("first_name = ?");
+                        firstField = false;
+                        break;
+                    case "2":
+                        System.out.println("Enter new Last Name: ");
+                        newLastName = scan.nextLine();
+                        if (!firstField) sql.append(", ");
+                        sql.append("last_name = ?");
+                        firstField = false;
+                        break;
+                    case "3":
+                        System.out.println("Enter new Address: ");
+                        newAddress = scan.nextLine();
+                        if (!firstField) sql.append(", ");
+                        sql.append("address = ?");
+                        firstField = false;
+                        break;
+                    case "4":
+                        System.out.println("Enter new Email: ");
+                        newEmail = scan.nextLine();
+                        if (!firstField) sql.append(", ");
+                        sql.append("email = ?");
+                        firstField = false;
+                        break;
+                    case "5":
+                        System.out.println("Enter new Phone Number: ");
+                        newPhone = scan.nextLine();
+                        if (!firstField) sql.append(", ");
+                        sql.append("phone_number = ?");
+                        firstField = false;
+                        break;
+                    default:
+                        System.out.println("Invalid option: " + choice);
+                        break;
+                }
+            }
+
+            sql.append(" WHERE email = ?");
+
+            PreparedStatement stmt = co.prepareStatement(sql.toString());
+
+            int paramIndex = 1;
+            if (newFirstName != null) {
+                stmt.setString(paramIndex++, newFirstName);
+            }
+            if (newLastName != null) {
+                stmt.setString(paramIndex++, newLastName);
+            }
+            if (newAddress != null) {
+                stmt.setString(paramIndex++, newAddress);
+            }
+            if (newEmail != null) {
+                stmt.setString(paramIndex++, newEmail);
+            }
+            if (newPhone != null) {
+                stmt.setString(paramIndex++, newPhone);
+            }
+
+            stmt.setLong(paramIndex, customerMail);
+
+            // Execute the update query
+            int res = stmt.executeUpdate();
+            if (res > 0) {
+                System.out.println("Customer information updated successfully.");
+            } else {
+                System.out.println("No customer found with the given email.");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error while updating customer: " + e.getMessage());
+        }
     }
 
     @Override
