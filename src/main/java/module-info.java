@@ -7,4 +7,6 @@ module org.example.apppooproject {
 
     opens org.example.apppooproject to javafx.fxml;
     exports org.example.apppooproject;
+    opens SalesManager to javafx.fxml;
+    exports SalesManager;
 }
