@@ -1,6 +1,6 @@
-package SalesManager;
+package org.apppooproject.Model;
 
-public class Clothing extends ProductManager{
+public class Pant extends Product {
     private String size;
     private String color;
     private String gender;

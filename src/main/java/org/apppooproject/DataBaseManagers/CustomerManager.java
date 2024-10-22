@@ -1,16 +1,18 @@
-package SalesManager;
+package org.apppooproject.DataBaseManagers;
+
+import org.apppooproject.Model.Customer;
 
 import java.sql.*;
 import java.util.Scanner;
 
-public class CustomerManager implements DataManager{
+public class CustomerManager implements DataManager<Customer> {
     private static long numberOfCustomers = 0;
     Scanner scan = new Scanner(System.in);
-
+    private Connection co;
     public CustomerManager(){}
 
     @Override
-    public void addAnElement(Connection co) {
+    public void addAnElement(Customer customer) {
         try {
 
             System.out.println("Enter First Name: ");
@@ -42,7 +44,7 @@ public class CustomerManager implements DataManager{
     }
 
     @Override
-    public void modifyAnElement(Connection co) {
+    public void modifyAnElement(Customer customer) {
         try {
             System.out.println("Enter the email of the customer you want to modify: ");
             long customerMail = scan.nextLong();
@@ -144,7 +146,7 @@ public class CustomerManager implements DataManager{
     }
 
     @Override
-    public void deleteAnElement(Connection co) {
+    public void deleteAnElement(Customer customer) {
         try {
             System.out.println("Enter First Name: ");
             String firstName = scan.nextLine();

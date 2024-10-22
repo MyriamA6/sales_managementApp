@@ -1,8 +1,13 @@
-package SalesManager;
+package org.apppooproject.DataBaseManagers;
+
+import org.apppooproject.Model.Customer;
 
 import java.sql.*;
+import java.util.List;
 
 public class Catalog {
+
+    List<Customer> customerList;
 
     public static void main(String args[]) {
         //étape 1: charger la classe driver

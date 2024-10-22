@@ -1,4 +1,4 @@
-package SalesManager;
+package org.apppooproject;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +15,7 @@ import javafx.event.ActionEvent; // Correct import
 import java.io.IOException;
 import java.sql.*;
 
-public class Login {
+public class LoginController {
 
     @FXML
     private Button connexion_button;
@@ -48,7 +48,7 @@ public class Login {
             ResultSet res = stmt.executeQuery();
             if (res.next()) {
                 // Charger la nouvelle scène (client.fxml)
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/SalesManager/appCentralView.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/DataBaseManagers/appCentralView.fxml"));
                 Parent customerViewPage = loader.load();
 
                 // Récupérer la scène actuelle et la remplacer par la nouvelle
@@ -80,7 +80,7 @@ public class Login {
     // Action liée au clic sur l'hyperlien pour la création de compte
     @FXML
     public void handleHyperlinkClick() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/SalesManager/SignUp.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/sceneBuilderFiles/Customer/signUp.fxml"));
         Parent SignUpPage = null;
         try {
             SignUpPage = loader.load();

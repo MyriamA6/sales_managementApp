@@ -1,4 +1,6 @@
-package SalesManager;
+package org.apppooproject.DataBaseManagers;
+
+import org.apppooproject.Model.Invoice;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,10 +9,26 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
-public class InvoiceManager implements DataManager {
+public class InvoiceManager implements DataManager<Invoice> {
     Scanner scan = new Scanner(System.in);
+    Connection co;
+    // Step 1: Private static instance
+    private static InvoiceManager instance;
 
-    public void addAnElement(Connection co, long orderId) {
+    // Step 2: Private constructor
+    private InvoiceManager() {
+        // Initialization, if needed
+    }
+
+    // Step 3: Static method to get the instance
+    public static InvoiceManager getInstance() {
+        if (instance == null) {
+            instance = new InvoiceManager();
+        }
+        return instance;
+    }
+
+    public void addAnElement(Invoice invoice) {
         try {
             String invoiceDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMMM yyyy"));
 
@@ -29,7 +47,7 @@ public class InvoiceManager implements DataManager {
     }
 
     @Override
-    public void modifyAnElement(Connection co) {
+    public void modifyAnElement(Invoice invoice) {
         try {
             System.out.println("Enter the ID of the invoice you want to modify: ");
             long invoiceId = scan.nextLong();
@@ -97,7 +115,7 @@ public class InvoiceManager implements DataManager {
     }
 
     @Override
-    public void deleteAnElement(Connection co) {
+    public void deleteAnElement(Invoice invoice) {
         try {
             System.out.println("Enter the ID of the invoice you want to delete: ");
             long invoiceId = scan.nextLong();
@@ -120,7 +138,7 @@ public class InvoiceManager implements DataManager {
 
 
     @Override
-    public void addAnElement(Connection co) {
+    public void addAnElement(Connection co,Invoice invoice) {
         System.out.println("Not used.");
     }
 }

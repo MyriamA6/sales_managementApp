@@ -1,4 +1,4 @@
-package SalesManager;
+package org.apppooproject;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -11,7 +11,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         // Charger le fichier FXML depuis le chemin des ressources
-        Parent root = FXMLLoader.load(getClass().getResource("/SalesManager/login.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/sceneBuilderFiles/login.fxml"));
         primaryStage.setTitle("Login Page");
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();

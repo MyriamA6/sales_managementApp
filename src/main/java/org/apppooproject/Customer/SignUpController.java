@@ -1,9 +1,9 @@
-package SalesManager;
+package org.apppooproject.Customer;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
-public class SignUp {
+public class SignUpController {
 
     @FXML
     private TextField address;

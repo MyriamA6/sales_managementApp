@@ -3,10 +3,14 @@ module org.example.apppooproject {
     requires javafx.fxml;
     requires java.sql;
     requires java.desktop;
+    requires mysql.connector.java;
 
-
-    opens org.example.apppooproject to javafx.fxml;
-    exports org.example.apppooproject;
-    opens SalesManager to javafx.fxml;
-    exports SalesManager;
+    opens org.apppooproject to javafx.fxml;
+    exports org.apppooproject;
+    opens org.apppooproject.DataBaseManagers to javafx.fxml;
+    exports org.apppooproject.DataBaseManagers;
+    exports org.apppooproject.Customer;
+    opens org.apppooproject.Customer to javafx.fxml;
+    exports org.apppooproject.Model;
+    opens org.apppooproject.Model to javafx.fxml;
 }
