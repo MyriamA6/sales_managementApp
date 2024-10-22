@@ -13,4 +13,6 @@ module org.example.apppooproject {
     opens org.apppooproject.Customer to javafx.fxml;
     exports org.apppooproject.Model;
     opens org.apppooproject.Model to javafx.fxml;
+    exports org.apppooproject.Controllers;
+    opens org.apppooproject.Controllers to javafx.fxml;
 }

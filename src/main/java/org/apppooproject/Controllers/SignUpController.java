@@ -1,4 +1,4 @@
-package org.apppooproject.Customer;
+package org.apppooproject.Controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;

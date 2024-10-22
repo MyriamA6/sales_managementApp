@@ -34,7 +34,7 @@ public class InvoiceManager implements DataManager<Invoice> {
 
             String sql = "INSERT INTO Invoice(order_id, invoice_date) VALUES (?, ?)";
             PreparedStatement stmt = co.prepareStatement(sql);
-            stmt.setLong(1, orderId);
+            stmt.setLong(1, invoice.getOrderId());
             stmt.setDate(2, java.sql.Date.valueOf(invoiceDate));
 
             stmt.executeUpdate();
@@ -136,9 +136,4 @@ public class InvoiceManager implements DataManager<Invoice> {
         }
     }
 
-
-    @Override
-    public void addAnElement(Connection co,Invoice invoice) {
-        System.out.println("Not used.");
-    }
 }
