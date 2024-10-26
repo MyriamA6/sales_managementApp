@@ -32,6 +32,8 @@ public class CustomerManager implements DataManager<Customer> {
         }
     }
 
+
+    //A REFAIRE !!
     @Override
     public void modifyAnElement(Customer customer) { //ajouter un attribut pour indiquer l'élément souhaité
         scan.nextLine();
@@ -69,6 +71,7 @@ public class CustomerManager implements DataManager<Customer> {
 
     }
 
+    //A REFAIRE!!
     @Override
     public void deleteAnElement(Customer customer) {
         try {
@@ -86,7 +89,6 @@ public class CustomerManager implements DataManager<Customer> {
 
     }
 
-    public void addPassword(Customer customer) {};
 
 
 

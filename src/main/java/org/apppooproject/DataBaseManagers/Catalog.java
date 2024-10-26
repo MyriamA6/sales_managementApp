@@ -18,7 +18,7 @@ public class Catalog {
                     "jdbc:mysql://localhost:3306/baseSchema?useSSL=false", "root", "vautotwu");
 
             CustomerManager cM = new CustomerManager();
-            cM.addAnElement(conn);
+            //cM.addAnElement(conn);
             Statement stmt=conn.createStatement();
 
 

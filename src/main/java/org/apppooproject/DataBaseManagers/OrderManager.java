@@ -2,7 +2,7 @@ package org.apppooproject.DataBaseManagers;
 
 import com.mysql.cj.x.protobuf.MysqlxCrud;
 import org.apppooproject.Model.Invoice;
-import org.apppooproject.Model.Orders;
+import org.apppooproject.Model.Order;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.sql.Date;
 import java.util.Scanner;
 
-public class OrderManager implements DataManager<Orders> {
+public class OrderManager implements DataManager<Order> {
     Scanner scan =new Scanner(System.in);
 
     Invoice invoice = new Invoice();
@@ -34,18 +34,18 @@ public class OrderManager implements DataManager<Orders> {
 
 
 
-
-    public void addAnOrder(Orders order) {
+    @Override
+    public void addAnElement(Order order) {
             try {
 
                 Date orderDate = new Date(System.currentTimeMillis());
 
-                String sql = "INSERT INTO Order_record(customer_id, product_id, quantity, order_date) VALUES (?, ?, ?, ?)";
+                String sql = "INSERT INTO Order_record (customer_id, total_price, order_date, order_state) VALUES (?, ?, ?, ?)";
                 PreparedStatement stmt = co.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-                stmt.setLong(1, customerId);
-                stmt.setLong(2, productId);
-                stmt.setInt(3, quantity);
-                stmt.setDate(4, orderDate);
+                stmt.setLong(1, order.getCustomerId());
+                stmt.setLong(2, order.getTotalPrice());
+                stmt.setDate(3,order.getDate() );
+                stmt.setString(4, order.getState());
 
                 stmt.executeUpdate();
 
@@ -76,18 +76,14 @@ public class OrderManager implements DataManager<Orders> {
         }
 
 
+
     @Override
-    public void addAnElement(Connection co) {
+    public void modifyAnElement(Order order) {
 
     }
 
     @Override
-    public void modifyAnElement(Connection co) {
-
-    }
-
-    @Override
-    public void deleteAnElement(Connection co) {
+    public void deleteAnElement(Order order) {
 
     }
 }

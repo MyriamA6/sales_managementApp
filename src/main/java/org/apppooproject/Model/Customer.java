@@ -31,7 +31,8 @@ public class Customer {
 
     public void suppressFromCart(Product product){}
 
-    public Orders payCart(){
+    public Order payCart(){
+        return null;
     }
 
 
