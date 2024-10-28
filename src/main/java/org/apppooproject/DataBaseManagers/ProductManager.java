@@ -11,13 +11,21 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public abstract class ProductManager implements DataManager<Product>{
+public final class ProductManager implements DataManager<Product>{
     private Connection co;
+    private ProductManager instance;
     private ArrayList<Product> products;
 
-    public ProductManager() {
+    private ProductManager() {
         products = new ArrayList<Product>();
         loadProductFromBd();
+    }
+
+    public static ProductManager getInstance(){
+        if(instance == null){
+            instance = new ProductManager();
+        }
+        return instance;
     }
 
     private void loadProductFromBd() {
@@ -97,6 +105,10 @@ public abstract class ProductManager implements DataManager<Product>{
     public void refresh(){
         products= new ArrayList<Product>();
         loadProductFromBd();
+    }
+
+    public ArrayList<Product> getProducts() {
+        return products;
     }
 
 

@@ -11,6 +11,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
+import org.apppooproject.DataBaseManagers.ProductManager;
 import org.apppooproject.Model.Pants;
 import org.apppooproject.Model.Product;
 import org.apppooproject.Model.Top;
@@ -92,44 +93,7 @@ public class CentralViewController {
     }
 
     public void setupTable(){
-        // Objet de type Top : un haut à manches longues pour homme
-        Top top1 = new Top(
-                101, // productId
-                "Chemise Classique", // name
-                29.99, // price
-                50, // stock
-                "Bleu", // color
-                "Chemise classique à manches longues", // description
-                "Homme", // gender
-                true // isLongSleeves
-        );
-
-// Objet de type Pant : un short pour femme
-        Pants pants1 = new Pants(
-                201, // productId
-                "Short d'été", // name
-                19.99, // price
-                30, // stock
-                "Noir", // color
-                "Short confortable et léger, idéal pour l'été", // description
-                "Femme", // gender
-                true // isShorts
-        );
-
-// Objet de type Top : un haut à manches courtes pour femme
-        Top top2 = new Top(
-                102, // productId
-                "T-shirt Casual", // name
-                15.99, // price
-                70, // stock
-                "Rouge", // color
-                "T-shirt confortable à manches courtes", // description
-                "Femme", // gender
-                false // isLongSleeves
-        );
-
-        products.getItems().addAll(pants1,top1, top2);
-
+        products.getItems().addAll(ProductManager.getInstance().getProducts());
     }
 
 

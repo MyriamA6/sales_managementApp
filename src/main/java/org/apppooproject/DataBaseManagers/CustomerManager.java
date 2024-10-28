@@ -4,15 +4,22 @@ import org.apppooproject.Model.Customer;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
-public class CustomerManager implements DataManager<Customer> {
+public final class CustomerManager implements DataManager<Customer> {
     private Connection co;
+    private static CustomerManager instance;
     private ArrayList<Customer> customers;
 
-    public CustomerManager(){
+    private CustomerManager(){
         ArrayList<Customer> customers = new ArrayList<Customer>();
         loadCustomerFromBd();
+    }
+
+    public static CustomerManager getInstance(){
+        if(instance == null){
+            instance = new CustomerManager();
+        }
+        return instance;
     }
 
     private void loadCustomerFromBd() {

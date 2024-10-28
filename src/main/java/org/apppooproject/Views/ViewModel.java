@@ -13,4 +13,7 @@ public class ViewModel {
         }
         return instance;
     }
+    public ViewFactory getViewFactory() {
+        return viewFactory;
+    }
 }

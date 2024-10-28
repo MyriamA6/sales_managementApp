@@ -1,19 +1,19 @@
 package org.apppooproject.Controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 import javafx.event.ActionEvent; // Correct import
 import org.apppooproject.DataBaseManagers.CustomerManager;
 import org.apppooproject.Model.Customer;
+import org.apppooproject.Views.ViewModel;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.*;
+import java.util.ResourceBundle;
 
-public class LoginController {
+public class LoginController implements Initializable {
 
     @FXML
     private Button connection_button;
@@ -35,64 +35,43 @@ public class LoginController {
 
     CustomerManager customerManager = new CustomerManager();
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        error_label.setVisible(false);
+    }
+
     // Action liée au bouton de connexion
     @FXML
     public void connectionToUserAccountAction(ActionEvent event) {
         String username = login_name.getText();
         String pwd = password.getText();
-
-
         try {
-            Connection conn = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/baseSchema?useSSL=false", "root", "vautotwu");
-
             Customer customer = customerManager.getCustomerByID(username, pwd);
             if (customer!=null) {
-                // Charger la nouvelle scène (client.fxml)
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/sceneBuilderFiles/appView.fxml"));
-                Parent customerViewPage = loader.load();
-
-                // Récupérer la scène actuelle et la remplacer par la nouvelle
-                Stage stage = (Stage) connection_button.getScene().getWindow();  // Récupérer la fenêtre actuelle
-                Scene customerViewScene = new Scene(customerViewPage);
-                stage.setScene(customerViewScene);  // Remplacer la scène actuelle par celle du client
-                stage.show();  // Afficher la nouvelle scène
-
+                error_label.setVisible(false);
+                ViewModel.getInstance().getViewFactory().showAppViewWindow();
             } else {
                 // Si l'utilisateur n'existe pas, afficher le label d'erreur
-                showAlert(Alert.AlertType.ERROR, "Login Failed", "Invalid username or password.\n" +
-                        "Create an account if needed :)");
+                error_label.setVisible(true);
             }
-
         } catch (SQLException | IOException e) {
             e.printStackTrace();  // Affiche les erreurs SQL ou d'IO
         }
     }
 
-    // Méthode pour afficher des alertes
-    private void showAlert(Alert.AlertType alertType, String title, String message) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+
+    // Action liée au clic sur l'hyperlien pour la création de compte
+    @FXML
+    public void handleHyperlinkAdminConnection() {
+        ViewModel.getInstance().getViewFactory().showSignUpWindow();
     }
 
     // Action liée au clic sur l'hyperlien pour la création de compte
     @FXML
-    public void handleHyperlinkClick() {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/sceneBuilderFiles/Customer/signUp.fxml"));
-        Parent SignUpPage = null;
-        try {
-            SignUpPage = loader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        Scene SignUpScene = new Scene(SignUpPage);
-
-        Stage stage = (Stage) hyperlinkToAccountCreation.getScene().getWindow();
-        stage.setScene(SignUpScene);
-        stage.show();
+    public void handleHyperlinkAccountCreation() {
+        ViewModel.getInstance().getViewFactory().showSignUpWindow();
     }
+
+
+
 }

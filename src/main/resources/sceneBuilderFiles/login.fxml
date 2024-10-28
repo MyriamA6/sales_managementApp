@@ -19,13 +19,13 @@
                   <Font size="20.0" />
                </font>
             </Text>
-            <Hyperlink fx:id="hyperlinkToAdminConnection" onAction="#handleHyperlinkClick" prefHeight="35.0" prefWidth="156.0" text="Are you the Admin?" />
+            <Hyperlink fx:id="hyperlinkToAdminConnection" onAction="#handleHyperlinkAdminConnection" prefHeight="35.0" prefWidth="156.0" text="Are you the Admin?" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="User ID" VBox.vgrow="NEVER" />
             <TextField fx:id="login_name" prefHeight="25.0" prefWidth="175.0" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Password" />
             <PasswordField fx:id="password" onAction="#connectionToUserAccountAction" prefHeight="25.0" prefWidth="175.0" />
             <Button fx:id="connection_button" mnemonicParsing="false" onAction="#connectionToUserAccountAction" prefHeight="31.0" prefWidth="119.0" text="Connection" />
-            <Hyperlink fx:id="hyperlinkToAccountCreation" onAction="#handleHyperlinkClick" text="No account yet ?" />
+            <Hyperlink fx:id="hyperlinkToAccountCreation" onAction="#handleHyperlinkAccountCreation" text="No account yet ?" />
             <Label fx:id="error_label" text="ERROR : No account found" textFill="RED">
                <font>
                   <Font name="System Bold" size="12.0" />

@@ -23,7 +23,7 @@
             <TextField fx:id="address" promptText="Address" />
             <TextField fx:id="email" promptText="Email" />
             <TextField fx:id="email1" promptText="Phone number" />
-            <Button mnemonicParsing="false" text="Sign Up" />
+            <Button fx:id="sign_up_button" mnemonicParsing="false" onAction="#createANewCustomer" text="Sign Up" />
          </children>
       </VBox>
    </children>

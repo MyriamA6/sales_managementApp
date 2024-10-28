@@ -28,6 +28,26 @@ public class ViewFactory {
         createStage(loader);
     }
 
+    public void showSignUpWindow(){
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("signUp.fxml"));
+        createStage(loader);
+    }
+
+    public void showOrdersWindow(){
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("orders.fxml"));
+        createStage(loader);
+    }
+
+    public void showAdminLoginWindow(){
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("adminLogin.fxml"));
+        createStage(loader);
+    }
+
+    public void showAdminModificationsWindow(){
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("adminModifications.fxml"));
+        createStage(loader);
+    }
+
     private void createStage(FXMLLoader loader){
         Scene scene = null;
         try{
@@ -39,6 +59,10 @@ public class ViewFactory {
         stage.setScene(scene);
         stage.setTitle("Online shop");
         stage.show();
+    }
+
+    public void closeStage(Stage stage){
+        stage.close();
     }
 
 
