@@ -5,6 +5,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.event.ActionEvent; // Correct import
 import org.apppooproject.DataBaseManagers.CustomerManager;
+import org.apppooproject.DataBaseManagers.CustomerManagerSingleton;
 import org.apppooproject.Model.Customer;
 import org.apppooproject.Views.ViewModel;
 
@@ -31,7 +32,7 @@ public class LoginController implements Initializable {
     @FXML
     private PasswordField password;
 
-    CustomerManager customerManager = new CustomerManager();
+    private final CustomerManager customerManager = CustomerManagerSingleton.getInstance().getCustomerManager();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -45,7 +46,7 @@ public class LoginController implements Initializable {
         String pwd = password.getText();
         Customer customer = customerManager.getCustomerByID(username, pwd);
         if (customer!=null) {
-            error_label.setVisible(false);
+            customerManager.setConnectedCustomer(customer);
             ViewModel.getInstance().getViewFactory().showAppViewWindow();
         } else {
             // Si l'utilisateur n'existe pas, afficher le label d'erreur
@@ -57,7 +58,7 @@ public class LoginController implements Initializable {
     // Action liée au clic sur l'hyperlien pour la création de compte
     @FXML
     public void handleHyperlinkAdminConnection() {
-        ViewModel.getInstance().getViewFactory().showSignUpWindow();
+        ViewModel.getInstance().getViewFactory().showAdminLoginWindow();
     }
 
     // Action liée au clic sur l'hyperlien pour la création de compte

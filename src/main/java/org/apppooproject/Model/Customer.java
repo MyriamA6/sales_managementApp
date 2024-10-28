@@ -1,6 +1,8 @@
 package org.apppooproject.Model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Customer {
     private long customerId;
@@ -11,7 +13,7 @@ public class Customer {
     private String phoneNumber;
     private String loginName;
     private String userPassword;
-    private ArrayList<Product> cart;
+    private Map<Long, Integer> cart = new HashMap<Long,Integer>();
 
 
     public Customer(long customerId, String firstName, String lastName, String email, String address, String phoneNumber, String loginName, String userPassword) {
@@ -25,8 +27,12 @@ public class Customer {
         this.userPassword = userPassword;
     }
 
-    public void addToCart(Product product){
+    public Map<Long, Integer> getCart() {
+        return cart;
+    }
 
+    public void addToCart(Product product){
+        cart.put(product.getProductId(), cart.getOrDefault(product.getProductId(), 0) + 1);
     }
 
     public void suppressFromCart(Product product){}

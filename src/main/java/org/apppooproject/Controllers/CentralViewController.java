@@ -1,8 +1,10 @@
-package org.apppooproject;
+package org.apppooproject.Controllers;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.SplitMenuButton;
@@ -11,10 +13,18 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
+import org.apppooproject.DataBaseManagers.CustomerManager;
+import org.apppooproject.DataBaseManagers.CustomerManagerSingleton;
 import org.apppooproject.DataBaseManagers.ProductManager;
+import org.apppooproject.DataBaseManagers.ProductManagerSingleton;
+import org.apppooproject.Model.Customer;
 import org.apppooproject.Model.Pants;
 import org.apppooproject.Model.Product;
 import org.apppooproject.Model.Top;
+import org.apppooproject.Views.ViewModel;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 public class CentralViewController {
 
@@ -67,13 +77,22 @@ public class CentralViewController {
     private SplitMenuButton topsButton;
 
     @FXML
+    private Button addOneButton;
+
+    @FXML
     private Text welcomeText;
 
-    ProductManager productManager=new ProductManager();
+    private final CustomerManager customerManager = CustomerManagerSingleton.getInstance().getCustomerManager();
+
+    private final Customer connectedCustomer = customerManager.getConnectedCustomer();
+
+    ProductManager productManager= ProductManagerSingleton.getInstance().getProductManager();
 
     @FXML
     public void initialize() {
         // Configurer la colonne productType pour afficher "Top" ou "Pants" selon le type d'objet
+        welcomeText.setText("Welcome, "+ customerManager.getConnectedCustomer().getFirstName() + " " +
+                customerManager.getConnectedCustomer().getLastName());
         productType.setCellValueFactory(cellData -> {
             Product product = cellData.getValue();
             String type = (product instanceof Top) ? "Top" : "Pants";
@@ -90,13 +109,30 @@ public class CentralViewController {
     }
 
     @FXML
-    void onRowClicked(MouseEvent event) {
+    void addSelectedProductToCart(ActionEvent event) {
+        Product selectedProduct = products.getSelectionModel().getSelectedItem();
+        if (selectedProduct != null) {
+            connectedCustomer.addToCart(selectedProduct);
+            productManager.getProductById(selectedProduct.getProductId()).decrementStock();
+        }
 
     }
 
     public void setupTable(){
         products.getItems().addAll(productManager.getProducts());
     }
+
+    @FXML
+    void onClickGoToCart(ActionEvent event) {
+        ViewModel.getInstance().getViewFactory().showCartViewWindow();
+    }
+
+    @FXML
+    void onClickGoToUserAccount(ActionEvent event) {
+        ViewModel.getInstance().getViewFactory().showAppViewWindow();
+    }
+
+
 
 
 }

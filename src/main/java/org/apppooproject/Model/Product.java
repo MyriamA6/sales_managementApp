@@ -39,8 +39,16 @@ public class Product {
 
     public String getColor() {return color;}
 
+    public int getSize() {
+        return size;
+    }
+
     public String getDescription() { return description;}
     public String getGender() {return gender;}
+
+    public void decrementStock() {
+        stock--;
+    }
 
 
 

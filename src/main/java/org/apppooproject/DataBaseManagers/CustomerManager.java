@@ -9,6 +9,7 @@ public class CustomerManager implements DataManager<Customer> {
     private Connection co;
     private static CustomerManager instance;
     private ArrayList<Customer> customers;
+    private Customer connectedCustomer;
 
     public CustomerManager(){
         try {
@@ -67,6 +68,14 @@ public class CustomerManager implements DataManager<Customer> {
             }
         }
         return null;
+    }
+
+    public void setConnectedCustomer(Customer connectedCustomer) {
+        this.connectedCustomer = connectedCustomer;
+    }
+
+    public Customer getConnectedCustomer() {
+        return connectedCustomer;
     }
 
     /*

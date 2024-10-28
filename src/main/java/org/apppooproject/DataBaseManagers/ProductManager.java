@@ -108,6 +108,15 @@ public class ProductManager implements DataManager<Product>{
         return products;
     }
 
+    public Product getProductById(long productId) {
+        for (Product p : products) {
+            if(p.getProductId() == productId){
+                return p;
+            }
+        }
+        return null;
+    }
+
 
     /*
     @Override

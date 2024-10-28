@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -9,20 +8,12 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styleSheetsCss/customerAccount.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styleSheetsCss/customerAccount.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.apppooproject.Controllers.CartController">
    <children>
       <HBox layoutX="30.0" layoutY="26.0" prefHeight="49.0" prefWidth="179.0" spacing="20.0">
          <children>
-            <Button fx:id="menu_button" mnemonicParsing="false" text="Menu">
-               <graphic>
-                  <FontAwesomeIcon glyphName="TAG" />
-               </graphic>
-            </Button>
-            <Button fx:id="delete_button" mnemonicParsing="false" text="Account">
-               <graphic>
-                  <FontAwesomeIcon glyphName="USER" />
-               </graphic>
-            </Button>
+            <Button fx:id="menu_button" mnemonicParsing="false" onAction="#onClickGoToCentralView" text="Menu" />
+            <Button fx:id="delete_button" mnemonicParsing="false" onAction="#onClickGoToUserAccount" text="Account" />
          </children>
       </HBox>
       <Text fill="#ba2fa9" layoutX="383.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CART" wrappingWidth="93.99997965494794">
@@ -30,18 +21,18 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Text>
-      <TableView fx:id="products" layoutX="17.0" layoutY="83.0" onMouseClicked="#onRowClicked" prefHeight="224.0" prefWidth="565.0">
+      <TableView fx:id="products" layoutX="17.0" layoutY="83.0" onSort="#cartContent" prefHeight="224.0" prefWidth="565.0">
          <columns>
             <TableColumn fx:id="productName" prefWidth="75.0" text="Product" />
             <TableColumn fx:id="productType" prefWidth="75.0" text="Type" />
-            <TableColumn fx:id="productDescription" prefWidth="104.0" text="Quantity" />
+            <TableColumn fx:id="productQuantity" prefWidth="104.0" text="Quantity" />
             <TableColumn fx:id="productPrice" prefWidth="103.33331298828125" text="Price" />
             <TableColumn fx:id="productSize" prefWidth="85.33331298828125" text="Size" />
             <TableColumn fx:id="productColor" prefWidth="122.00006103515625" text="Color" />
          </columns>
       </TableView>
-      <Button layoutX="222.0" layoutY="319.0" mnemonicParsing="false" onMouseClicked="#removeOne" text="Remove an item" />
-      <Button layoutX="68.0" layoutY="319.0" mnemonicParsing="false" onMouseClicked="#addOne" text="Add an item" />
-      <Button layoutX="400.0" layoutY="319.0" mnemonicParsing="false" onMouseClicked="#suppressItem" prefHeight="36.0" prefWidth="166.0" text="Suppress from cart" />
+      <Button layoutX="222.0" layoutY="319.0" mnemonicParsing="false" onAction="#onClickRemoveOneFromCart" text="Remove an item" />
+      <Button layoutX="68.0" layoutY="319.0" mnemonicParsing="false" onAction="#onClickAddOneToCart" text="Add an item" />
+      <Button layoutX="400.0" layoutY="319.0" mnemonicParsing="false" onAction="#onClickSuppressFromCart" prefHeight="36.0" prefWidth="166.0" text="Suppress from cart" />
    </children>
 </AnchorPane>

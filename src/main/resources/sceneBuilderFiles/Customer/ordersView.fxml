@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styleSheetsCss/customerAccount.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styleSheetsCss/customerAccount.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.apppooproject.Controllers.CustomerOrdersController">
    <children>
       <HBox layoutX="30.0" layoutY="26.0" prefHeight="49.0" prefWidth="179.0" spacing="20.0">
          <children>
@@ -30,7 +30,7 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Text>
-      <TableView fx:id="products" layoutX="17.0" layoutY="86.0" onMouseClicked="#onRowClicked" prefHeight="290.0" prefWidth="565.0">
+      <TableView fx:id="products" layoutX="17.0" layoutY="86.0" prefHeight="290.0" prefWidth="565.0">
          <columns>
             <TableColumn fx:id="productName" prefWidth="75.0" text="orderID" />
             <TableColumn fx:id="productType" prefWidth="75.0" text="Date" />

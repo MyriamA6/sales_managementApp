@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@styleSheetsCss/appCentralView.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.apppooproject.CentralViewController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@styleSheetsCss/appCentralView.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.apppooproject.Controllers.CentralViewController">
     <children>
         <!-- Welcome Text -->
         <Text fx:id="welcomeText" fill="#b559a8" layoutX="24.0" layoutY="39.0" text="Welcome, [Client Name]">
@@ -31,8 +31,8 @@
 
         <!-- Filter Section -->
         <VBox layoutX="30.0" layoutY="100.0" spacing="15.0" />
-         <Button fx:id="cartButton" layoutX="514.0" layoutY="20.0" prefHeight="21.0" prefWidth="59.0" text="My Cart" />
-         <Button fx:id="accountButton" layoutX="417.0" layoutY="20.0" prefHeight="21.0" prefWidth="73.0" text="My Account">
+         <Button fx:id="cartButton" layoutX="514.0" layoutY="20.0" onAction="#onClickGoToCart" prefHeight="21.0" prefWidth="59.0" text="My Cart" />
+         <Button fx:id="accountButton" layoutX="417.0" layoutY="20.0" onAction="#onClickGoToUserAccount" prefHeight="21.0" prefWidth="73.0" text="My Account">
          <font>
             <Font size="13.0" />
          </font></Button>
@@ -80,7 +80,7 @@
          </children>
          </HBox>
          <Label layoutX="237.0" layoutY="100.0" text="Filter Products" />
-      <TableView fx:id="products" layoutX="20.0" layoutY="167.0" onMouseClicked="#onRowClicked" prefHeight="187.0" prefWidth="565.0">
+      <TableView fx:id="products" layoutX="20.0" layoutY="167.0" prefHeight="187.0" prefWidth="565.0">
         <columns>
           <TableColumn fx:id="productName" prefWidth="75.0" text="Product" />
           <TableColumn fx:id="productType" prefWidth="75.0" text="Type" />
@@ -102,7 +102,7 @@
             <CheckMenuItem mnemonicParsing="false" text="Jeans" />
          </items>
       </SplitMenuButton>
-      <Button fx:id="accountButton1" layoutX="92.0" layoutY="364.0" prefHeight="21.0" prefWidth="73.0" text="Add one">
+      <Button fx:id="addOneButton" layoutX="92.0" layoutY="364.0" onAction="#addSelectedProductToCart" prefHeight="21.0" prefWidth="73.0" text="Add one">
          <font>
             <Font size="13.0" />
          </font>
