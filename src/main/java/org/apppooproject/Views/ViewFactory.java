@@ -9,42 +9,42 @@ import java.io.IOException;
 public class ViewFactory {
 
     public void showLoginWindow(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Login.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/sceneBuilderFiles/login.fxml"));
         createStage(loader);
     }
 
     public void showCustomerAccountWindow(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("customerAccount.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/sceneBuilderFiles/Customer/customerAccount.fxml"));
         createStage(loader);
     }
 
     public void showAppViewWindow(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("appView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/sceneBuilderFiles/appView.fxml"));
         createStage(loader);
     }
 
     public void showCartViewWindow(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("cartView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/sceneBuilderFiles/Customer/cartView.fxml"));
         createStage(loader);
     }
 
     public void showSignUpWindow(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("signUp.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/sceneBuilderFiles/Customer/signUp.fxml"));
         createStage(loader);
     }
 
     public void showOrdersWindow(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("orders.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/sceneBuilderFiles/Customer/orders.fxml"));
         createStage(loader);
     }
 
     public void showAdminLoginWindow(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("adminLogin.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/sceneBuilderFiles/Admin/adminLogin.fxml"));
         createStage(loader);
     }
 
     public void showAdminModificationsWindow(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("adminModifications.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/sceneBuilderFiles/Admin/adminModifications.fxml"));
         createStage(loader);
     }
 

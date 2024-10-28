@@ -5,22 +5,22 @@ import org.apppooproject.Model.Customer;
 import java.sql.*;
 import java.util.ArrayList;
 
-public final class CustomerManager implements DataManager<Customer> {
+public class CustomerManager implements DataManager<Customer> {
     private Connection co;
     private static CustomerManager instance;
     private ArrayList<Customer> customers;
 
-    private CustomerManager(){
-        ArrayList<Customer> customers = new ArrayList<Customer>();
+    public CustomerManager(){
+        try {
+            this.co = DriverManager.getConnection(
+                    "jdbc:mysql://127.0.0.1:3306/baseSchema?useSSL=false", "root", "vautotwu");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        customers = new ArrayList<Customer>();
         loadCustomerFromBd();
     }
 
-    public static CustomerManager getInstance(){
-        if(instance == null){
-            instance = new CustomerManager();
-        }
-        return instance;
-    }
 
     private void loadCustomerFromBd() {
         Statement stmt = null;
@@ -58,6 +58,15 @@ public final class CustomerManager implements DataManager<Customer> {
     public void refresh(){
         customers= new ArrayList<Customer>();
         loadCustomerFromBd();
+    }
+
+    public Customer getCustomerByID(String username, String password){
+        for(Customer customer : customers){
+            if (customer.getLoginName().equals(username) && customer.getUserPassword().equals(password)){
+                return customer;
+            }
+        }
+        return null;
     }
 
     /*

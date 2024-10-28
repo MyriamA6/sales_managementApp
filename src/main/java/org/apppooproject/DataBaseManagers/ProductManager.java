@@ -5,27 +5,24 @@ import org.apppooproject.Model.Pants;
 import org.apppooproject.Model.Product;
 import org.apppooproject.Model.Top;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
-public final class ProductManager implements DataManager<Product>{
+public class ProductManager implements DataManager<Product>{
     private Connection co;
     private ProductManager instance;
     private ArrayList<Product> products;
 
-    private ProductManager() {
+    public ProductManager() {
+        try {
+            this.co = DriverManager.getConnection(
+                    "jdbc:mysql://127.0.0.1:3306/baseSchema?useSSL=false", "root", "vautotwu");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
         products = new ArrayList<Product>();
         loadProductFromBd();
-    }
-
-    public static ProductManager getInstance(){
-        if(instance == null){
-            instance = new ProductManager();
-        }
-        return instance;
     }
 
     private void loadProductFromBd() {

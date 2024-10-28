@@ -1,6 +1,6 @@
 package org.apppooproject.Views;
 
-public class ViewModel {
+public final class ViewModel {
     private static ViewModel instance;
     private final ViewFactory viewFactory;
 

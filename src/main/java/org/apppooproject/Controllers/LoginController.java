@@ -8,9 +8,7 @@ import org.apppooproject.DataBaseManagers.CustomerManager;
 import org.apppooproject.Model.Customer;
 import org.apppooproject.Views.ViewModel;
 
-import java.io.IOException;
 import java.net.URL;
-import java.sql.*;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
@@ -45,17 +43,13 @@ public class LoginController implements Initializable {
     public void connectionToUserAccountAction(ActionEvent event) {
         String username = login_name.getText();
         String pwd = password.getText();
-        try {
-            Customer customer = customerManager.getCustomerByID(username, pwd);
-            if (customer!=null) {
-                error_label.setVisible(false);
-                ViewModel.getInstance().getViewFactory().showAppViewWindow();
-            } else {
-                // Si l'utilisateur n'existe pas, afficher le label d'erreur
-                error_label.setVisible(true);
-            }
-        } catch (SQLException | IOException e) {
-            e.printStackTrace();  // Affiche les erreurs SQL ou d'IO
+        Customer customer = customerManager.getCustomerByID(username, pwd);
+        if (customer!=null) {
+            error_label.setVisible(false);
+            ViewModel.getInstance().getViewFactory().showAppViewWindow();
+        } else {
+            // Si l'utilisateur n'existe pas, afficher le label d'erreur
+            error_label.setVisible(true);
         }
     }
 

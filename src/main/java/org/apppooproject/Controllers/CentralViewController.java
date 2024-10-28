@@ -69,6 +69,8 @@ public class CentralViewController {
     @FXML
     private Text welcomeText;
 
+    ProductManager productManager=new ProductManager();
+
     @FXML
     public void initialize() {
         // Configurer la colonne productType pour afficher "Top" ou "Pants" selon le type d'objet
@@ -93,7 +95,7 @@ public class CentralViewController {
     }
 
     public void setupTable(){
-        products.getItems().addAll(ProductManager.getInstance().getProducts());
+        products.getItems().addAll(productManager.getProducts());
     }
 
 
