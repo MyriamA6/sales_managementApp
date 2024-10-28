@@ -1,0 +1,44 @@
+/* style.css */
+
+/* Styles de base pour le fond de la scène */
+.root {
+    -fx-background-color: #f8f0f6; /* Couleur de fond douce */
+}
+
+/* Styles pour les TextField */
+.text-field {
+    -fx-background-color: white; /* Couleur de fond blanche pour les champs */
+    -fx-border-color: #d39bd4; /* Couleur de bordure rose */
+    -fx-border-radius: 5; /* Coins arrondis */
+    -fx-padding: 5; /* Espacement interne */
+    -fx-font-size: 12; /* Taille de police pour le texte */
+    -fx-font-weight: bold; /* Écriture plus foncée */
+}
+
+/* Styles pour les boutons */
+.button {
+    -fx-background-color: #e0b0e0; /* Couleur de fond des boutons */
+    -fx-text-fill: white; /* Couleur du texte */
+    -fx-padding: 5; /* Espacement interne réduit */
+    -fx-font-size: 10; /* Taille de police réduite pour les boutons */
+    -fx-border-radius: 5; /* Coins arrondis */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0.0, 0, 1); /* Ombre portée pour les boutons */
+}
+
+.button:hover {
+    -fx-background-color: #d39bd4; /* Changement de couleur au survol */
+}
+
+/* Styles pour le texte principal */
+.text {
+    -fx-fill: #8b4f8b; /* Couleur plus foncée du texte */
+    -fx-font-size: 16; /* Taille de police pour les titres */
+    -fx-font-weight: bold; /* Écriture plus foncée */
+}
+
+/* Styles pour les textes de moindre importance */
+.text.minor {
+    -fx-font-size: 12; /* Taille de police réduite pour le texte standard */
+    -fx-fill: #333333; /* Couleur grise foncée pour le texte normal */
+    -fx-font-weight: bold; /* Écriture plus foncée */
+}

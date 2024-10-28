@@ -3,14 +3,57 @@ package org.apppooproject.DataBaseManagers;
 import org.apppooproject.Model.Customer;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CustomerManager implements DataManager<Customer> {
-    /*private static long numberOfCustomers = 0;
-    Scanner scan = new Scanner(System.in);
     private Connection co;
-    public CustomerManager(){}
+    private ArrayList<Customer> customers;
 
+    public CustomerManager(){
+        ArrayList<Customer> customers = new ArrayList<Customer>();
+        loadCustomerFromBd();
+    }
+
+    private void loadCustomerFromBd() {
+        Statement stmt = null;
+        try {
+            stmt = co.createStatement();
+            String sql = "SELECT * FROM Customer";
+            ResultSet res = stmt.executeQuery(sql);
+
+            while (res.next()) {
+                long customerId = res.getLong("customer_id");
+                String firstName = res.getString("first_name");
+                String lastName = res.getString("last_name");
+                String email = res.getString("email");
+                String address = res.getString("address");
+                String phoneNumber = res.getString("phone_number");
+                String loginName = res.getString("login_name");
+                String userPassword = res.getString("user_password");
+
+                customers.add(new Customer(customerId, firstName, lastName, email, address, phoneNumber, loginName, userPassword));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
+
+    public void refresh(){
+        customers= new ArrayList<Customer>();
+        loadCustomerFromBd();
+    }
+
+    /*
     @Override
     public void addAnElement(Customer customer) {
         try {
@@ -88,6 +131,7 @@ public class CustomerManager implements DataManager<Customer> {
         }
 
     }
+
 */
 
 

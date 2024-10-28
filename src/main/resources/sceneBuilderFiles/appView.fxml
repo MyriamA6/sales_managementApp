@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckMenuItem?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@styleSheetsCss/appCentralView.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.apppooproject.CentralViewController">
+    <children>
+        <!-- Welcome Text -->
+        <Text fx:id="welcomeText" fill="#b559a8" layoutX="24.0" layoutY="39.0" text="Welcome, [Client Name]">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font></Text>
+
+        <!-- Search Bar -->
+        <HBox layoutX="30.0" layoutY="60.0" spacing="10.0">
+            <TextField fx:id="searchField" prefWidth="300.0" />
+            <Button fx:id="searchButton" prefHeight="25.0" prefWidth="50.0" text="Search">
+            </Button>
+        </HBox>
+
+        <!-- Filter Section -->
+        <VBox layoutX="30.0" layoutY="100.0" spacing="15.0" />
+         <Button fx:id="cartButton" layoutX="514.0" layoutY="20.0" prefHeight="21.0" prefWidth="59.0" text="My Cart" />
+         <Button fx:id="accountButton" layoutX="417.0" layoutY="20.0" prefHeight="21.0" prefWidth="73.0" text="My Account">
+         <font>
+            <Font size="13.0" />
+         </font></Button>
+
+         <!-- Product Type Selection -->
+         <Label layoutX="30.0" layoutY="100.0" text="Product Type:" />
+         <HBox layoutX="237.0" layoutY="127.0" prefHeight="44.0" prefWidth="345.0" spacing="10.0">
+         <children>
+
+               <!-- Price Filter -->
+               <Label text="Price:" />
+            <MenuButton fx:id="priceFilter" mnemonicParsing="false" prefHeight="29.0" prefWidth="63.0">
+               <items>
+                  <CheckMenuItem mnemonicParsing="false" text="Unspecified Action" />
+                  <CheckMenuItem mnemonicParsing="false" text="Unspecified Action" />
+                  <CheckMenuItem mnemonicParsing="false" text="Unspecified Action" />
+                  <CheckMenuItem mnemonicParsing="false" text="Unspecified Action" />
+               </items>
+            </MenuButton>
+
+               <!-- Color Filter -->
+               <Label text="Color:" />
+            <MenuButton fx:id="colorFilter" mnemonicParsing="false" prefHeight="24.0" prefWidth="59.0">
+              <items>
+                  <CheckMenuItem mnemonicParsing="false" text="Blue" />
+                  <CheckMenuItem mnemonicParsing="false" text="Green" />
+                  <CheckMenuItem mnemonicParsing="false" text="Red" />
+                  <CheckMenuItem mnemonicParsing="false" text="Yellow" />
+                  <CheckMenuItem mnemonicParsing="false" text="Black" />
+                  <CheckMenuItem mnemonicParsing="false" text="White" />
+              </items>
+            </MenuButton>
+
+               <!-- Size Filter -->
+               <Label text="Size:" />
+            <MenuButton fx:id="sizeFilter" mnemonicParsing="false" prefWidth="60.0">
+               <items>
+                  <CheckMenuItem mnemonicParsing="false" text="XS 32-34" />
+                  <CheckMenuItem mnemonicParsing="false" text="S 34-36" />
+                  <CheckMenuItem mnemonicParsing="false" text="M 36-38" />
+                  <CheckMenuItem mnemonicParsing="false" text="L 38-40" />
+                  <CheckMenuItem mnemonicParsing="false" text="XL 40-42" />
+               </items>
+            </MenuButton>
+         </children>
+         </HBox>
+         <Label layoutX="237.0" layoutY="100.0" text="Filter Products" />
+      <TableView fx:id="products" layoutX="20.0" layoutY="167.0" onMouseClicked="#onRowClicked" prefHeight="187.0" prefWidth="565.0">
+        <columns>
+          <TableColumn fx:id="productName" prefWidth="75.0" text="Product" />
+          <TableColumn fx:id="productType" prefWidth="75.0" text="Type" />
+            <TableColumn fx:id="productPrice" prefWidth="72.0" text="Price" />
+            <TableColumn fx:id="productSize" prefWidth="46.66668701171875" text="Size" />
+            <TableColumn fx:id="productColor" prefWidth="99.33331298828125" text="Color" />
+            <TableColumn fx:id="productDescription" prefWidth="195.3333740234375" text="Description" />
+        </columns>
+      </TableView>
+      <SplitMenuButton fx:id="topsButton" layoutX="129.0" layoutY="126.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="89.0" text="Tops">
+        <items>
+            <CheckMenuItem mnemonicParsing="false" text="long sleeves" />
+            <CheckMenuItem mnemonicParsing="false" text="short sleeves" />
+        </items>
+      </SplitMenuButton>
+      <SplitMenuButton fx:id="pantsButton" layoutX="28.0" layoutY="126.0" mnemonicParsing="false" text="Pants">
+         <items>
+            <CheckMenuItem mnemonicParsing="false" text="Shorts" />
+            <CheckMenuItem mnemonicParsing="false" text="Jeans" />
+         </items>
+      </SplitMenuButton>
+      <Button fx:id="accountButton1" layoutX="92.0" layoutY="364.0" prefHeight="21.0" prefWidth="73.0" text="Add one">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Button>
+    </children>
+</AnchorPane>

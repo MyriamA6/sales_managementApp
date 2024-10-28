@@ -9,10 +9,9 @@ import javafx.scene.control.SplitMenuButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
-import org.apppooproject.Model.Pant;
+import org.apppooproject.Model.Pants;
 import org.apppooproject.Model.Product;
 import org.apppooproject.Model.Top;
 
@@ -106,7 +105,7 @@ public class CentralViewController {
         );
 
 // Objet de type Pant : un short pour femme
-        Pant pant1 = new Pant(
+        Pants pants1 = new Pants(
                 201, // productId
                 "Short d'été", // name
                 19.99, // price
@@ -129,7 +128,7 @@ public class CentralViewController {
                 false // isLongSleeves
         );
 
-        products.getItems().addAll(pant1,top1, top2);
+        products.getItems().addAll(pants1,top1, top2);
 
     }
 

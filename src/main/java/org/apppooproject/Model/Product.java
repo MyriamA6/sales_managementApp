@@ -8,12 +8,14 @@ public class Product {
     private String color;
     private String description;
     private String gender;
+    private int size;
 
-    public Product(long productId, String name, double price, int stock, String color, String description, String gender) {
+    public Product(long productId, String name, double price, int stock, String color,int size, String description, String gender) {
         this.productId = productId;
         this.name = name;
         this.price = price;
         this.stock = stock;
+        this.size=size;
         this.color = color;
         this.description = description;
         this.gender = gender;

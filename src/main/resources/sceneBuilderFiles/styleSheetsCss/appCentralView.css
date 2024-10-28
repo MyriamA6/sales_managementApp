@@ -1,0 +1,79 @@
+/* appCentralView.css */
+
+/* Style général pour le fond de l'application */
+.root {
+    -fx-background-color: #f8f0f6; /* Couleur de fond douce */
+}
+
+/* Styles pour les TextField */
+.text-field {
+    -fx-background-color: white; /* Couleur de fond blanche pour le champ de recherche */
+    -fx-border-color: #b559a8; /* Couleur de bordure plus sombre */
+    -fx-border-radius: 5; /* Coins arrondis */
+    -fx-padding: 5; /* Espacement interne */
+    -fx-font-size: 12; /* Taille de police réduite */
+}
+
+/* Styles pour les boutons */
+.button {
+    -fx-background-color: #d39bd4; /* Couleur de fond des boutons */
+    -fx-text-fill: white; /* Couleur du texte */
+    -fx-padding: 2 5; /* Espacement interne réduit pour les boutons */
+    -fx-font-size: 10; /* Taille de police réduite pour un effet plus compact */
+    -fx-border-radius: 3; /* Coins arrondis plus petits */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 3, 0.0, 0, 1); /* Ombre portée pour les boutons */
+}
+
+.button:hover {
+    -fx-background-color: #b559a8; /* Changement de couleur au survol */
+}
+
+/* Styles pour les SplitMenuButtons */
+.split-menu-button {
+    -fx-background-color: #d39bd4; /* Couleur de fond des SplitMenuButtons */
+    -fx-text-fill: white; /* Couleur du texte */
+    -fx-padding: 2 5; /* Espacement interne réduit pour les SplitMenuButtons */
+    -fx-font-size: 10; /* Taille de police réduite pour un effet plus compact */
+    -fx-border-radius: 3; /* Coins arrondis plus petits */
+}
+
+.split-menu-button:hover {
+    -fx-background-color: #b559a8; /* Changement de couleur au survol */
+}
+
+/* Styles pour les MenuButtons */
+.menu-button {
+    -fx-background-color: #d39bd4; /* Couleur de fond des MenuButtons */
+    -fx-text-fill: white; /* Couleur du texte */
+    -fx-padding: 2 5; /* Espacement interne réduit pour les MenuButtons */
+    -fx-font-size: 10; /* Taille de police réduite pour un effet plus compact */
+    -fx-border-radius: 3; /* Coins arrondis plus petits */
+}
+
+.menu-button:hover {
+    -fx-background-color: #b559a8; /* Changement de couleur au survol */
+}
+
+/* Styles pour les labels */
+.label {
+    -fx-text-fill: #4b2c4b; /* Couleur du texte plus foncée */
+    -fx-font-size: 12; /* Taille de police pour les labels */
+}
+
+/* Styles pour le texte de bienvenue */
+#welcomeText {
+    -fx-text-fill: #b559a8; /* Couleur spécifique pour le texte de bienvenue */
+    -fx-font-size: 16; /* Taille de police pour le texte de bienvenue */
+    -fx-font-weight: bold; /* Texte en gras */
+}
+
+/* Styles pour le tableau */
+.table-view {
+    -fx-border-color: #b559a8; /* Bordure autour du tableau */
+    -fx-background-color: white; /* Fond blanc pour le tableau */
+}
+
+/* Styles pour les colonnes de table */
+.table-column {
+    -fx-text-fill: #4b2c4b; /* Couleur de texte pour les colonnes */
+}

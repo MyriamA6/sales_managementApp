@@ -1,0 +1,62 @@
+/* loginPage.css */
+
+/* Style général pour le fond de l'application */
+.root {
+    -fx-background-color: #f8f0f6; /* Couleur de fond douce */
+}
+
+/* Styles pour le texte de la page de connexion */
+.text {
+    -fx-fill: #aa2fa6; /* Couleur du texte pour les titres */
+    -fx-font-size: 16; /* Taille de police pour le titre "Log In" */
+}
+
+/* Styles pour les Hyperlinks */
+.hyperlink {
+    -fx-text-fill: #6a2c6a; /* Couleur du texte des Hyperlinks */
+    -fx-font-size: 6; /* Taille de police pour les Hyperlinks */
+}
+
+/* Styles pour les TextField */
+.text-field {
+    -fx-background-color: white; /* Couleur de fond blanche pour les champs */
+    -fx-border-color: #aa2fa6; /* Couleur de bordure plus sombre */
+    -fx-border-radius: 5; /* Coins arrondis */
+    -fx-padding: 4; /* Espacement interne réduit */
+    -fx-font-size: 10; /* Taille de police pour le texte dans les champs */
+}
+
+/* Styles pour les PasswordField */
+.password-field {
+    -fx-background-color: white; /* Couleur de fond blanche pour le champ de mot de passe */
+    -fx-border-color: #aa2fa6; /* Couleur de bordure plus sombre */
+    -fx-border-radius: 5; /* Coins arrondis */
+    -fx-padding: 4; /* Espacement interne réduit */
+    -fx-font-size: 10; /* Taille de police pour le texte */
+}
+
+/* Styles pour les boutons */
+.button {
+    -fx-background-color: #d39bd4; /* Couleur de fond des boutons */
+    -fx-text-fill: white; /* Couleur du texte */
+    -fx-padding: 5 8; /* Espacement interne réduit */
+    -fx-font-size: 10; /* Taille de police pour un effet plus compact */
+    -fx-border-radius: 5; /* Coins arrondis */
+}
+
+.button:hover {
+    -fx-background-color: #aa2fa6; /* Changement de couleur au survol */
+}
+
+/* Styles pour les labels d'erreur */
+#error_label {
+    -fx-text-fill: red; /* Couleur du texte d'erreur */
+    -fx-font-size: 8; /* Taille de police pour le texte d'erreur */
+    -fx-font-weight: bold; /* Texte en gras */
+}
+
+/* Styles pour le texte d'entrée de champ */
+.label {
+    -fx-text-fill: #4b2c4b; /* Couleur du texte plus foncée pour les étiquettes */
+    -fx-font-size: 10; /* Taille de police pour les étiquettes */
+}
