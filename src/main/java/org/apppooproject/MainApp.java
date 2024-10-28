@@ -11,8 +11,8 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         // Charger le fichier FXML depuis le chemin des ressources
-        Parent root = FXMLLoader.load(getClass().getResource("/sceneBuilderFiles/login.fxml"));
-        primaryStage.setTitle("Login Page");
+        Parent root = FXMLLoader.load(getClass().getResource("/sceneBuilderFiles/appView.fxml"));
+        primaryStage.setTitle("Central View");
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
     }

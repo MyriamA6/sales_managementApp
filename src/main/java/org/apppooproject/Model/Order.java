@@ -16,9 +16,9 @@ public class Order {
     private String status;
     Scanner scan =new Scanner(System.in);
 
-    public java.sql.Date getDate() {
+    /*public java.sql.Date getDate() {
         return date;
-    }
+    }*/
 
     public int getTotalPrice() {
         return totalPrice;

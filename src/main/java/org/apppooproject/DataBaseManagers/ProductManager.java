@@ -5,7 +5,7 @@ import org.apppooproject.Model.Product;
 import java.sql.Connection;
 
 public abstract class ProductManager implements DataManager<Product>{
-    private Connection conn;
+   /* private Connection conn;
 
     @Override
     public void addAnElement(Product product) {
@@ -21,6 +21,6 @@ public abstract class ProductManager implements DataManager<Product>{
     public void deleteAnElement(Product product) {
 
     }
-
+*/
 
 }

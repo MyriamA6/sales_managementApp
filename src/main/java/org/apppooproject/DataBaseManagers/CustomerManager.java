@@ -6,7 +6,7 @@ import java.sql.*;
 import java.util.Scanner;
 
 public class CustomerManager implements DataManager<Customer> {
-    private static long numberOfCustomers = 0;
+    /*private static long numberOfCustomers = 0;
     Scanner scan = new Scanner(System.in);
     private Connection co;
     public CustomerManager(){}
@@ -88,7 +88,7 @@ public class CustomerManager implements DataManager<Customer> {
         }
 
     }
-
+*/
 
 
 

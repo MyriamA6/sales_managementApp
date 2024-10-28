@@ -12,7 +12,7 @@ public class Catalog {
     public static void main(String args[]) {
         //étape 1: charger la classe driver
         //étape 2: créer l'objet de connexion
-        try {
+        /*try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/baseSchema?useSSL=false", "root", "vautotwu");
@@ -40,7 +40,7 @@ public class Catalog {
 
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
-        }
+        }*/
 
     }
 

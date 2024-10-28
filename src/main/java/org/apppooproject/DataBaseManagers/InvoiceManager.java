@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class InvoiceManager implements DataManager<Invoice> {
-    Scanner scan = new Scanner(System.in);
+    /*Scanner scan = new Scanner(System.in);
     Connection co;
     // Step 1: Private static instance
     private static InvoiceManager instance;
@@ -135,5 +135,5 @@ public class InvoiceManager implements DataManager<Invoice> {
             System.out.println("Error while deleting invoice: " + e.getMessage());
         }
     }
-
+*/
 }

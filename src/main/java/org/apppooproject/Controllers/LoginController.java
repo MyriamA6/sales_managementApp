@@ -48,7 +48,7 @@ public class LoginController {
             ResultSet res = stmt.executeQuery();
             if (res.next()) {
                 // Charger la nouvelle scène (client.fxml)
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/DataBaseManagers/appCentralView.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/sceneBuilderFiles/appView.fxml"));
                 Parent customerViewPage = loader.load();
 
                 // Récupérer la scène actuelle et la remplacer par la nouvelle

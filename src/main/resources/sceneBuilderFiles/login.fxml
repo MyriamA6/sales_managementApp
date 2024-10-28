@@ -12,7 +12,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@../../../../target/classes/sceneBuilderFiles/styleInterfaceCss/loginPage.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.apppooproject.Controllers.LoginController">
    <children>
-      <VBox alignment="CENTER" layoutX="141.0" layoutY="37.0" prefHeight="303.0" prefWidth="317.0" spacing="15.0">
+      <VBox alignment="CENTER" layoutX="141.0" layoutY="38.0" prefHeight="303.0" prefWidth="317.0" spacing="15.0">
          <children>
             <Text fill="#aa2fa6" strokeType="OUTSIDE" strokeWidth="0.0" text="Log In" wrappingWidth="64.1418228149414">
                <font>

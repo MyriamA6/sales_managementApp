@@ -11,7 +11,7 @@ import java.sql.Date;
 import java.util.Scanner;
 
 public class OrderManager implements DataManager<Order> {
-    Scanner scan =new Scanner(System.in);
+   /* Scanner scan =new Scanner(System.in);
 
     Invoice invoice = new Invoice();
 
@@ -85,6 +85,6 @@ public class OrderManager implements DataManager<Order> {
     @Override
     public void deleteAnElement(Order order) {
 
-    }
+    }*/
 }
 
