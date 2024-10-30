@@ -1,6 +1,5 @@
 package org.apppooproject.DataBaseManagers;
 
-import org.apppooproject.Model.Customer;
 import org.apppooproject.Model.Pants;
 import org.apppooproject.Model.Product;
 import org.apppooproject.Model.Top;
@@ -116,6 +115,94 @@ public class ProductManager implements DataManager<Product>{
         }
         return null;
     }
+
+
+
+    public ArrayList<String> searchByKeyWords(String searchDemand) {
+        //récupère
+        String[] separatedWords = searchDemand.split(" ");
+        ArrayList<String> keyWords = new ArrayList<>();
+        for(String s :separatedWords){
+            if (s.equals(" ")){
+                keyWords.add(s);
+            }
+        }
+        return keyWords;
+    }
+
+    public ArrayList<Product> showOnlyPants (int criteria){
+        ArrayList<Product> pants = new ArrayList<>();
+        Pants pant;
+        for(Product p : products){
+            if(p instanceof Pants){
+                pant = (Pants) p;
+                switch(criteria){
+                    case 1:
+                        if (pant.getIsShorts()){
+                            pants.add(pant);
+                        }
+                        break;
+                    case 2:
+                        if (!pant.getIsShorts()){
+                            pants.add(pant);
+                        }
+                        break;
+                    default:
+                        pants.add(pant);
+                }
+            }
+        }
+        return pants;
+    }
+
+    public ArrayList<Product> showBySize (int size){
+        ArrayList<Product> productsOfGivenSize = new ArrayList<>();
+        for(Product p : products){
+            if(p.getSize() == size){
+                productsOfGivenSize.add(p);
+            }
+        }
+        return productsOfGivenSize;
+    }
+
+    public ArrayList<Product> showOnlyTops (int criteria){
+        ArrayList<Product> tops = new ArrayList<>();
+        Top top;
+        for(Product p : products){
+            if(p instanceof Top){
+                top = (Top) p;
+                switch(criteria){
+                    case 1:
+                        if (top.getIsTshirt()){
+                            tops.add(top);
+                        }
+                        break;
+                    case 2:
+                        if (!top.getIsTshirt()){
+                            tops.add(top);
+                        }
+                        break;
+                    default:
+                        tops.add(top);
+                }
+            }
+        }
+        return tops;
+    }
+
+
+        /*for (String s : separatedConjunction) {
+            String[] separatedUnionInString = s.split("or");
+            separatedUnion.addAll(Arrays.asList(separatedUnionInString));
+        }
+        ArrayList<String> keyWords = new ArrayList<>();
+        for (String s : separatedConjunction) {
+            String[] separatedUnionInString = s.split("or");
+            separatedUnion.addAll(Arrays.asList(separatedUnionInString));
+        }*/
+
+
+
 
 
     /*

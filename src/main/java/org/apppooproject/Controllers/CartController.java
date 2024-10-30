@@ -18,7 +18,6 @@ import org.apppooproject.Model.Product;
 import org.apppooproject.Model.Top;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 public class CartController {
@@ -121,6 +120,6 @@ public class CartController {
             }
 
         }
-        products.getItems().addAll(cartProduct); // Vérifiez que getProducts() retourne une List<Product>
+        products.getItems().addAll(cartProduct);
     }
 }

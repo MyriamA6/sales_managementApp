@@ -5,12 +5,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.SplitMenuButton;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import org.apppooproject.DataBaseManagers.CustomerManager;
@@ -63,6 +58,18 @@ public class CentralViewController {
 
     @FXML
     private TableColumn<Product, String> productType;
+
+    @FXML
+    private CheckMenuItem isRegular_button;
+
+    @FXML
+    private CheckMenuItem isShorts_button;
+
+    @FXML
+    private CheckMenuItem isSweater_button;
+
+    @FXML
+    private CheckMenuItem isTshirt_button;
 
     @FXML
     private Button searchButton;
@@ -130,6 +137,49 @@ public class CentralViewController {
     @FXML
     void onClickGoToUserAccount(ActionEvent event) {
         ViewModel.getInstance().getViewFactory().showAppViewWindow();
+    }
+
+    @FXML
+    void showRegulars(ActionEvent event) {
+        if (isRegular_button.isSelected() && (isShorts_button.isSelected() || isSweater_button.isSelected() || isTshirt_button.isSelected())){
+            products.getItems().addAll(productManager.showOnlyPants(2));
+        }
+        else if (isRegular_button.isSelected()){
+            products.getItems().clear();
+            products.getItems().addAll(productManager.showOnlyPants(2));
+        }
+        resetTable(); //remet tout dans la table si rien n'est selectionné
+        products.refresh();
+    }
+
+    @FXML
+    void showShorts(ActionEvent event) {
+        if (isShorts_button.isSelected() && (isRegular_button.isSelected() || isSweater_button.isSelected() || isTshirt_button.isSelected())){
+            products.getItems().addAll(productManager.showOnlyPants(1));
+        }
+        else if (isShorts_button.isSelected()){
+            products.getItems().clear();
+            products.getItems().addAll(productManager.showOnlyPants(1));
+        }
+        resetTable(); //remet tout dans la table si rien n'est selectionné
+        products.refresh();
+
+    }
+
+    @FXML
+    void showSweaters(ActionEvent event) {
+
+    }
+
+    @FXML
+    void showTshirts(ActionEvent event) {
+
+    }
+
+    public void resetTable(){
+        if (!(isShorts_button.isSelected()) || (isRegular_button.isSelected()) || (isSweater_button.isSelected()) || (isTshirt_button.isSelected())){
+            products.getItems().addAll(productManager.getProducts());
+        }
     }
 
 

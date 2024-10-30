@@ -1,6 +1,6 @@
 package org.apppooproject.Model;
 
-public class Product {
+public abstract class Product {
     private long productId;
     private String name;
     private double price;

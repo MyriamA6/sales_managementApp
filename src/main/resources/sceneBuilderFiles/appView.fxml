@@ -92,14 +92,14 @@
       </TableView>
       <SplitMenuButton fx:id="topsButton" layoutX="129.0" layoutY="126.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="89.0" text="Tops">
         <items>
-            <CheckMenuItem mnemonicParsing="false" text="long sleeves" />
-            <CheckMenuItem mnemonicParsing="false" text="short sleeves" />
+            <CheckMenuItem fx:id="isTshirt_button" mnemonicParsing="false" onAction="#showTshirts" text="T-shirt" />
+            <CheckMenuItem fx:id="isSweater_button" mnemonicParsing="false" onAction="#showSweaters" text="Sweater" />
         </items>
       </SplitMenuButton>
       <SplitMenuButton fx:id="pantsButton" layoutX="28.0" layoutY="126.0" mnemonicParsing="false" text="Pants">
          <items>
-            <CheckMenuItem mnemonicParsing="false" text="Shorts" />
-            <CheckMenuItem mnemonicParsing="false" text="Jeans" />
+            <CheckMenuItem fx:id="isShorts_button" mnemonicParsing="false" onAction="#showShorts" text="Shorts" />
+            <CheckMenuItem fx:id="isRegular_button" mnemonicParsing="false" onAction="#showRegulars" text="Regular" />
          </items>
       </SplitMenuButton>
       <Button fx:id="addOneButton" layoutX="92.0" layoutY="364.0" onAction="#addSelectedProductToCart" prefHeight="21.0" prefWidth="73.0" text="Add one">
