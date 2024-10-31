@@ -16,6 +16,16 @@ public class Customer {
     private Map<Long, Integer> cart = new HashMap<Long,Integer>();
 
 
+    public Customer(String firstName, String lastName, String email, String address, String phoneNumber, String loginName, String userPassword) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.loginName = loginName;
+        this.userPassword = userPassword;
+    }
+
     public Customer(long customerId, String firstName, String lastName, String email, String address, String phoneNumber, String loginName, String userPassword) {
         this.customerId = customerId;
         this.firstName = firstName;
@@ -40,9 +50,6 @@ public class Customer {
     public Order payCart(){
         return null;
     }
-
-
-
 
     public long getCustomerId() {
         return customerId;

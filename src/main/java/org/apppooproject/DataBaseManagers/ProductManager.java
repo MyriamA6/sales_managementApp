@@ -190,6 +190,11 @@ public class ProductManager implements DataManager<Product>{
         return tops;
     }
 
+    @Override
+    public void addAnElement(Product product) {
+
+    }
+
 
         /*for (String s : separatedConjunction) {
             String[] separatedUnionInString = s.split("or");

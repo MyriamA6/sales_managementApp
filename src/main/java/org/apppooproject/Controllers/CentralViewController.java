@@ -1,6 +1,7 @@
 package org.apppooproject.Controllers;
 
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -54,7 +55,7 @@ public class CentralViewController {
     private TableColumn<Product, Double> productPrice;
 
     @FXML
-    private TableColumn<Product, String> productSize;
+    private TableColumn<Product, Integer> productSize;
 
     @FXML
     private TableColumn<Product, String> productType;
@@ -109,6 +110,7 @@ public class CentralViewController {
         // Configurer les autres colonnes
         productName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
         productPrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getPrice()).asObject());
+        productSize.setCellValueFactory(cellData-> new SimpleIntegerProperty(cellData.getValue().getSize()).asObject());
         productColor.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getColor()));
         productDescription.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDescription()));
 
@@ -148,6 +150,15 @@ public class CentralViewController {
             products.getItems().clear();
             products.getItems().addAll(productManager.showOnlyPants(2));
         }
+        else if (isShorts_button.isSelected()){
+            showShorts(event);
+        }
+        else if (isSweater_button.isSelected()){
+            showSweaters(event);
+        }
+        else if (isTshirt_button.isSelected()){
+            showTshirts(event);
+        }
         resetTable(); //remet tout dans la table si rien n'est selectionné
         products.refresh();
     }
@@ -161,23 +172,68 @@ public class CentralViewController {
             products.getItems().clear();
             products.getItems().addAll(productManager.showOnlyPants(1));
         }
+        else if (isRegular_button.isSelected()){
+            showRegulars(event);
+        }
+        else if (isSweater_button.isSelected()){
+            showSweaters(event);
+        }
+        else if (isTshirt_button.isSelected()){
+            showTshirts(event);
+        }
+        resetTable(); //remet tout dans la table si rien n'est selectionné
+        products.refresh();
+    }
+
+    @FXML
+    void showSweaters(ActionEvent event) {
+        if (isSweater_button.isSelected() && (isRegular_button.isSelected() || isShorts_button.isSelected() || isTshirt_button.isSelected())){
+            products.getItems().addAll(productManager.showOnlyTops(2));
+        }
+        else if (isSweater_button.isSelected()){
+            products.getItems().clear();
+            products.getItems().addAll(productManager.showOnlyTops(2));
+        }
+        else if (isRegular_button.isSelected()){
+            showRegulars(event);
+        }
+        else if (isShorts_button.isSelected()){
+            showShorts(event);
+        }
+        else if (isTshirt_button.isSelected()){
+            showTshirts(event);
+        }
         resetTable(); //remet tout dans la table si rien n'est selectionné
         products.refresh();
 
     }
 
     @FXML
-    void showSweaters(ActionEvent event) {
-
-    }
-
-    @FXML
     void showTshirts(ActionEvent event) {
+        if (isTshirt_button.isSelected() && (isRegular_button.isSelected() || isShorts_button.isSelected() || isSweater_button.isSelected())){
+            products.getItems().addAll(productManager.showOnlyTops(1));
+        }
+        else if (isTshirt_button.isSelected()){
+            products.getItems().clear();
+            products.getItems().addAll(productManager.showOnlyTops(1));
+        }
+        else if (isRegular_button.isSelected()){
+            showRegulars(event);
+        }
+        else if (isShorts_button.isSelected()){
+            showShorts(event);
+        }
+        else if (isSweater_button.isSelected()){
+            showSweaters(event);
+        }
+        resetTable(); //remet tout dans la table si rien n'est selectionné
+        products.refresh();
 
     }
 
     public void resetTable(){
-        if (!(isShorts_button.isSelected()) || (isRegular_button.isSelected()) || (isSweater_button.isSelected()) || (isTshirt_button.isSelected())){
+        if (!((isShorts_button.isSelected()) || (isRegular_button.isSelected()) || (isSweater_button.isSelected()) || (isTshirt_button.isSelected()))){
+            products.getItems().clear();
             products.getItems().addAll(productManager.getProducts());
         }
     }

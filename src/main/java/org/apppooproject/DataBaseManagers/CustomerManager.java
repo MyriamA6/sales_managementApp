@@ -8,7 +8,6 @@ import java.util.ArrayList;
 public class CustomerManager implements DataManager<Customer> {
     private Connection co;
     private static CustomerManager instance;
-    private ArrayList<Customer> customers;
     private Customer connectedCustomer;
 
     public CustomerManager(){
@@ -18,19 +17,18 @@ public class CustomerManager implements DataManager<Customer> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        customers = new ArrayList<Customer>();
-        loadCustomerFromBd();
     }
 
 
-    private void loadCustomerFromBd() {
-        Statement stmt = null;
-        try {
-            stmt = co.createStatement();
-            String sql = "SELECT * FROM Customer";
-            ResultSet res = stmt.executeQuery(sql);
+    public Customer getCustomerByID(String username, String password) {
+        String sql = "SELECT * FROM Customer WHERE login_name = ? AND user_password = ?";
+        try (PreparedStatement stmt = co.prepareStatement(sql)) {
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+            ResultSet res = stmt.executeQuery();
 
-            while (res.next()) {
+            // Vérifier s'il y a un résultat
+            if (res.next()) {
                 long customerId = res.getLong("customer_id");
                 String firstName = res.getString("first_name");
                 String lastName = res.getString("last_name");
@@ -40,36 +38,53 @@ public class CustomerManager implements DataManager<Customer> {
                 String loginName = res.getString("login_name");
                 String userPassword = res.getString("user_password");
 
-                customers.add(new Customer(customerId, firstName, lastName, email, address, phoneNumber, loginName, userPassword));
+                connectedCustomer = new Customer(customerId, firstName, lastName, email, address, phoneNumber, loginName, userPassword);
+                stmt.close();
+                return connectedCustomer;
+            } else {
+                System.out.println("Aucun client trouvé avec ce nom d'utilisateur et ce mot de passe.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (stmt != null) {
-                try {
-                    stmt.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-    }
-
-    public void refresh(){
-        customers= new ArrayList<Customer>();
-        loadCustomerFromBd();
-    }
-
-    public Customer getCustomerByID(String username, String password){
-        for(Customer customer : customers){
-            if (customer.getLoginName().equals(username) && customer.getUserPassword().equals(password)){
-                return customer;
-            }
         }
         return null;
     }
 
+    public Customer getCustomerByEmail(String email) {
+        String sql = "SELECT * FROM Customer WHERE email = ?";
+        PreparedStatement stmt= null;
+        try {
+            stmt = co.prepareStatement(sql);
+            stmt.setString(1, email);
+            ResultSet res = stmt.executeQuery();
+            Customer customer = createNewCustomer(res);
+            stmt.close();
+            return customer;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public Customer createNewCustomer(ResultSet res){
+        try {
+            if (res.next()){
+                long customerId = res.getLong("customer_id");
+                String firstName = res.getString("first_name");
+                String lastName = res.getString("last_name");
+                String email = res.getString("email");
+                String address = res.getString("address");
+                String phoneNumber = res.getString("phone_number");
+                String loginName = res.getString("login_name");
+                String userPassword = res.getString("user_password");
+                Customer newCustomer=new Customer(customerId, firstName, lastName, email, address, phoneNumber, loginName, userPassword);
+                return newCustomer;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
     public void setConnectedCustomer(Customer connectedCustomer) {
         this.connectedCustomer = connectedCustomer;
     }
@@ -78,18 +93,20 @@ public class CustomerManager implements DataManager<Customer> {
         return connectedCustomer;
     }
 
-    /*
-    @Override
-    public void addAnElement(Customer customer) {
-        try {
 
-            String sql = "INSERT INTO Customer(first_name, last_name, email, address, phone_number) VALUES (?, ?, ?, ?, ?)";
+    @Override
+    public void addAnElement(Customer c) {
+        try {
+            connectedCustomer = c;
+            String sql = "INSERT INTO Customer(first_name, last_name, email, address, phone_number,login_name, user_password) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = co.prepareStatement(sql);
-            stmt.setString(1, customer.getFirstName());
-            stmt.setString(2, customer.getLastName());
-            stmt.setString(3, customer.getEmail());
-            stmt.setString(4, customer.getAddress());
-            stmt.setString(5, customer.getPhoneNumber());
+            stmt.setString(1, c.getFirstName());
+            stmt.setString(2, c.getLastName());
+            stmt.setString(3, c.getEmail());
+            stmt.setString(4, c.getAddress());
+            stmt.setString(5, c.getPhoneNumber());
+            stmt.setString(6, c.getLoginName());
+            stmt.setString(7, c.getUserPassword());
             stmt.executeUpdate();
         }
         catch(SQLException e){
@@ -100,7 +117,7 @@ public class CustomerManager implements DataManager<Customer> {
         }
     }
 
-
+    /*
     //A REFAIRE !!
     @Override
     public void modifyAnElement(Customer customer) { //ajouter un attribut pour indiquer l'élément souhaité

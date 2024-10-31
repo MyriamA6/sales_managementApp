@@ -11,6 +11,11 @@ import java.sql.Date;
 import java.util.Scanner;
 
 public class OrderManager implements DataManager<Order> {
+    @Override
+    public void addAnElement(Order order) {
+    }
+
+
    /* Scanner scan =new Scanner(System.in);
 
     Invoice invoice = new Invoice();

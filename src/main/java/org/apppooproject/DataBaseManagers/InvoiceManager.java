@@ -10,6 +10,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class InvoiceManager implements DataManager<Invoice> {
+    @Override
+    public void addAnElement(Invoice invoice) {
+
+    }
     /*Scanner scan = new Scanner(System.in);
     Connection co;
     // Step 1: Private static instance

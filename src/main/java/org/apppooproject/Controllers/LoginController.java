@@ -12,7 +12,7 @@ import org.apppooproject.Views.ViewModel;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class LoginController implements Initializable {
+public class LoginController {
 
     @FXML
     private Button connection_button;
@@ -34,8 +34,7 @@ public class LoginController implements Initializable {
 
     private final CustomerManager customerManager = CustomerManagerSingleton.getInstance().getCustomerManager();
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initialize() {
         error_label.setVisible(false);
     }
 
