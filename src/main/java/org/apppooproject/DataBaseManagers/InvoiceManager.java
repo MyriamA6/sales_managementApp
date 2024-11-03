@@ -1,143 +1,140 @@
-package org.apppooproject.DataBaseManagers;
+package SalesManager;
 
-import org.apppooproject.Model.Invoice;
 
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Scanner;
+import java.util.Date;
 
-public class InvoiceManager implements DataManager<Invoice> {
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Paragraph;
+
+public class InvoiceManager implements DataManager {
+    private Connection co;
+
+    public InvoiceManager(Connection co) {
+        this.co = co;
+    }
+
+
     @Override
     public void addAnElement(Invoice invoice) {
-
-    }
-    /*Scanner scan = new Scanner(System.in);
-    Connection co;
-    // Step 1: Private static instance
-    private static InvoiceManager instance;
-
-    // Step 2: Private constructor
-    private InvoiceManager() {
-        // Initialization, if needed
-    }
-
-    // Step 3: Static method to get the instance
-    public static InvoiceManager getInstance() {
-        if (instance == null) {
-            instance = new InvoiceManager();
-        }
-        return instance;
-    }
-
-    public void addAnElement(Invoice invoice) {
         try {
-            String invoiceDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMMM yyyy"));
-
-            String sql = "INSERT INTO Invoice(order_id, invoice_date) VALUES (?, ?)";
+            String sql = "INSERT INTO Invoices (customer_id, invoice_date, total_amount, status) VALUES (?, ?, ?, ?)";
             PreparedStatement stmt = co.prepareStatement(sql);
-            stmt.setLong(1, invoice.getOrderId());
-            stmt.setDate(2, java.sql.Date.valueOf(invoiceDate));
+            stmt.setLong(1, invoice.getCustomerId());
+            stmt.setDate(2, new java.sql.Date(invoice.getInvoiceDate().getTime()));
+            stmt.setDouble(3, invoice.getTotalAmount());
+            stmt.setString(4, invoice.getStatus().toString());
 
             stmt.executeUpdate();
-            System.out.println("Invoice added successfully.");
+            generateInvoicePDF(invoice);
         } catch (SQLException e) {
-            System.out.println("Error adding invoice: " + e.getMessage());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
         }
     }
+    
 
     @Override
     public void modifyAnElement(Invoice invoice) {
         try {
-            System.out.println("Enter the ID of the invoice you want to modify: ");
-            long invoiceId = scan.nextLong();
-            scan.nextLine();
+            String sql = "UPDATE Invoices SET customer_id = ?, invoice_date = ?, total_amount = ?, status = ? WHERE id = ?";
+            PreparedStatement stmt = co.prepareStatement(sql);
+            stmt.setLong(1, invoice.getCustomerId());
+            stmt.setDate(2, new java.sql.Date(invoice.getInvoiceDate().getTime()));
+            stmt.setDouble(3, invoice.getTotalAmount());
+            stmt.setString(4, invoice.getStatus().toString());
+            stmt.setLong(5, invoice.getId());
 
-            System.out.println("Which field do you want to modify?");
-            System.out.println("1. Order ID");
-            System.out.println("2. Invoice Date");
-            System.out.println("Enter the numbers of the fields you want to modify (comma-separated, e.g., 1,2):");
-
-            String choices = scan.nextLine();
-            String[] choicesToModify = choices.split(",");
-
-            StringBuilder sql = new StringBuilder("UPDATE Invoice SET ");
-            boolean firstField = true;
-
-            String newOrderId = null, newInvoiceDate = null;
-
-            for (String choice : choicesToModify) {
-                switch (choice.trim()) {
-                    case "1":
-                        System.out.println("Enter new Order ID: ");
-                        newOrderId = scan.nextLine();
-                        if (!firstField) sql.append(", ");
-                        sql.append("order_id = ?");
-                        firstField = false;
-                        break;
-                    case "2":
-                        System.out.println("Enter new Invoice Date (YYYY-MM-DD): ");
-                        newInvoiceDate = scan.nextLine();
-                        if (!firstField) sql.append(", ");
-                        sql.append("invoice_date = ?");
-                        firstField = false;
-                        break;
-                    default:
-                        System.out.println("Invalid option: " + choice);
-                        break;
-                }
-            }
-
-            sql.append(" WHERE invoice_id = ?");
-
-            PreparedStatement stmt = co.prepareStatement(sql.toString());
-
-            int paramIndex = 1;
-            if (newOrderId != null) {
-                stmt.setLong(paramIndex++, Long.parseLong(newOrderId));
-            }
-            if (newInvoiceDate != null) {
-                stmt.setDate(paramIndex++, java.sql.Date.valueOf(newInvoiceDate));
-            }
-
-            stmt.setLong(paramIndex, invoiceId);
-
-            int res = stmt.executeUpdate();
-            if (res > 0) {
-                System.out.println("Invoice updated successfully.");
-            } else {
-                System.out.println("No invoice found with the given ID.");
-            }
-
+            stmt.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Error while updating invoice: " + e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
+    
     @Override
     public void deleteAnElement(Invoice invoice) {
         try {
-            System.out.println("Enter the ID of the invoice you want to delete: ");
-            long invoiceId = scan.nextLong();
-            scan.nextLine();
-
-            String sql = "DELETE FROM Invoice WHERE invoice_id = ?";
+            String sql = "DELETE FROM Invoices WHERE id = ?";
             PreparedStatement stmt = co.prepareStatement(sql);
-            stmt.setLong(1, invoiceId);
-
-            int res = stmt.executeUpdate();
-            if (res > 0) {
-                System.out.println("Invoice deleted successfully.");
-            } else {
-                System.out.println("No invoice found with the given ID.");
-            }
+            stmt.setLong(1, invoice.getId());
+            stmt.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Error while deleting invoice: " + e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
-*/
+    
+    
+    public List<Invoice> getAllInvoices() {
+        List<Invoice> invoices = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM Invoices";
+            Statement stmt = co.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next()) {
+                Invoice invoice = new Invoice();
+                invoice.setId(rs.getLong("id"));
+                invoice.setCustomerId(rs.getLong("customer_id"));
+                invoice.setInvoiceDate(rs.getDate("invoice_date"));
+                invoice.setTotalAmount(rs.getDouble("total_amount"));
+                invoice.setStatus(InvoiceStatus.valueOf(rs.getString("status")));
+                invoices.add(invoice);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return invoices;
+    }
+    
+    
+    public Invoice getInvoiceById(long invoiceId) {
+        Invoice invoice = null;
+        try {
+            String sql = "SELECT * FROM Invoices WHERE id = ?";
+            PreparedStatement stmt = co.prepareStatement(sql);
+            stmt.setLong(1, invoiceId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                invoice = new Invoice();
+                invoice.setId(rs.getLong("id"));
+                invoice.setCustomerId(rs.getLong("customer_id"));
+                invoice.setInvoiceDate(rs.getDate("invoice_date"));
+                invoice.setTotalAmount(rs.getDouble("total_amount"));
+                invoice.setStatus(InvoiceStatus.valueOf(rs.getString("status")));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return invoice;
+    }
+    
+    
+    
+    public void generateInvoicePDF(Invoice invoice) {
+        String filePath = "invoices/invoice_" + invoice.getId() + ".pdf";
+
+        try {
+            PdfWriter writer = new PdfWriter(filePath);
+            PdfDocument pdf = new PdfDocument(writer);
+            Document document = new Document(pdf);
+
+            document.add(new Paragraph("Invoice ID: " + invoice.getId()));
+            document.add(new Paragraph("Customer ID: " + invoice.getCustomerId()));
+            document.add(new Paragraph("Invoice Date: " + invoice.getInvoiceDate()));
+            document.add(new Paragraph("Total Amount: " + invoice.getTotalAmount()));
+            document.add(new Paragraph("Status: " + invoice.getStatus()));
+
+            document.close();
+            System.out.println("Invoice PDF generated successfully at: " + filePath);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 }
