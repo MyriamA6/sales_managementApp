@@ -1,4 +1,4 @@
-package SalesManager;
+package org.apppooproject.Model;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -58,16 +58,6 @@ public class Order {
             content.add(product);
         }
         calculateTotalPrice(); 
-    }
-
-
-    public static Order makeAnOrder(List<Product> products, Customer customer) {
-        Order order = new Order(/* generate new order ID here */, customer.getId());
-        for (Product product : products) {
-            order.addProductToOrder(product, 1); 
-        }
-        order.calculateTotalPrice(); 
-        return order;
     }
 
 

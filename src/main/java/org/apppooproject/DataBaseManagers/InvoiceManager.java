@@ -1,5 +1,6 @@
-package SalesManager;
+package org.apppooproject.DataBaseManagers;
 
+import org.apppooproject.Model.Invoice;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -7,13 +8,14 @@ import java.util.List;
 import java.sql.Connection;
 import java.util.Date;
 
-import com.itextpdf.kernel.pdf.PdfDocument;
+/*import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
-
-public class InvoiceManager implements DataManager {
-    private Connection co;
+import org.apppooproject.DataBaseManagers.DataManager;
+*/
+public class InvoiceManager {
+/*    private Connection co;
 
     public InvoiceManager(Connection co) {
         this.co = co;
@@ -136,5 +138,5 @@ public class InvoiceManager implements DataManager {
             System.out.println(e.getMessage());
         }
     }
-
+*/
 }

@@ -165,6 +165,16 @@ public class ProductManager implements DataManager<Product>{
         return productsOfGivenSize;
     }
 
+    public ArrayList<Product> showProductByColor(ArrayList<Product> productsToFilter,String color){
+        ArrayList<Product> productsOfGivenColor = new ArrayList<>();
+        for(Product p : productsToFilter){
+            if(p.getColor().equalsIgnoreCase(color)){
+                productsOfGivenColor.add(p);
+            }
+        }
+        return productsOfGivenColor;
+    }
+
     public ArrayList<Product> showOnlyTops (int criteria){
         ArrayList<Product> tops = new ArrayList<>();
         Top top;
@@ -190,8 +200,33 @@ public class ProductManager implements DataManager<Product>{
         return tops;
     }
 
+
+
+
     @Override
     public void addAnElement(Product product) {
+
+    }
+
+    @Override
+    public void modifyAnElement(Product product) {
+
+    }
+
+    @Override
+    public void deleteAnElement(Product product) {
+        try {
+            String sql = "DELETE * from Product where product_id=? ";
+            PreparedStatement stmt = co.prepareStatement(sql);
+            stmt.setLong(1, product.getProductId());
+            stmt.executeUpdate();
+        }
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
@@ -210,20 +245,5 @@ public class ProductManager implements DataManager<Product>{
 
 
 
-    /*
-    @Override
-    public void addAnElement(Product product) {
-
-    }
-
-    @Override
-    public void modifyAnElement(Product product) {
-
-    }
-
-    @Override
-    public void deleteAnElement(Product product) {
-
-    }*/
 
 }

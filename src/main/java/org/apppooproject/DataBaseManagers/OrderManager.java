@@ -1,4 +1,6 @@
-package SalesManager;
+package org.apppooproject.DataBaseManagers;
+
+import org.apppooproject.DataBaseManagers.DataManager;
 
 import java.sql.*;
 import java.util.*;
@@ -8,8 +10,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
-public class OrderManager implements DataManager {
-	private static OrderManager instance = null;
+public class OrderManager {
+	/*private static OrderManager instance = null;
     private Connection co;
     private static long numberOfOrders = 0;
 
@@ -32,9 +34,9 @@ public class OrderManager implements DataManager {
     	try {
             String sql = "INSERT INTO Orders (customerId, orderDate, totalPrice, status) VALUES (?, ?, ?, ?)";
             PreparedStatement stmt = co.prepareStatement(sql);
-            stmt.setLong(1, /* Customer ID */);
+            stmt.setLong(1, /* Customer ID );
             stmt.setDate(2, new java.sql.Date(System.currentTimeMillis()));
-            stmt.setDouble(3, /* Order total */);
+            stmt.setDouble(3, /* Order total );
             stmt.setString(4, "in progress"); // Initial order status
 
             stmt.executeUpdate();
@@ -197,5 +199,5 @@ public class OrderManager implements DataManager {
         }
         return orders;
     }
-    
+    */
 }

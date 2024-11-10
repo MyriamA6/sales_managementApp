@@ -42,7 +42,7 @@ public class CustomerManager implements DataManager<Customer> {
                 stmt.close();
                 return connectedCustomer;
             } else {
-                System.out.println("Aucun client trouvé avec ce nom d'utilisateur et ce mot de passe.");
+                System.out.println("No client found with this username or password.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -116,6 +116,44 @@ public class CustomerManager implements DataManager<Customer> {
             throw new RuntimeException(e);
         }
     }
+
+
+    @Override
+    public void modifyAnElement(Customer c) {
+        try {
+            connectedCustomer = c;
+            String sql = "SELECT * from Customer where login_name=? and user_password=?";
+            PreparedStatement stmt = co.prepareStatement(sql);
+            stmt.setString(1, c.getLoginName());
+            stmt.setString(2, c.getUserPassword());
+            stmt.executeUpdate();
+        }
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void deleteAnElement(Customer c) {
+        try {
+            connectedCustomer = c;
+            String sql = "DELETE * from Customer where login_name=? and user_password=?";
+            PreparedStatement stmt = co.prepareStatement(sql);
+            stmt.setString(1, c.getLoginName());
+            stmt.setString(2, c.getUserPassword());
+            stmt.executeUpdate();
+        }
+        catch(SQLException e){
+            System.out.println(e.getMessage());
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     /*
     //A REFAIRE !!

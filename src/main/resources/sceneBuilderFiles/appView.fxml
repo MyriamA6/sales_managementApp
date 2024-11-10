@@ -57,12 +57,15 @@
                <Label text="Color:" />
             <MenuButton fx:id="colorFilter" mnemonicParsing="false" prefHeight="24.0" prefWidth="59.0">
               <items>
-                  <CheckMenuItem mnemonicParsing="false" text="Blue" />
-                  <CheckMenuItem mnemonicParsing="false" text="Green" />
-                  <CheckMenuItem mnemonicParsing="false" text="Red" />
-                  <CheckMenuItem mnemonicParsing="false" text="Yellow" />
-                  <CheckMenuItem mnemonicParsing="false" text="Black" />
-                  <CheckMenuItem mnemonicParsing="false" text="White" />
+                  <CheckMenuItem fx:id="blue_button" mnemonicParsing="false" text="Blue" />
+                  <CheckMenuItem fx:id="green_button" mnemonicParsing="false" text="Green" />
+                  <CheckMenuItem fx:id="red_button" mnemonicParsing="false" text="Red" />
+                  <CheckMenuItem fx:id="yellow_button" mnemonicParsing="false" text="Yellow" />
+                  <CheckMenuItem fx:id="black_button" mnemonicParsing="false" text="Black" />
+                  <CheckMenuItem fx:id="white_button" mnemonicParsing="false" text="White" />
+                  <CheckMenuItem fx:id="orange_button" mnemonicParsing="false" text="Orange" />
+                  <CheckMenuItem fx:id="pink_button" mnemonicParsing="false" text="Pink" />
+                  <CheckMenuItem fx:id="blue_button1" mnemonicParsing="false" text="Grey" />
               </items>
             </MenuButton>
 
@@ -70,11 +73,11 @@
                <Label text="Size:" />
             <MenuButton fx:id="sizeFilter" mnemonicParsing="false" prefWidth="60.0">
                <items>
-                  <CheckMenuItem mnemonicParsing="false" text="XS 32-34" />
-                  <CheckMenuItem mnemonicParsing="false" text="S 34-36" />
-                  <CheckMenuItem mnemonicParsing="false" text="M 36-38" />
-                  <CheckMenuItem mnemonicParsing="false" text="L 38-40" />
-                  <CheckMenuItem mnemonicParsing="false" text="XL 40-42" />
+                  <CheckMenuItem mnemonicParsing="false" text="XS 34" fx:id="xs_button" />
+                  <CheckMenuItem fx:id="s_button" mnemonicParsing="false" text="S 36" />
+                  <CheckMenuItem fx:id="m_button" mnemonicParsing="false" text="M 38" />
+                  <CheckMenuItem fx:id="l_button" mnemonicParsing="false" text="L 40" />
+                  <CheckMenuItem mnemonicParsing="false" text="XL 42" fx:id="xl_button" />
                </items>
             </MenuButton>
          </children>
@@ -92,20 +95,22 @@
       </TableView>
       <SplitMenuButton fx:id="topsButton" layoutX="129.0" layoutY="126.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="89.0" text="Tops">
         <items>
-            <CheckMenuItem fx:id="isTshirt_button" mnemonicParsing="false" onAction="#showTshirts" text="T-shirt" />
-            <CheckMenuItem fx:id="isSweater_button" mnemonicParsing="false" onAction="#showSweaters" text="Sweater" />
+            <CheckMenuItem fx:id="isTshirt_button" mnemonicParsing="false" text="T-shirt" />
+            <CheckMenuItem fx:id="isSweater_button" mnemonicParsing="false" text="Sweater" />
         </items>
       </SplitMenuButton>
       <SplitMenuButton fx:id="pantsButton" layoutX="28.0" layoutY="126.0" mnemonicParsing="false" text="Pants">
          <items>
-            <CheckMenuItem fx:id="isShorts_button" mnemonicParsing="false" onAction="#showShorts" text="Shorts" />
-            <CheckMenuItem fx:id="isRegular_button" mnemonicParsing="false" onAction="#showRegulars" text="Regular" />
+            <CheckMenuItem fx:id="isShorts_button" mnemonicParsing="false" text="Shorts" />
+            <CheckMenuItem fx:id="isRegular_button" mnemonicParsing="false" text="Regular" />
          </items>
       </SplitMenuButton>
-      <Button fx:id="addOneButton" layoutX="92.0" layoutY="364.0" onAction="#addSelectedProductToCart" prefHeight="21.0" prefWidth="73.0" text="Add one">
+      <Button fx:id="addOneButton" layoutX="415.0" layoutY="362.0" onAction="#addSelectedProductToCart" prefHeight="25.0" prefWidth="77.0" text="Add one">
          <font>
             <Font size="13.0" />
          </font>
       </Button>
+      <Button layoutX="103.0" layoutY="362.0" mnemonicParsing="false" onAction="#applySelectedFilters" prefHeight="25.0" prefWidth="73.0" text="Apply Filters" />
+      <Button layoutX="263.0" layoutY="362.0" mnemonicParsing="false" onAction="#resetFilters" prefHeight="25.0" prefWidth="73.0" text="Reset Filters" />
     </children>
 </AnchorPane>
