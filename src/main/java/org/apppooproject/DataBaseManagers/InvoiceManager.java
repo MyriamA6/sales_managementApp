@@ -100,4 +100,38 @@ public class InvoiceManager {
         }
         return invoice;
     }
+    public void generateInvoice(Order order, Customer customer, List<OrderContent> orderContents, String filePath) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            String orderDate = dateFormat.format(order.getOrderDate());
+
+            writer.write("Invoice\n");
+            writer.write(String.format("%50s\n", "Order No: " + order.getOrderId()));
+            writer.write(String.format("%50s\n", "Date: " + orderDate));
+            writer.write("\n");
+
+            writer.write(String.format("%-50s\n", "Customer: " + customer.getFirstName() + " " + customer.getLastName()));
+            writer.write(String.format("%-50s\n", "Address: " + customer.getAddress()));
+            writer.write("\n");
+
+            writer.write(String.format("%-30s %-15s %-10s %-10s\n", "Description", "Price", "QTY", "Total"));
+            writer.write("----------------------------------------------------------\n");
+
+            double totalOrder = 0.0;
+            for (OrderContent content : orderContents) {
+                double itemTotal = content.getPrice() * content.getQuantity();
+                totalOrder += itemTotal;
+                writer.write(String.format("%-30s %-15s %-10d %-10s\n", content.getProductName(),
+                        content.getPrice(), content.getQuantity(), itemTotal));
+            }
+
+            writer.write("\n");
+            writer.write(String.format("%45s: %.2f\n", "Total Order", totalOrder));
+
+            System.out.println("Invoice generated successfully at " + filePath);
+
+        } catch (IOException e) {
+            System.out.println("Error generating invoice: " + e.getMessage());
+        }
+    }
 }
