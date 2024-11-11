@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 import org.apppooproject.DataBaseManagers.CustomerManager;
 import org.apppooproject.DataBaseManagers.CustomerManagerSingleton;
 import org.apppooproject.DataBaseManagers.ProductManager;
@@ -18,6 +19,7 @@ import org.apppooproject.Model.Customer;
 import org.apppooproject.Model.Order;
 import org.apppooproject.Model.Product;
 import org.apppooproject.Model.Top;
+import org.apppooproject.Views.ViewModel;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -51,6 +53,9 @@ public class CartController {
     @FXML
     private TableView<Product> products;
 
+    @FXML
+    private Text cart_price;
+
     private final CustomerManager customerManager = CustomerManagerSingleton.getInstance().getCustomerManager();
     private final Customer connectedCustomer = customerManager.getConnectedCustomer();
     private final ProductManager productManager = ProductManagerSingleton.getInstance().getProductManager();
@@ -74,6 +79,8 @@ public class CartController {
                         (int) connectedCustomer.getCart().get(cellData.getValue().getProductId())).asObject());
 
         setupTable();
+        cart_price.setText("Total : "+connectedCustomer.cartCurrentPrice()+" €");
+
     }
 
     public void setupTable() {
@@ -116,12 +123,27 @@ public class CartController {
         products.refresh();
     }
 
+    public void updateCart(){
+        products.getItems().clear();
+        setupTable();
+        products.refresh();
+        cart_price.setText("Total : "+connectedCustomer.cartCurrentPrice()+" €");
+    }
+
     @FXML
     void onClickAddOneToCart(ActionEvent event) {
         Product selectedProduct = products.getSelectionModel().getSelectedItem();
         if (selectedProduct != null) {
-            connectedCustomer.addToCart(selectedProduct);
+            int productAdded = connectedCustomer.addToCart(selectedProduct);
+            if (productAdded == 0) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("No product can be added to cart");
+                alert.setHeaderText(null);
+                alert.setContentText("There is no other unit for this product");
+                alert.showAndWait(); // Affiche l'alerte et attend que l'utilisateur la ferme
+            }
         }
+        updateCart();
     }
 
     @FXML
@@ -130,7 +152,7 @@ public class CartController {
         if (selectedProduct != null) {
             connectedCustomer.suppressOneUnitFromCart(selectedProduct);
         }
-
+        updateCart();
     }
 
     @FXML
@@ -139,15 +161,19 @@ public class CartController {
         if (selectedProduct != null) {
             connectedCustomer.suppressFromCart(selectedProduct);
         }
-
+        updateCart();
     }
 
     @FXML
     void onClickGoToCentralView(ActionEvent event) {
+        ViewModel.getInstance().getViewFactory().closeCurrentWindow(event);
+        ViewModel.getInstance().getViewFactory().showAppViewWindow();
     }
 
     @FXML
     void onClickGoToUserAccount(ActionEvent event) {
+        ViewModel.getInstance().getViewFactory().closeCurrentWindow(event);
+        ViewModel.getInstance().getViewFactory().showCustomerAccountWindow();
 
     }
 

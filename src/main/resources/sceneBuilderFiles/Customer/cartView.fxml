@@ -31,9 +31,18 @@
             <TableColumn fx:id="productColor" prefWidth="122.00006103515625" text="Color" />
          </columns>
       </TableView>
-      <Button layoutX="222.0" layoutY="319.0" mnemonicParsing="false" onAction="#onClickRemoveOneFromCart" text="Remove an item" />
-      <Button layoutX="68.0" layoutY="319.0" mnemonicParsing="false" onAction="#onClickAddOneToCart" text="Add an item" />
-      <Button layoutX="400.0" layoutY="319.0" mnemonicParsing="false" onAction="#onClickSuppressFromCart" prefHeight="36.0" prefWidth="166.0" text="Suppress from cart" />
+      <HBox layoutX="36.0" layoutY="348.0" prefHeight="43.0" prefWidth="527.0" spacing="40.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#onClickAddOneToCart" prefHeight="36.0" prefWidth="141.0" text="Add an item" />
+            <Button mnemonicParsing="false" onAction="#onClickRemoveOneFromCart" text="Remove an item" />
+            <Button mnemonicParsing="false" onAction="#onClickSuppressFromCart" prefHeight="36.0" prefWidth="166.0" text="Suppress from cart" />
+         </children>
+      </HBox>
       <Button fx:id="payCart_button" layoutX="494.0" layoutY="32.0" mnemonicParsing="false" onAction="#onClickPayCart" text="Pay cart" />
+      <Text fx:id="cart_price" fill="#ba2fa9" layoutX="360.0" layoutY="329.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Price : " wrappingWidth="133.33333333333337">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

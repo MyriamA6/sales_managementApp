@@ -163,10 +163,9 @@ public class CentralViewController {
     void addSelectedProductToCart(ActionEvent event) {
         Product selectedProduct = products.getSelectionModel().getSelectedItem();
         if (selectedProduct != null) {
-            connectedCustomer.addToCart(selectedProduct);
-            //productManager.getProductById(selectedProduct.getProductId()).decrementStock();
+            int productAdded= connectedCustomer.addToCart(selectedProduct);
+            updateTable();
         }
-
     }
 
     public void setupTable(){
@@ -278,5 +277,10 @@ public class CentralViewController {
         products.refresh();
     }
 
+    public void updateTable(){
+        products.getItems().clear();
+        setupTable();
+        products.refresh();
+    }
 
 }

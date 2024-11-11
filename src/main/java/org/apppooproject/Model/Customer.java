@@ -43,9 +43,15 @@ public class Customer {
         return cart;
     }
 
-    public void addToCart(Product product){
-        cart.put(product.getProductId(), cart.getOrDefault(product.getProductId(), 0) + 1);
-        product.decrementStock();
+    public int addToCart(Product product){
+        if (product.getStock()>0) {
+            cart.put(product.getProductId(), cart.getOrDefault(product.getProductId(), 0) + 1);
+            product.decrementStock();
+            return 1;
+        }
+        else{
+            return 0;
+        }
     }
 
     //a revoir !!
@@ -72,8 +78,23 @@ public class Customer {
         cart.clear();
     }
 
+
     public Order payCart(){
+        ProductManager productManager = ProductManagerSingleton.getInstance().getProductManager();
+        productManager.refreshProducts();
+
+        cart.clear();
         return null;
+    }
+
+    public double cartCurrentPrice() {
+        double totalPrice = 0;
+        ProductManager productManager = ProductManagerSingleton.getInstance().getProductManager();
+        for (Map.Entry<Long, Integer> entry : cart.entrySet()) {
+            Product product = productManager.getProductById(entry.getKey());
+            totalPrice += product.getPrice() * entry.getValue();
+        }
+        return totalPrice;
     }
 
     public long getCustomerId() {

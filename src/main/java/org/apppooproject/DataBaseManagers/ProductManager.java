@@ -212,29 +212,16 @@ public class ProductManager implements DataManager<Product>{
 
     public void refreshProducts() {
         for (Product p : products) {
-            if (p.getStock() != 0) {
-                updateProductStock(p);
-            } else {
-                deleteProduct(p);
-            }
+            updateProductStock(p);
         }
     }
 
     private void updateProductStock(Product p) {
         String sql = "UPDATE product SET stock = ? WHERE product_id = ?";
         try (PreparedStatement stmt = co.prepareStatement(sql)) {
+            System.out.println(p.getStock());
             stmt.setInt(1, p.getStock());
             stmt.setLong(2, p.getProductId());
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void deleteProduct(Product p) {
-        String sql = "DELETE FROM product WHERE product_id = ?";
-        try (PreparedStatement stmt = co.prepareStatement(sql)) {
-            stmt.setLong(1, p.getProductId());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -255,7 +242,7 @@ public class ProductManager implements DataManager<Product>{
     @Override
     public void deleteAnElement(Product product) {
         try {
-            String sql = "DELETE * from Product where product_id=? ";
+            String sql = "DELETE from Product where product_id=? ";
             PreparedStatement stmt = co.prepareStatement(sql);
             stmt.setLong(1, product.getProductId());
             stmt.executeUpdate();
