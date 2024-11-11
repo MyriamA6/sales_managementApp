@@ -6,7 +6,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class CustomerManager implements DataManager<Customer> {
-    private Connection co;
+    private final Connection co;
     private static CustomerManager instance;
     private Customer connectedCustomer;
 
@@ -77,14 +77,14 @@ public class CustomerManager implements DataManager<Customer> {
                 String phoneNumber = res.getString("phone_number");
                 String loginName = res.getString("login_name");
                 String userPassword = res.getString("user_password");
-                Customer newCustomer=new Customer(customerId, firstName, lastName, email, address, phoneNumber, loginName, userPassword);
-                return newCustomer;
+                return new Customer(customerId, firstName, lastName, email, address, phoneNumber, loginName, userPassword);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return null;
     }
+
     public void setConnectedCustomer(Customer connectedCustomer) {
         this.connectedCustomer = connectedCustomer;
     }
@@ -99,15 +99,9 @@ public class CustomerManager implements DataManager<Customer> {
         try {
             connectedCustomer = c;
             String sql = "INSERT INTO Customer(first_name, last_name, email, address, phone_number,login_name, user_password) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement stmt = co.prepareStatement(sql);
-            stmt.setString(1, c.getFirstName());
-            stmt.setString(2, c.getLastName());
-            stmt.setString(3, c.getEmail());
-            stmt.setString(4, c.getAddress());
-            stmt.setString(5, c.getPhoneNumber());
-            stmt.setString(6, c.getLoginName());
-            stmt.setString(7, c.getUserPassword());
+            PreparedStatement stmt = setPreparedStatement(c, sql);
             stmt.executeUpdate();
+            stmt.close();
         }
         catch(SQLException e){
             System.out.println(e.getMessage());
@@ -122,29 +116,41 @@ public class CustomerManager implements DataManager<Customer> {
     public void modifyAnElement(Customer c) {
         try {
             connectedCustomer = c;
-            String sql = "SELECT * from Customer where login_name=? and user_password=?";
-            PreparedStatement stmt = co.prepareStatement(sql);
-            stmt.setString(1, c.getLoginName());
-            stmt.setString(2, c.getUserPassword());
+            String sql = "UPDATE Customer SET first_name = ?, last_name = ?, email = ?, address = ?, phone_number = ?, login_name = ?, user_password = ? WHERE customer_id = ?";
+
+            PreparedStatement stmt = setPreparedStatement(c, sql);
+            stmt.setLong(8, c.getCustomerId());  // id du client à la fin
             stmt.executeUpdate();
+            stmt.close();
         }
         catch(SQLException e){
             System.out.println(e.getMessage());
-
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private PreparedStatement setPreparedStatement(Customer c, String sql) throws SQLException {
+        PreparedStatement stmt = co.prepareStatement(sql);
+        stmt.setString(1, c.getFirstName());
+        stmt.setString(2, c.getLastName());
+        stmt.setString(3, c.getEmail());
+        stmt.setString(4, c.getAddress());
+        stmt.setString(5, c.getPhoneNumber());
+        stmt.setString(6, c.getLoginName());
+        stmt.setString(7, c.getUserPassword());
+        return stmt;
     }
 
     @Override
     public void deleteAnElement(Customer c) {
         try {
             connectedCustomer = c;
-            String sql = "DELETE * from Customer where login_name=? and user_password=?";
+            String sql = "DELETE * from Customer where customer_id= ?";
             PreparedStatement stmt = co.prepareStatement(sql);
-            stmt.setString(1, c.getLoginName());
-            stmt.setString(2, c.getUserPassword());
+            stmt.setLong(1, c.getCustomerId());
             stmt.executeUpdate();
+            stmt.close();
         }
         catch(SQLException e){
             System.out.println(e.getMessage());
@@ -153,68 +159,6 @@ public class CustomerManager implements DataManager<Customer> {
             throw new RuntimeException(e);
         }
     }
-
-
-    /*
-    //A REFAIRE !!
-    @Override
-    public void modifyAnElement(Customer customer) { //ajouter un attribut pour indiquer l'élément souhaité
-        scan.nextLine();
-        String newFirstName= null, newLastName=null, newAddress=null, newEmail=null, newPhone=null;
-
-        for (String choice : choicesToModify) {
-            switch (choice.trim()) {
-                case "1":
-                    newFirstName = scan.nextLine();
-                    customer.setFirstName(newFirstName);
-                    break;
-                case "2":
-                    newLastName = scan.nextLine();
-                    customer.setLastName(newLastName);
-                    break;
-                case "3":
-                    newAddress = scan.nextLine();
-                    customer.setAddress(newAddress);
-                    break;
-                case "4":
-                    newEmail = scan.nextLine();
-                    customer.setEmail(newEmail);
-                    break;
-                case "5":
-                    newPhone = scan.nextLine();
-                    customer.setPhoneNumber(newPhone);
-                    break;
-                default:
-                    System.out.println("Invalid option: " + choice);
-                    break;
-            }
-        }
-        addAnElement(customer);
-
-
-    }
-
-    //A REFAIRE!!
-    @Override
-    public void deleteAnElement(Customer customer) {
-        try {
-
-            String sql = "DELETE Customer WHERE login_name = ?";
-            PreparedStatement stmt = co.prepareStatement(sql);
-            stmt.setString(1, customer.getLoginName());
-            stmt.executeUpdate();
-        }
-        catch(SQLException e){
-            System.out.println(e.getMessage());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-    }
-
-*/
-
-
 
 
 }

@@ -188,7 +188,7 @@ public class OrderManager {
         try {
             String sql = "SELECT id FROM Orders WHERE customerId = ?";
             PreparedStatement stmt = co.prepareStatement(sql);
-            stmt.setLong(1, customer.getId()); // Supposant que Customer a une méthode getId()
+            stmt.setLong(1, customer.getUserId()); // Supposant que Customer a une méthode getUserId()
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {

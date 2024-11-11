@@ -14,6 +14,7 @@ import org.apppooproject.DataBaseManagers.ProductManagerSingleton;
 import org.apppooproject.Model.Customer;
 import org.apppooproject.Model.Product;
 import org.apppooproject.Model.Top;
+import org.apppooproject.Views.ViewFactory;
 import org.apppooproject.Views.ViewModel;
 
 import java.util.ArrayList;
@@ -133,7 +134,7 @@ public class CentralViewController {
 
     private final Customer connectedCustomer = customerManager.getConnectedCustomer();
 
-    private boolean noButtonSelected = true;
+    private final ViewModel viewModel = ViewModel.getInstance();
 
     ProductManager productManager= ProductManagerSingleton.getInstance().getProductManager();
 
@@ -163,23 +164,25 @@ public class CentralViewController {
         Product selectedProduct = products.getSelectionModel().getSelectedItem();
         if (selectedProduct != null) {
             connectedCustomer.addToCart(selectedProduct);
-            productManager.getProductById(selectedProduct.getProductId()).decrementStock();
+            //productManager.getProductById(selectedProduct.getProductId()).decrementStock();
         }
 
     }
 
     public void setupTable(){
-        products.getItems().addAll(productManager.getProducts());
+        products.getItems().addAll(productManager.getProductsInStock());
     }
 
     @FXML
     void onClickGoToCart(ActionEvent event) {
-        ViewModel.getInstance().getViewFactory().showCartViewWindow();
+        viewModel.getViewFactory().closeCurrentWindow(event);
+        viewModel.getViewFactory().showCartViewWindow();
     }
 
     @FXML
     void onClickGoToUserAccount(ActionEvent event) {
-        ViewModel.getInstance().getViewFactory().showAppViewWindow();
+        viewModel.getViewFactory().closeCurrentWindow(event);
+        viewModel.getViewFactory().showCustomerAccountWindow();
     }
 
 
@@ -201,8 +204,8 @@ public class CentralViewController {
         if (isSweater_button.isSelected()) {
             selectedProductsByType.addAll(productManager.showOnlyTops(2));
         }
-        if(!(isTshirt_button.isSelected() || isSweater_button.isSelected() || isRegular_button.isSelected() || isTshirt_button.isSelected())) {
-            selectedProductsByType.addAll(productManager.getProducts());
+        if(!(isTshirt_button.isSelected() || isSweater_button.isSelected() || isRegular_button.isSelected() || isShorts_button.isSelected())) {
+            selectedProductsByType.addAll(productManager.getProductsInStock());
         }
         products.getItems().addAll(showBySize(showByColor(selectedProductsByType)));
         products.refresh();
@@ -236,7 +239,7 @@ public class CentralViewController {
         if (orange_button.isSelected()) {
             filteredProducts.addAll(productManager.showProductByColor(productsToFilter,"ORANGE"));
         }
-        if(grey_button.isSelected()){
+        if (grey_button.isSelected()){
             filteredProducts.addAll(productManager.showProductByColor(productsToFilter,"GREY"));
         }
         if(!(orange_button.isSelected() || pink_button.isSelected() || yellow_button.isSelected() || blue_button.isSelected() || green_button.isSelected() || black_button.isSelected() || red_button.isSelected() || grey_button.isSelected())) {
@@ -248,19 +251,19 @@ public class CentralViewController {
     public ArrayList<Product> showBySize (ArrayList<Product> productsToFilter) {
         ArrayList<Product> filteredProducts = new ArrayList<>();
         if(xs_button.isSelected()){
-            filteredProducts.addAll(productManager.showBySize(34));
+            filteredProducts.addAll(productManager.showBySize(productsToFilter,34));
         }
         if(s_button.isSelected()){
-            filteredProducts.addAll(productManager.showBySize(36));
+            filteredProducts.addAll(productManager.showBySize(productsToFilter,36));
         }
         if(m_button.isSelected()){
-            filteredProducts.addAll(productManager.showBySize(38));
+            filteredProducts.addAll(productManager.showBySize(productsToFilter,38));
         }
         if(l_button.isSelected()){
-            filteredProducts.addAll(productManager.showBySize(40));
+            filteredProducts.addAll(productManager.showBySize(productsToFilter,40));
         }
         if(xl_button.isSelected()){
-            filteredProducts.addAll(productManager.showBySize(42));
+            filteredProducts.addAll(productManager.showBySize(productsToFilter,42));
         }
         if(!(xs_button.isSelected() || s_button.isSelected() || m_button.isSelected() || l_button.isSelected() || xl_button.isSelected())) {
             filteredProducts.addAll(productsToFilter);
@@ -274,110 +277,6 @@ public class CentralViewController {
         products.getItems().addAll(productManager.getProducts());
         products.refresh();
     }
-
-    /*@FXML
-    void showRegulars(ActionEvent event) {
-        if (isRegular_button.isSelected() && (isShorts_button.isSelected() || isSweater_button.isSelected() || isTshirt_button.isSelected())){
-            products.getItems().addAll(productManager.showOnlyPants(2));
-        }
-        else if (isRegular_button.isSelected()){
-            products.getItems().clear();
-            products.getItems().addAll(productManager.showOnlyPants(2));
-        }
-        else if (isShorts_button.isSelected()){
-            showShorts(event);
-        }
-        else if (isSweater_button.isSelected()){
-            showSweaters(event);
-        }
-        else if (isTshirt_button.isSelected()){
-            showTshirts(event);
-        }
-        resetTable(); //remet tout dans la table si rien n'est selectionné
-        products.refresh();
-    }
-
-    @FXML
-    void showShorts(ActionEvent event) {
-        if (isShorts_button.isSelected() && (isRegular_button.isSelected() || isSweater_button.isSelected() || isTshirt_button.isSelected())){
-            products.getItems().addAll(productManager.showOnlyPants(1));
-        }
-        else if (isShorts_button.isSelected()){
-            products.getItems().clear();
-            products.getItems().addAll(productManager.showOnlyPants(1));
-        }
-        else if (isRegular_button.isSelected()){
-            showRegulars(event);
-        }
-        else if (isSweater_button.isSelected()){
-            showSweaters(event);
-        }
-        else if (isTshirt_button.isSelected()){
-            showTshirts(event);
-        }
-        resetTable(); //remet tout dans la table si rien n'est selectionné
-        products.refresh();
-    }
-
-    @FXML
-    void showSweaters(ActionEvent event) {
-        if (isSweater_button.isSelected() && (isRegular_button.isSelected() || isShorts_button.isSelected() || isTshirt_button.isSelected())){
-            products.getItems().addAll(productManager.showOnlyTops(2));
-        }
-        else if (isSweater_button.isSelected()){
-            products.getItems().clear();
-            products.getItems().addAll(productManager.showOnlyTops(2));
-        }
-        else if (isRegular_button.isSelected()){
-            showRegulars(event);
-        }
-        else if (isShorts_button.isSelected()){
-            showShorts(event);
-        }
-        else if (isTshirt_button.isSelected()){
-            showTshirts(event);
-        }
-        resetTable(); //remet tout dans la table si rien n'est selectionné
-        products.refresh();
-
-    }
-
-    @FXML
-    void showTshirts(ActionEvent event) {
-        if (isTshirt_button.isSelected() && (isRegular_button.isSelected() || isShorts_button.isSelected() || isSweater_button.isSelected())){
-            products.getItems().addAll(productManager.showOnlyTops(1));
-        }
-        else if (isTshirt_button.isSelected()){
-            products.getItems().clear();
-            products.getItems().addAll(productManager.showOnlyTops(1));
-        }
-        else if (isRegular_button.isSelected()){
-            showRegulars(event);
-        }
-        else if (isShorts_button.isSelected()){
-            showShorts(event);
-        }
-        else if (isSweater_button.isSelected()){
-            showSweaters(event);
-        }
-        resetTable(); //remet tout dans la table si rien n'est selectionné
-        products.refresh();
-
-    }*/
-
-    public void resetTable(){
-        if (!((isShorts_button.isSelected()) || (isRegular_button.isSelected()) || (isSweater_button.isSelected()) || (isTshirt_button.isSelected()))){
-            products.getItems().clear();
-            products.getItems().addAll(productManager.getProducts());
-        }
-
-    }
-
-
-
-
-
-
 
 
 }

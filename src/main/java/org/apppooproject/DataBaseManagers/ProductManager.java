@@ -107,6 +107,16 @@ public class ProductManager implements DataManager<Product>{
         return products;
     }
 
+    public ArrayList<Product> getProductsInStock() {
+        ArrayList<Product> inStock = new ArrayList<>();
+        for (Product p : products) {
+            if(p.getStock()>0){
+                inStock.add(p);
+            }
+        }
+        return inStock;
+    }
+
     public Product getProductById(long productId) {
         for (Product p : products) {
             if(p.getProductId() == productId){
@@ -134,7 +144,7 @@ public class ProductManager implements DataManager<Product>{
         ArrayList<Product> pants = new ArrayList<>();
         Pants pant;
         for(Product p : products){
-            if(p instanceof Pants){
+            if(p.getStock()>0 && p instanceof Pants){
                 pant = (Pants) p;
                 switch(criteria){
                     case 1:
@@ -155,9 +165,9 @@ public class ProductManager implements DataManager<Product>{
         return pants;
     }
 
-    public ArrayList<Product> showBySize (int size){
+    public ArrayList<Product> showBySize (ArrayList<Product> productsToFilter, int size){
         ArrayList<Product> productsOfGivenSize = new ArrayList<>();
-        for(Product p : products){
+        for(Product p : productsToFilter){
             if(p.getSize() == size){
                 productsOfGivenSize.add(p);
             }
@@ -179,7 +189,7 @@ public class ProductManager implements DataManager<Product>{
         ArrayList<Product> tops = new ArrayList<>();
         Top top;
         for(Product p : products){
-            if(p instanceof Top){
+            if(p.getStock()>0 && p instanceof Top){
                 top = (Top) p;
                 switch(criteria){
                     case 1:
@@ -200,7 +210,36 @@ public class ProductManager implements DataManager<Product>{
         return tops;
     }
 
+    public void refreshProducts() {
+        for (Product p : products) {
+            if (p.getStock() != 0) {
+                updateProductStock(p);
+            } else {
+                deleteProduct(p);
+            }
+        }
+    }
 
+    private void updateProductStock(Product p) {
+        String sql = "UPDATE product SET stock = ? WHERE product_id = ?";
+        try (PreparedStatement stmt = co.prepareStatement(sql)) {
+            stmt.setInt(1, p.getStock());
+            stmt.setLong(2, p.getProductId());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void deleteProduct(Product p) {
+        String sql = "DELETE FROM product WHERE product_id = ?";
+        try (PreparedStatement stmt = co.prepareStatement(sql)) {
+            stmt.setLong(1, p.getProductId());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     @Override
@@ -229,21 +268,6 @@ public class ProductManager implements DataManager<Product>{
         }
 
     }
-
-
-        /*for (String s : separatedConjunction) {
-            String[] separatedUnionInString = s.split("or");
-            separatedUnion.addAll(Arrays.asList(separatedUnionInString));
-        }
-        ArrayList<String> keyWords = new ArrayList<>();
-        for (String s : separatedConjunction) {
-            String[] separatedUnionInString = s.split("or");
-            separatedUnion.addAll(Arrays.asList(separatedUnionInString));
-        }*/
-
-
-
-
 
 
 }

@@ -16,12 +16,12 @@
             <Button fx:id="delete_button" mnemonicParsing="false" onAction="#onClickGoToUserAccount" text="Account" />
          </children>
       </HBox>
-      <Text fill="#ba2fa9" layoutX="383.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CART" wrappingWidth="93.99997965494794">
+      <Text fill="#ba2fa9" layoutX="379.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CART" wrappingWidth="61.999979654947936">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Text>
-      <TableView fx:id="products" layoutX="17.0" layoutY="83.0" onSort="#cartContent" prefHeight="224.0" prefWidth="565.0">
+      <TableView fx:id="products" layoutX="17.0" layoutY="83.0" prefHeight="224.0" prefWidth="565.0">
          <columns>
             <TableColumn fx:id="productName" prefWidth="75.0" text="Product" />
             <TableColumn fx:id="productType" prefWidth="75.0" text="Type" />
@@ -34,5 +34,6 @@
       <Button layoutX="222.0" layoutY="319.0" mnemonicParsing="false" onAction="#onClickRemoveOneFromCart" text="Remove an item" />
       <Button layoutX="68.0" layoutY="319.0" mnemonicParsing="false" onAction="#onClickAddOneToCart" text="Add an item" />
       <Button layoutX="400.0" layoutY="319.0" mnemonicParsing="false" onAction="#onClickSuppressFromCart" prefHeight="36.0" prefWidth="166.0" text="Suppress from cart" />
+      <Button fx:id="payCart_button" layoutX="494.0" layoutY="32.0" mnemonicParsing="false" onAction="#onClickPayCart" text="Pay cart" />
    </children>
 </AnchorPane>

@@ -49,7 +49,7 @@ public class InvoiceManager {
             stmt.setDate(2, new java.sql.Date(invoice.getInvoiceDate().getTime()));
             stmt.setDouble(3, invoice.getTotalAmount());
             stmt.setString(4, invoice.getStatus().toString());
-            stmt.setLong(5, invoice.getId());
+            stmt.setLong(5, invoice.getUserId());
 
             stmt.executeUpdate();
         } catch (SQLException e) {
@@ -63,7 +63,7 @@ public class InvoiceManager {
         try {
             String sql = "DELETE FROM Invoices WHERE id = ?";
             PreparedStatement stmt = co.prepareStatement(sql);
-            stmt.setLong(1, invoice.getId());
+            stmt.setLong(1, invoice.getUserId());
             stmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -119,14 +119,14 @@ public class InvoiceManager {
     
     
     public void generateInvoicePDF(Invoice invoice) {
-        String filePath = "invoices/invoice_" + invoice.getId() + ".pdf";
+        String filePath = "invoices/invoice_" + invoice.getUserId() + ".pdf";
 
         try {
             PdfWriter writer = new PdfWriter(filePath);
             PdfDocument pdf = new PdfDocument(writer);
             Document document = new Document(pdf);
 
-            document.add(new Paragraph("Invoice ID: " + invoice.getId()));
+            document.add(new Paragraph("Invoice ID: " + invoice.getUserId()));
             document.add(new Paragraph("Customer ID: " + invoice.getCustomerId()));
             document.add(new Paragraph("Invoice Date: " + invoice.getInvoiceDate()));
             document.add(new Paragraph("Total Amount: " + invoice.getTotalAmount()));

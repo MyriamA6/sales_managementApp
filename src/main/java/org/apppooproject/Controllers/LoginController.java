@@ -1,16 +1,13 @@
 package org.apppooproject.Controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.event.ActionEvent; // Correct import
+import javafx.event.ActionEvent;
 import org.apppooproject.DataBaseManagers.CustomerManager;
 import org.apppooproject.DataBaseManagers.CustomerManagerSingleton;
 import org.apppooproject.Model.Customer;
 import org.apppooproject.Views.ViewModel;
 
-import java.net.URL;
-import java.util.ResourceBundle;
 
 public class LoginController {
 
@@ -46,6 +43,7 @@ public class LoginController {
         Customer customer = customerManager.getCustomerByID(username, pwd);
         if (customer!=null) {
             customerManager.setConnectedCustomer(customer);
+            ViewModel.getInstance().getViewFactory().closeCurrentWindow(event);
             ViewModel.getInstance().getViewFactory().showAppViewWindow();
         } else {
             // Si l'utilisateur n'existe pas, afficher le label d'erreur

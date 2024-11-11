@@ -1,6 +1,8 @@
 package org.apppooproject.Model;
 
-import java.util.ArrayList;
+import org.apppooproject.DataBaseManagers.ProductManager;
+import org.apppooproject.DataBaseManagers.ProductManagerSingleton;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,9 +45,32 @@ public class Customer {
 
     public void addToCart(Product product){
         cart.put(product.getProductId(), cart.getOrDefault(product.getProductId(), 0) + 1);
+        product.decrementStock();
     }
 
-    public void suppressFromCart(Product product){}
+    //a revoir !!
+    public void suppressFromCart(Product product){
+        product.setStock(cart.get(product.getProductId())+product.getStock());
+        cart.remove(product.getProductId());
+    }
+
+    public void suppressOneUnitFromCart(Product product){
+        if(cart.get(product.getProductId())==0){
+            cart.remove(product.getProductId());
+        }
+        else{
+            cart.put(product.getProductId(), cart.get(product.getProductId()) - 1);
+        }
+        product.setStock(product.getStock()+1);
+    }
+
+    public void clearCart(){
+        for (Map.Entry<Long, Integer> entry : cart.entrySet()) {
+            Product product = ProductManagerSingleton.getInstance().getProductManager().getProductById(entry.getKey());
+            product.setStock(product.getStock()+ entry.getValue());
+        }
+        cart.clear();
+    }
 
     public Order payCart(){
         return null;
@@ -53,10 +78,6 @@ public class Customer {
 
     public long getCustomerId() {
         return customerId;
-    }
-
-    public void setCustomerId(long customerId) {
-        this.customerId = customerId;
     }
 
     public String getFirstName() {
@@ -72,7 +93,7 @@ public class Customer {
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        if(!(lastName==null)) this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -80,7 +101,7 @@ public class Customer {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        if(email!=null) this.email = email;
     }
 
     public String getAddress() {
@@ -88,7 +109,7 @@ public class Customer {
     }
 
     public void setAddress(String address) {
-        this.address = address;
+        if(address!=null) this.address = address;
     }
 
     public String getPhoneNumber() {
@@ -96,7 +117,7 @@ public class Customer {
     }
 
     public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+        if(phoneNumber!=null) this.phoneNumber = phoneNumber;
     }
 
     public String getLoginName() {
@@ -104,7 +125,7 @@ public class Customer {
     }
 
     public void setLoginName(String loginName) {
-        this.loginName = loginName;
+        if(loginName!=null) this.loginName = loginName;
     }
 
     public String getUserPassword() {
@@ -112,10 +133,9 @@ public class Customer {
     }
 
     public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
+        if(userPassword!=null) this.userPassword = userPassword;
     }
 
-
-    public long getId() { return customerId; }
+    public long getUserId() { return customerId; }
 
 }

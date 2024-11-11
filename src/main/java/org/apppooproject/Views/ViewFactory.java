@@ -1,6 +1,8 @@
 package org.apppooproject.Views;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -41,6 +43,12 @@ public class ViewFactory {
     public void showAdminLoginWindow(){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/sceneBuilderFiles/Admin/adminLogin.fxml"));
         createStage(loader);
+    }
+
+    public void closeCurrentWindow(ActionEvent event) {
+        // Ferme la fenêtre actuelle
+        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        currentStage.close();
     }
 
     public void showAdminModificationsWindow(){

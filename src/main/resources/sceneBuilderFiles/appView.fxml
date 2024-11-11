@@ -65,7 +65,7 @@
                   <CheckMenuItem fx:id="white_button" mnemonicParsing="false" text="White" />
                   <CheckMenuItem fx:id="orange_button" mnemonicParsing="false" text="Orange" />
                   <CheckMenuItem fx:id="pink_button" mnemonicParsing="false" text="Pink" />
-                  <CheckMenuItem fx:id="blue_button1" mnemonicParsing="false" text="Grey" />
+                  <CheckMenuItem fx:id="grey_button" mnemonicParsing="false" text="Grey" />
               </items>
             </MenuButton>
 

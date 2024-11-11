@@ -43,12 +43,18 @@ public abstract class Product {
         return size;
     }
 
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
     public String getDescription() { return description;}
     public String getGender() {return gender;}
 
     public void decrementStock() {
         stock--;
     }
+
+
 
 
 
