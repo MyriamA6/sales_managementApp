@@ -9,14 +9,27 @@ public class Order {
     private long customerId;
     private Date orderDate;
     private double totalPrice;
-    private OrderStatus status; 
+    private OrderStatus status;
+    private Invoice invoice;
     private List<Product> content; 
 
     public enum OrderStatus {
-        IN_PROGRESS,
-        CONFIRMED,
-        CANCELED,
-        PROCESSED
+        IN_PROGRESS("in progress"),
+        CONFIRMED("confirmed"),
+        CANCELED("canceled"),
+        DELIVERED("delivered");
+
+        private String status;
+
+        // Constructeur privé
+        OrderStatus(String status) {
+            this.status = status;
+        }
+
+        // Getter pour l'attribut
+        public String getStatus() {
+            return status;
+        }
     }
 
     
@@ -26,7 +39,8 @@ public class Order {
         this.orderDate = new Date(); 
         this.status = OrderStatus.IN_PROGRESS;
         this.content = new ArrayList<>(); 
-        this.totalPrice = 0.0; 
+        this.totalPrice = 0.0;
+        this.invoice = new Invoice(orderId,customerId,orderDate);
     }
 
     
@@ -35,6 +49,7 @@ public class Order {
         for (Product product : content) {
         	totalPrice += product.getPrice();
         }
+        this.invoice.setTotalPrice(totalPrice);
         return totalPrice;
     }
 

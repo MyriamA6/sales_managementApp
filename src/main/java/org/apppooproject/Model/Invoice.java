@@ -9,18 +9,29 @@ public class Invoice {
     private long customerId;        
     private double totalPrice;      
     private Date invoiceDate;       
-    private boolean paymentStatus; 
+    private long orderId;
+
+    public Invoice() {}
 
 
-    public Invoice(long invoiceId, long customerId, double totalPrice, Date invoiceDate) {
+
+    public Invoice(long orderId,long invoiceId, long customerId, double totalPrice, Date invoiceDate) {
+        this.orderId = orderId;
         this.invoiceId = invoiceId;
         this.customerId = customerId;
         this.totalPrice = totalPrice;
         this.invoiceDate = invoiceDate;
-        this.paymentStatus = false; 
     }
 
-    public void generateInvoice() {
+    public Invoice(long orderId, long customerId, Date invoiceDate) {
+        this.orderId = orderId;
+        this.invoiceId = invoiceId;
+        this.customerId = customerId;
+        this.totalPrice = totalPrice;
+        this.invoiceDate = invoiceDate;
+    }
+
+    /*public void generateInvoice() {
         System.out.println("Generating invoice for Customer ID: " + customerId);
         System.out.println("Invoice ID: " + invoiceId);
         System.out.println("Total Amount: " + totalPrice);
@@ -33,15 +44,7 @@ public class Invoice {
         System.out.println("Customer ID: " + customerId);
         System.out.println("Total Amount: " + totalPrice);
         System.out.println("Invoice Date: " + invoiceDate);
-        System.out.println("Payment Validated: " + (paymentStatus ? "Yes" : "No"));
-    }
-
-
-    public void validatePayment() {
-        this.paymentStatus = true; 
-        System.out.println("Payment for Invoice ID " + invoiceId + " has been validated.");
-    }
-
+    }*/
 
     public long getInvoiceId() {
         return invoiceId;
@@ -59,9 +62,11 @@ public class Invoice {
         return invoiceDate;
     }
 
-    public boolean isPaymentValidated() {
-        return paymentStatus;
-    }
+    public long getOrderId() { return orderId;}
+
+    public void setInvoiceId(long invoiceId) { this.invoiceId = invoiceId; }
+
+    public void setOrderId(long orderId) { this.orderId = orderId; }
 
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
@@ -79,20 +84,8 @@ public class Invoice {
         this.customerId = customerId;
     }
 
-    public void setStatus(String status) {
-        this.status = InvoiceStatus.valueOf(status);
-    }
-
     public void setTotalAmount(double totalAmount) {
         this.totalPrice = totalAmount;
-    }
-
-    public void setInvoiceDate(Date invoiceDate) {
-        this.invoiceDate = invoiceDate;
-    }
-
-    public void setStatus(InvoiceStatus status) {
-        this.paymentStatus = status == InvoiceStatus.PAID; // Exemple pour traiter le statut de paiement.
     }
 
 }

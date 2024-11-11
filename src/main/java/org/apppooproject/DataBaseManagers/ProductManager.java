@@ -128,8 +128,9 @@ public class ProductManager implements DataManager<Product>{
 
 
 
-    public ArrayList<String> searchByKeyWords(String searchDemand) {
+    public ArrayList<Product> searchByKeyWords(String searchDemand) {
         //récupère
+        ArrayList<Product> keyWordsCorrespondingProducts = new ArrayList<>();
         String[] separatedWords = searchDemand.split(" ");
         ArrayList<String> keyWords = new ArrayList<>();
         for(String s :separatedWords){
@@ -137,7 +138,21 @@ public class ProductManager implements DataManager<Product>{
                 keyWords.add(s);
             }
         }
-        return keyWords;
+
+        Boolean containsKeyWord = false;
+        int cpt=0;
+        for (Product p : products) {
+            while(cpt<keyWords.size() && !containsKeyWord){
+                if(p.getDescription().contains(keyWords.get(cpt))){
+                    containsKeyWord = true;
+                }
+            }
+            if(containsKeyWord){
+                keyWordsCorrespondingProducts.add(p);
+            }
+            containsKeyWord = false;
+        }
+        return keyWordsCorrespondingProducts;
     }
 
     public ArrayList<Product> showOnlyPants (int criteria){

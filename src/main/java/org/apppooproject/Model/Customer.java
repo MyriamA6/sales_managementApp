@@ -154,7 +154,7 @@ public class Customer {
     }
 
     public void setUserPassword(String userPassword) {
-        if(userPassword!=null) this.userPassword = userPassword;
+        if(userPassword!=null && !userPassword.isEmpty()) this.userPassword = userPassword;
     }
 
     public long getUserId() { return customerId; }

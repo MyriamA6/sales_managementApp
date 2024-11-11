@@ -14,10 +14,10 @@ import org.apppooproject.DataBaseManagers.ProductManagerSingleton;
 import org.apppooproject.Model.Customer;
 import org.apppooproject.Model.Product;
 import org.apppooproject.Model.Top;
-import org.apppooproject.Views.ViewFactory;
 import org.apppooproject.Views.ViewModel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class CentralViewController {
 
@@ -136,10 +136,13 @@ public class CentralViewController {
 
     private final ViewModel viewModel = ViewModel.getInstance();
 
+    private ArrayList<CheckMenuItem> buttons;
+
     ProductManager productManager= ProductManagerSingleton.getInstance().getProductManager();
 
     @FXML
     public void initialize() {
+        buttons = new ArrayList<>(Arrays.asList(white_button,green_button,black_button,blue_button,pink_button,orange_button,yellow_button));
         // Configurer la colonne productType pour afficher "Top" ou "Pants" selon le type d'objet
         welcomeText.setText("Welcome, "+ customerManager.getConnectedCustomer().getFirstName() + " " +
                 customerManager.getConnectedCustomer().getLastName());

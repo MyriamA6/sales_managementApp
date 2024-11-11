@@ -121,6 +121,7 @@ public class CartController {
         connectedCustomer.clearCart();
         products.getItems().clear();
         products.refresh();
+        cart_price.setText("Total : "+connectedCustomer.cartCurrentPrice()+" €");
     }
 
     public void updateCart(){

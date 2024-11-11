@@ -1,5 +1,7 @@
 package org.apppooproject.DataBaseManagers;
 
+import org.apppooproject.Model.Order;
+
 import java.sql.Connection;
 
 public interface DataManager<T> {
