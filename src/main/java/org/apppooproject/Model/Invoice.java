@@ -66,8 +66,33 @@ public class Invoice {
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
+    
+    public void setInvoiceDate(Date invoiceDate) {
+        this.invoiceDate = invoiceDate;
+    }
+    
+    public void setId(long invoiceId) {
+        this.invoiceId = invoiceId;
+    }
+
+    public void setCustomerId(long customerId) {
+        this.customerId = customerId;
+    }
+
+    public void setStatus(String status) {
+        this.status = InvoiceStatus.valueOf(status);
+    }
+
+    public void setTotalAmount(double totalAmount) {
+        this.totalPrice = totalAmount;
+    }
 
     public void setInvoiceDate(Date invoiceDate) {
         this.invoiceDate = invoiceDate;
     }
+
+    public void setStatus(InvoiceStatus status) {
+        this.paymentStatus = status == InvoiceStatus.PAID; // Exemple pour traiter le statut de paiement.
+    }
+
 }
