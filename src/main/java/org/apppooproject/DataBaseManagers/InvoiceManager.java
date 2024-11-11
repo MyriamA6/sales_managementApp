@@ -12,140 +12,104 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 
-public class InvoiceManager {
+
+public class InvoiceManager implements DataManager {
+
+    private static InvoiceManager instance;
     private Connection co;
 
-    // Constructor to initialize the database connection
-    public InvoiceManager(Connection co) {
+    public static InvoiceManager getInstance() {
+        if (instance == null) {
+            instance = new InvoiceManager();
+        }
+        return instance;
+    }
+
+    @Override
+    public void addAnElement(Connection co, Invoice invoice) {
         this.co = co;
-    }
-
-    // Add an invoice to the database
-    public void addAnElement(Invoice invoice) {
+        String query = "INSERT INTO invoices (customer_id, total_price, date_invoice, status) VALUES (?, ?, ?, ?)";
         try {
-            String sql = "INSERT INTO Invoice (order_id, invoice_date) VALUES (?, ?)";
-            PreparedStatement stmt = co.prepareStatement(sql);
-            stmt.setLong(1, invoice.getOrderId());  // Corrected from customerId to orderId
-            stmt.setDate(2, new java.sql.Date(invoice.getInvoiceDate().getTime()));
-
+            PreparedStatement stmt = co.prepareStatement(query);
+            stmt.setLong(1, invoice.getCustomerId());
+            stmt.setInt(2, invoice.calculateTotalPrice());
+            stmt.setDate(3, new java.sql.Date(invoice.getDateInvoice().getTime()));
+            stmt.setString(4, invoice.getStatus().toString());
             stmt.executeUpdate();
-            stmt.close();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
-    // Modify an existing invoice
-    public void modifyAnElement(Invoice invoice) {
+    @Override
+    public void modifyAnElement(Connection co, Invoice invoice) {
+        this.co = co;
+        String query = "UPDATE invoices SET total_price = ?, status = ? WHERE id = ?";
         try {
-            String sql = "UPDATE Invoice SET order_id = ?, invoice_date = ? WHERE invoice_id = ?";
-            PreparedStatement stmt = co.prepareStatement(sql);
-            stmt.setLong(1, invoice.getOrderId());
-            stmt.setDate(2, new java.sql.Date(invoice.getInvoiceDate().getTime()));
-            stmt.setLong(3, invoice.getInvoiceId());
-
+            PreparedStatement stmt = co.prepareStatement(query);
+            stmt.setInt(1, invoice.calculateTotalPrice());
+            stmt.setString(2, invoice.getStatus().toString());
+            stmt.setLong(3, invoice.getId());
             stmt.executeUpdate();
-            stmt.close();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
-    // Delete an invoice from the database
-    public void deleteAnElement(Invoice invoice) {
+    @Override
+    public void deleteAnElement(Connection co, Invoice invoice) {
+        this.co = co;
+        String query = "DELETE FROM invoices WHERE id = ?";
         try {
-            String sql = "DELETE FROM Invoice WHERE invoice_id = ?";
-            PreparedStatement stmt = co.prepareStatement(sql);
-            stmt.setLong(1, invoice.getInvoiceId());
+            PreparedStatement stmt = co.prepareStatement(query);
+            stmt.setLong(1, invoice.getId());
             stmt.executeUpdate();
-            stmt.close();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
-    // Get all invoices from the database
-    public List<Invoice> getAllInvoices() {
+    public List<Invoice> getAllInvoices(Connection co, Customer customer) {
         List<Invoice> invoices = new ArrayList<>();
+        String query = "SELECT * FROM invoices WHERE customer_id = ?";
         try {
-            String sql = "SELECT * FROM Invoice";
-            Statement stmt = co.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-
-            while (rs.next()) {
-                Invoice invoice = new Invoice();
-                invoice.setId(rs.getLong("invoice_id"));
-                invoice.setOrderId(rs.getLong("order_id"));  // Corrected column name
-                invoice.setInvoiceDate(rs.getDate("invoice_date"));
-                invoice.setTotalAmount(rs.getDouble("total_price"));  // Corrected column name
+            PreparedStatement stmt = co.prepareStatement(query);
+            stmt.setLong(1, customer.getId());
+            ResultSet resultSet = stmt.executeQuery();
+            while (resultSet.next()) {
+                long id = resultSet.getLong("id");
+                long customerId = resultSet.getLong("customer_id");
+                int totalPrice = resultSet.getInt("total_price");
+                Date dateInvoice = resultSet.getDate("date_invoice");
+                Invoice.Status status = Invoice.Status.valueOf(resultSet.getString("status"));
+                Invoice invoice = new Invoice(id, customerId, totalPrice, new Date(dateInvoice.getTime()), status);
                 invoices.add(invoice);
             }
-            rs.close();
-            stmt.close();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         return invoices;
     }
 
-    // Get a specific invoice by its ID
-    public Invoice getInvoiceById(long invoiceId) {
+    public Invoice getInvoiceById(Connection co, int invoiceId) {
         Invoice invoice = null;
+        String query = "SELECT * FROM invoices WHERE id = ?";
         try {
-            String sql = "SELECT * FROM Invoice WHERE invoice_id = ?";
-            PreparedStatement stmt = co.prepareStatement(sql);
-            stmt.setLong(1, invoiceId);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                invoice = new Invoice();
-                invoice.setId(rs.getLong("invoice_id"));
-                invoice.setOrderId(rs.getLong("order_id"));
-                invoice.setInvoiceDate(rs.getDate("invoice_date"));
-                invoice.setTotalAmount(rs.getDouble("total_price"));
+            PreparedStatement stmt = co.prepareStatement(query);
+            stmt.setInt(1, invoiceId);
+            ResultSet resultSet = stmt.executeQuery();
+            if (resultSet.next()) {
+                long id = resultSet.getLong("id");
+                long customerId = resultSet.getLong("customer_id");
+                int totalPrice = resultSet.getInt("total_price");
+                Date dateInvoice = resultSet.getDate("date_invoice");
+                Invoice.Status status = Invoice.Status.valueOf(resultSet.getString("status"));
+                invoice = new Invoice(id, customerId, totalPrice, new Date(dateInvoice.getTime()), status);
             }
-            rs.close();
-            stmt.close();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         return invoice;
     }
-
-    /*// Generate an invoice document in a specified file
-    public void generateInvoice(Order order, Customer customer, List<OrderContent> orderContents, String filePath) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-            String orderDate = dateFormat.format(order.getOrderDate());
-
-            // Writing invoice details to the file
-            writer.write("Invoice\n");
-            writer.write(String.format("%50s\n", "Order No: " + order.getOrderId()));
-            writer.write(String.format("%50s\n", "Date: " + orderDate));
-            writer.write("\n");
-
-            writer.write(String.format("%-50s\n", "Customer: " + customer.getFirstName() + " " + customer.getLastName()));
-            writer.write(String.format("%-50s\n", "Address: " + customer.getAddress()));
-            writer.write("\n");
-
-            writer.write(String.format("%-30s %-15s %-10s %-10s\n", "Description", "Price", "QTY", "Total"));
-            writer.write("----------------------------------------------------------\n");
-
-            double totalOrder = 0.0;
-            for (OrderContent content : orderContents) {
-                double itemTotal = content.getPrice() * content.getQuantity();
-                totalOrder += itemTotal;
-                writer.write(String.format("%-30s %-15s %-10d %-10s\n", content.getProductName(),
-                        content.getPrice(), content.getQuantity(), itemTotal));
-            }
-
-            writer.write("\n");
-            writer.write(String.format("%45s: %.2f\n", "Total Order", totalOrder));
-
-            System.out.println("Invoice generated successfully at " + filePath);
-
-        } catch (IOException e) {
-            System.out.println("Error generating invoice: " + e.getMessage());
-        }
-    }*/
 }
+
