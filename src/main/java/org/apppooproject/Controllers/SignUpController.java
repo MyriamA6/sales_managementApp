@@ -6,12 +6,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import org.apppooproject.DataBaseManagers.CustomerManager;
-import org.apppooproject.DataBaseManagers.CustomerManagerSingleton;
 import org.apppooproject.Model.Customer;
 import org.apppooproject.Views.ViewModel;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 
 
 public class SignUpController {
@@ -43,7 +39,7 @@ public class SignUpController {
     @FXML
     private Button sign_up_button;
 
-    private final CustomerManager customerManager = CustomerManagerSingleton.getInstance().getCustomerManager();
+    private final CustomerManager customerManager = CustomerManager.getInstance();
 
     private final Customer connectedCustomer = customerManager.getConnectedCustomer();
 

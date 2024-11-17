@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.event.ActionEvent;
 import org.apppooproject.DataBaseManagers.CustomerManager;
-import org.apppooproject.DataBaseManagers.CustomerManagerSingleton;
 import org.apppooproject.Model.Customer;
 import org.apppooproject.Views.ViewModel;
 
@@ -29,7 +28,7 @@ public class LoginController {
     @FXML
     private PasswordField password;
 
-    private final CustomerManager customerManager = CustomerManagerSingleton.getInstance().getCustomerManager();
+    private final CustomerManager customerManager = CustomerManager.getInstance();
 
     public void initialize() {
         error_label.setVisible(false);

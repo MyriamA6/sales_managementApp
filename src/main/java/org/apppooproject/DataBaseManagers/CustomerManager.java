@@ -3,19 +3,27 @@ package org.apppooproject.DataBaseManagers;
 import org.apppooproject.Model.Customer;
 import java.sql.*;
 
-// CustomerManager is responsible for handling database operations related to Customer objects.
 public class CustomerManager implements DataManager<Customer> {
-    private final Connection co;               // Database connection object.
-    private Customer connectedCustomer;        // Currently connected customer to the application.
+    private static CustomerManager instance;  // Instance unique de CustomerManager
+    private final Connection co;               // Connexion à la base de données
+    private Customer connectedCustomer;        // Le client connecté
 
-    // Constructor : sets the a connection to the database.
-    public CustomerManager(){
+    // Constructeur privé pour empêcher l'instanciation directe
+    private CustomerManager() {
         try {
             this.co = DriverManager.getConnection(
                     "jdbc:mysql://127.0.0.1:3306/baseSchema?useSSL=false", "root", "vautotwu");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    // Méthode pour obtenir l'instance unique de CustomerManager
+    public static CustomerManager getInstance() {
+        if (instance == null) {
+            instance = new CustomerManager();  // Création de l'instance unique
+        }
+        return instance;
     }
 
     // Method to find a customer from the database based on the given username and password.

@@ -54,8 +54,25 @@ public abstract class Product {
         stock--;
     }
 
+    public void setColor(String color) {
+        this.color = color;
+    }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+    public void setPrice(double price) {
+        this.price = price;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
-
+    public void setSize(int size) {
+        this.size = size;
+    }
 }

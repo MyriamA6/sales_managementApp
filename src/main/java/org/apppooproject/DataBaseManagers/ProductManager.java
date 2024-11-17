@@ -6,16 +6,14 @@ import org.apppooproject.Model.Top;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
-// ProductManager handles database operations related to Product objects.
 public class ProductManager implements DataManager<Product> {
-    private final Connection co;                     // Database connection object
-    private ArrayList<Product> products;       // List of all products loaded from the database
+    private static ProductManager instance;  // Instance unique de ProductManager
+    private final Connection co;             // Objet de connexion à la base de données
+    private ArrayList<Product> products;     // Liste de tous les produits récupérés depuis la base de données
 
-    // Constructor - initializes a database connection and loads products from the database.
-    public ProductManager() {
+    // Constructeur privé pour empêcher l'instanciation directe
+    private ProductManager() {
         try {
             this.co = DriverManager.getConnection(
                     "jdbc:mysql://127.0.0.1:3306/baseSchema?useSSL=false", "root", "vautotwu");
@@ -23,7 +21,15 @@ public class ProductManager implements DataManager<Product> {
             throw new RuntimeException(e);
         }
         products = new ArrayList<Product>();
-        loadProductFromBd();
+        loadProductFromBd();  // Charger les produits depuis la base de données
+    }
+
+    // Méthode pour récupérer l'instance unique de ProductManager
+    public static ProductManager getInstance() {
+        if (instance == null) {
+            instance = new ProductManager();  // Créer l'instance unique si elle n'existe pas
+        }
+        return instance;
     }
 
     // Loads all products from the database into the 'products' list.

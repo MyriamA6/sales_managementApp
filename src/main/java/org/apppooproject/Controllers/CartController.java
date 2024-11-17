@@ -9,12 +9,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import org.apppooproject.DataBaseManagers.CustomerManager;
-import org.apppooproject.DataBaseManagers.CustomerManagerSingleton;
 import org.apppooproject.DataBaseManagers.ProductManager;
-import org.apppooproject.DataBaseManagers.ProductManagerSingleton;
 import org.apppooproject.Model.Customer;
 import org.apppooproject.Model.Order;
 import org.apppooproject.Model.Product;
@@ -56,9 +53,9 @@ public class CartController {
     @FXML
     private Text cart_price;
 
-    private final CustomerManager customerManager = CustomerManagerSingleton.getInstance().getCustomerManager();
+    private final CustomerManager customerManager = CustomerManager.getInstance();
     private final Customer connectedCustomer = customerManager.getConnectedCustomer();
-    private final ProductManager productManager = ProductManagerSingleton.getInstance().getProductManager();
+    private final ProductManager productManager = ProductManager.getInstance();
 
     @FXML
     public void initialize() {
@@ -175,7 +172,6 @@ public class CartController {
     void onClickGoToUserAccount(ActionEvent event) {
         ViewModel.getInstance().getViewFactory().closeCurrentWindow(event);
         ViewModel.getInstance().getViewFactory().showCustomerAccountWindow();
-
     }
 
 

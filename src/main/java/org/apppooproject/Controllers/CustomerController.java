@@ -7,7 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import org.apppooproject.DataBaseManagers.CustomerManager;
-import org.apppooproject.DataBaseManagers.CustomerManagerSingleton;
 import org.apppooproject.Model.Customer;
 import org.apppooproject.Views.ViewModel;
 
@@ -49,7 +48,7 @@ public class CustomerController {
     @FXML
     private TextField login_name;
 
-    private final CustomerManager customerManager = CustomerManagerSingleton.getInstance().getCustomerManager();
+    private final CustomerManager customerManager = CustomerManager.getInstance();
 
     private final Customer connectedCustomer = customerManager.getConnectedCustomer();
 

@@ -1,7 +1,6 @@
 package org.apppooproject.Model;
 
 import org.apppooproject.DataBaseManagers.ProductManager;
-import org.apppooproject.DataBaseManagers.ProductManagerSingleton;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -61,7 +60,7 @@ public class Customer {
     }
 
     public void suppressOneUnitFromCart(Product product){
-        if(cart.get(product.getProductId())==0){
+        if((cart.get(product.getProductId())-1)==0){
             cart.remove(product.getProductId());
         }
         else{
@@ -72,7 +71,7 @@ public class Customer {
 
     public void clearCart(){
         for (Map.Entry<Long, Integer> entry : cart.entrySet()) {
-            Product product = ProductManagerSingleton.getInstance().getProductManager().getProductById(entry.getKey());
+            Product product = ProductManager.getInstance().getProductById(entry.getKey());
             product.setStock(product.getStock()+ entry.getValue());
         }
         cart.clear();
@@ -80,7 +79,7 @@ public class Customer {
 
 
     public Order payCart(){
-        ProductManager productManager = ProductManagerSingleton.getInstance().getProductManager();
+        ProductManager productManager = ProductManager.getInstance();
         productManager.refreshProducts();
 
         cart.clear();
@@ -89,7 +88,7 @@ public class Customer {
 
     public double cartCurrentPrice() {
         double totalPrice = 0;
-        ProductManager productManager = ProductManagerSingleton.getInstance().getProductManager();
+        ProductManager productManager = ProductManager.getInstance();
         for (Map.Entry<Long, Integer> entry : cart.entrySet()) {
             Product product = productManager.getProductById(entry.getKey());
             totalPrice += product.getPrice() * entry.getValue();

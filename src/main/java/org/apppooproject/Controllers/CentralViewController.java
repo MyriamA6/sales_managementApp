@@ -8,9 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import org.apppooproject.DataBaseManagers.CustomerManager;
-import org.apppooproject.DataBaseManagers.CustomerManagerSingleton;
 import org.apppooproject.DataBaseManagers.ProductManager;
-import org.apppooproject.DataBaseManagers.ProductManagerSingleton;
 import org.apppooproject.Model.Customer;
 import org.apppooproject.Model.Product;
 import org.apppooproject.Model.Top;
@@ -21,136 +19,32 @@ import java.util.Arrays;
 
 public class CentralViewController {
 
-    @FXML
-    private Button accountButton;
+    // Declare UI components
+    @FXML private Button accountButton, cartButton, searchButton, addOneButton;
+    @FXML private MenuButton colorFilter, priceFilter, sizeFilter;
+    @FXML private SplitMenuButton pantsButton, topsButton;
+    @FXML private TableView<Product> products;
+    @FXML private TableColumn<Product, String> productColor, productDescription, productName, productType;
+    @FXML private TableColumn<Product, Double> productPrice;
+    @FXML private TableColumn<Product, Integer> productSize;
+    @FXML private CheckMenuItem isRegular_button, isShorts_button, isSweater_button, isTshirt_button;
+    @FXML private CheckMenuItem white_button, yellow_button, blue_button, green_button, black_button;
+    @FXML private CheckMenuItem red_button, pink_button, orange_button, grey_button;
+    @FXML private CheckMenuItem xs_button, s_button, m_button, l_button, xl_button;
+    @FXML private RadioMenuItem less25_button, btw25_50_button, btw50_100_button, more100_button;
+    @FXML private Text welcomeText;
+    @FXML private TextField searchField;
 
-    @FXML
-    private Button cartButton;
-
-    @FXML
-    private MenuButton colorFilter;
-
-    @FXML
-    private SplitMenuButton pantsButton;
-
-    @FXML
-    private MenuButton priceFilter;
-
-    @FXML
-    private TableView<Product> products;
-
-    @FXML
-    private TableColumn<Product, String> productColor;
-
-    @FXML
-    private TableColumn<Product, String> productDescription;
-
-    @FXML
-    private TableColumn<Product, String> productName;
-
-    @FXML
-    private TableColumn<Product, Double> productPrice;
-
-    @FXML
-    private TableColumn<Product, Integer> productSize;
-
-    @FXML
-    private TableColumn<Product, String> productType;
-
-    @FXML
-    private CheckMenuItem isRegular_button;
-
-    @FXML
-    private CheckMenuItem isShorts_button;
-
-    @FXML
-    private CheckMenuItem isSweater_button;
-
-    @FXML
-    private CheckMenuItem isTshirt_button;
-
-    @FXML
-    private Button searchButton;
-
-    @FXML
-    private TextField searchField;
-
-    @FXML
-    private MenuButton sizeFilter;
-
-    @FXML
-    private SplitMenuButton topsButton;
-
-    @FXML
-    private Button addOneButton;
-
-
-    @FXML
-    private CheckMenuItem white_button;
-
-    @FXML
-    private CheckMenuItem yellow_button;
-
-    @FXML
-    private CheckMenuItem blue_button;
-
-    @FXML
-    private CheckMenuItem green_button;
-
-    @FXML
-    private CheckMenuItem black_button;
-
-    @FXML
-    private CheckMenuItem red_button;
-
-    @FXML
-    private CheckMenuItem pink_button;
-
-    @FXML
-    private CheckMenuItem orange_button;
-
-    @FXML
-    private CheckMenuItem grey_button;
-
-    @FXML
-    private CheckMenuItem xs_button;
-
-    @FXML
-    private CheckMenuItem s_button;
-
-    @FXML
-    private CheckMenuItem m_button;
-
-    @FXML
-    private CheckMenuItem l_button;
-
-    @FXML
-    private CheckMenuItem xl_button;
-
-    @FXML
-    private RadioMenuItem less25_button;
-
-    @FXML
-    private RadioMenuItem btw25_50_button;
-
-    @FXML
-    private RadioMenuItem btw50_100_button;
-
-    @FXML
-    private RadioMenuItem more100_button;
-
-    @FXML
-    private Text welcomeText;
-
-    private final CustomerManager customerManager = CustomerManagerSingleton.getInstance().getCustomerManager();
+    // Declare manager instances
+    private final CustomerManager customerManager = CustomerManager.getInstance();
+    private final ProductManager productManager = ProductManager.getInstance();
+    private final ViewModel viewModel = ViewModel.getInstance();
 
     private final Customer connectedCustomer = customerManager.getConnectedCustomer();
 
-    private final ViewModel viewModel = ViewModel.getInstance();
-
+    // Declare filter buttons and products list
     private ArrayList<CheckMenuItem> buttons;
 
-    ProductManager productManager= ProductManagerSingleton.getInstance().getProductManager();
 
     @FXML
     public void initialize() {
