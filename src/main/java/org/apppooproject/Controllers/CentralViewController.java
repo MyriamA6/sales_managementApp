@@ -128,6 +128,18 @@ public class CentralViewController {
     private CheckMenuItem xl_button;
 
     @FXML
+    private RadioMenuItem less25_button;
+
+    @FXML
+    private RadioMenuItem btw25_50_button;
+
+    @FXML
+    private RadioMenuItem btw50_100_button;
+
+    @FXML
+    private RadioMenuItem more100_button;
+
+    @FXML
     private Text welcomeText;
 
     private final CustomerManager customerManager = CustomerManagerSingleton.getInstance().getCustomerManager();
@@ -142,7 +154,12 @@ public class CentralViewController {
 
     @FXML
     public void initialize() {
-        buttons = new ArrayList<>(Arrays.asList(white_button,green_button,black_button,blue_button,pink_button,orange_button,yellow_button));
+        buttons = new ArrayList<>(Arrays.asList(
+                white_button, yellow_button, blue_button, green_button, black_button,
+                red_button, pink_button, orange_button, grey_button,
+                xs_button, s_button, m_button, l_button, xl_button,
+                isShorts_button, isRegular_button, isTshirt_button, isSweater_button
+        ));
         // Configurer la colonne productType pour afficher "Top" ou "Pants" selon le type d'objet
         welcomeText.setText("Welcome, "+ customerManager.getConnectedCustomer().getFirstName() + " " +
                 customerManager.getConnectedCustomer().getLastName());
@@ -151,6 +168,13 @@ public class CentralViewController {
             String type = (product instanceof Top) ? "Top" : "Pants";
             return new SimpleStringProperty(type);
         });
+
+        //Blocking the selection of several buttons for the price filtering
+        ToggleGroup priceGroup = new ToggleGroup();
+        less25_button.setToggleGroup(priceGroup);
+        btw25_50_button.setToggleGroup(priceGroup);
+        btw50_100_button.setToggleGroup(priceGroup);
+        more100_button.setToggleGroup(priceGroup);
 
         // Configurer les autres colonnes
         productName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
@@ -187,6 +211,12 @@ public class CentralViewController {
         viewModel.getViewFactory().showCustomerAccountWindow();
     }
 
+    public void deselectAllButtons() {
+        for (CheckMenuItem button : buttons) {
+            button.setSelected(false);
+        }
+    }
+
 
     @FXML
     void applySelectedFilters(ActionEvent event) {
@@ -209,7 +239,7 @@ public class CentralViewController {
         if(!(isTshirt_button.isSelected() || isSweater_button.isSelected() || isRegular_button.isSelected() || isShorts_button.isSelected())) {
             selectedProductsByType.addAll(productManager.getProductsInStock());
         }
-        products.getItems().addAll(showBySize(showByColor(selectedProductsByType)));
+        products.getItems().addAll(showByPrice(showBySize(showByColor(selectedProductsByType))));
         products.refresh();
     }
 
@@ -273,10 +303,38 @@ public class CentralViewController {
         return filteredProducts;
     }
 
+    public ArrayList<Product> showByPrice(ArrayList<Product> productsToFilter){
+        ArrayList<Product> filteredProducts = new ArrayList<>();
+        if(less25_button.isSelected()){
+            filteredProducts.addAll(productManager.showLessThanGivenPrice(25));
+        }
+        else if(more100_button.isSelected()){
+            filteredProducts.addAll(productManager.showMoreThanGivenPrice(100));
+        }
+        else if(btw25_50_button.isSelected()){
+            filteredProducts.addAll(productManager.showBetweenGivenPrice(25,50));
+        }
+        else if(btw50_100_button.isSelected()){
+            filteredProducts.addAll(productManager.showBetweenGivenPrice(50,100));
+        }
+        else{
+            filteredProducts.addAll(productsToFilter);
+        }
+        return filteredProducts;
+    }
+
+    @FXML
+    void giveProductsByKeywords(ActionEvent event) {
+        products.getItems().clear();
+        products.getItems().addAll(productManager.searchByKeyWords(searchField.getText()));
+        products.refresh();
+    }
+
     @FXML
     void resetFilters(ActionEvent event) {
         products.getItems().clear();
         products.getItems().addAll(productManager.getProducts());
+        deselectAllButtons();
         products.refresh();
     }
 

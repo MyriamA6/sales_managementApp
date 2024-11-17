@@ -1,15 +1,14 @@
 package org.apppooproject.DataBaseManagers;
 
 import org.apppooproject.Model.Customer;
-
 import java.sql.*;
-import java.util.ArrayList;
 
+// CustomerManager is responsible for handling database operations related to Customer objects.
 public class CustomerManager implements DataManager<Customer> {
-    private final Connection co;
-    private static CustomerManager instance;
-    private Customer connectedCustomer;
+    private final Connection co;               // Database connection object.
+    private Customer connectedCustomer;        // Currently connected customer to the application.
 
+    // Constructor : sets the a connection to the database.
     public CustomerManager(){
         try {
             this.co = DriverManager.getConnection(
@@ -19,7 +18,8 @@ public class CustomerManager implements DataManager<Customer> {
         }
     }
 
-
+    // Method to find a customer from the database based on the given username and password.
+    // Returns the customer if found, otherwise returns null.
     public Customer getCustomerByID(String username, String password) {
         String sql = "SELECT * FROM Customer WHERE login_name = ? AND user_password = ?";
         try (PreparedStatement stmt = co.prepareStatement(sql)) {
@@ -27,7 +27,6 @@ public class CustomerManager implements DataManager<Customer> {
             stmt.setString(2, password);
             ResultSet res = stmt.executeQuery();
 
-            // Vérifier s'il y a un résultat
             if (res.next()) {
                 long customerId = res.getLong("customer_id");
                 String firstName = res.getString("first_name");
@@ -50,14 +49,15 @@ public class CustomerManager implements DataManager<Customer> {
         return null;
     }
 
+    // Return a customer from the database based on the provided email, if it exists.
     public Customer getCustomerByEmail(String email) {
         String sql = "SELECT * FROM Customer WHERE email = ?";
-        PreparedStatement stmt= null;
+        PreparedStatement stmt = null;
         try {
             stmt = co.prepareStatement(sql);
             stmt.setString(1, email);
             ResultSet res = stmt.executeQuery();
-            Customer customer = createNewCustomer(res);
+            Customer customer = createNewCustomer(res); // Helper method to create a Customer from ResultSet
             stmt.close();
             return customer;
         } catch (SQLException e) {
@@ -65,10 +65,11 @@ public class CustomerManager implements DataManager<Customer> {
         }
     }
 
-
-    public Customer createNewCustomer(ResultSet res){
+    // Method to create a Customer object from a ResultSet.
+    // Returns a Customer if data is found; otherwise, returns null.
+    public Customer createNewCustomer(ResultSet res) {
         try {
-            if (res.next()){
+            if (res.next()) {
                 long customerId = res.getLong("customer_id");
                 String firstName = res.getString("first_name");
                 String lastName = res.getString("last_name");
@@ -85,51 +86,50 @@ public class CustomerManager implements DataManager<Customer> {
         return null;
     }
 
+    // Sets the connected customer, after a successful connection.
     public void setConnectedCustomer(Customer connectedCustomer) {
         this.connectedCustomer = connectedCustomer;
     }
 
+    // Returns the currently connected customer.
     public Customer getConnectedCustomer() {
         return connectedCustomer;
     }
 
-
+    // Adds a new Customer to the database.
     @Override
     public void addAnElement(Customer c) {
         try {
             connectedCustomer = c;
-            String sql = "INSERT INTO Customer(first_name, last_name, email, address, phone_number,login_name, user_password) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement stmt = setPreparedStatement(c, sql);
+            String sql = "INSERT INTO Customer(first_name, last_name, email, address, phone_number, login_name, user_password) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement stmt = setPreparedStatement(c, sql); // Prepares SQL statement with Customer data
             stmt.executeUpdate();
             stmt.close();
-        }
-        catch(SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
-
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-
+    // Updates the information of the given customer in the database.
     @Override
     public void modifyAnElement(Customer c) {
         try {
             connectedCustomer = c;
             String sql = "UPDATE Customer SET first_name = ?, last_name = ?, email = ?, address = ?, phone_number = ?, login_name = ?, user_password = ? WHERE customer_id = ?";
-
             PreparedStatement stmt = setPreparedStatement(c, sql);
-            stmt.setLong(8, c.getCustomerId());  // id du client à la fin
+            stmt.setLong(8, c.getCustomerId());  // Sets the Customer ID for the WHERE clause
             stmt.executeUpdate();
             stmt.close();
-        }
-        catch(SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
+    // Method to reduce redundancy and set parameters for PreparedStatement based on a Customer's data.
     private PreparedStatement setPreparedStatement(Customer c, String sql) throws SQLException {
         PreparedStatement stmt = co.prepareStatement(sql);
         stmt.setString(1, c.getFirstName());
@@ -142,23 +142,20 @@ public class CustomerManager implements DataManager<Customer> {
         return stmt;
     }
 
+    // Deletes a Customer record from the database based on the customer ID.
     @Override
     public void deleteAnElement(Customer c) {
         try {
             connectedCustomer = c;
-            String sql = "DELETE * from Customer where customer_id= ?";
+            String sql = "DELETE FROM Customer WHERE customer_id = ?";
             PreparedStatement stmt = co.prepareStatement(sql);
             stmt.setLong(1, c.getCustomerId());
             stmt.executeUpdate();
             stmt.close();
-        }
-        catch(SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
-
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
-
-
 }

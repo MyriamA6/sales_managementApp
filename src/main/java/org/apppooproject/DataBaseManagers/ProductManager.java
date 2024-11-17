@@ -6,12 +6,15 @@ import org.apppooproject.Model.Top;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-public class ProductManager implements DataManager<Product>{
-    private Connection co;
-    private ProductManager instance;
-    private ArrayList<Product> products;
+// ProductManager handles database operations related to Product objects.
+public class ProductManager implements DataManager<Product> {
+    private final Connection co;                     // Database connection object
+    private ArrayList<Product> products;       // List of all products loaded from the database
 
+    // Constructor - initializes a database connection and loads products from the database.
     public ProductManager() {
         try {
             this.co = DriverManager.getConnection(
@@ -19,11 +22,11 @@ public class ProductManager implements DataManager<Product>{
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
         products = new ArrayList<Product>();
         loadProductFromBd();
     }
 
+    // Loads all products from the database into the 'products' list.
     private void loadProductFromBd() {
         Statement stmt = null;
         try {
@@ -32,7 +35,8 @@ public class ProductManager implements DataManager<Product>{
             ResultSet res = stmt.executeQuery(sql);
 
             while (res.next()) {
-                products.add(pantsOrTop(res.getLong("product_id"),co));
+                // Determines if the product is Pants or Top and adds it to the products list
+                products.add(pantsOrTop(res.getLong("product_id"), co));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -45,20 +49,20 @@ public class ProductManager implements DataManager<Product>{
                 }
             }
         }
-
     }
 
-    public Product pantsOrTop (long productId, Connection co) {
+    // Determines if a product with the given productId is a Pants or Top, and returns the appropriate object.
+    public Product pantsOrTop(long productId, Connection co) {
         Statement stmt = null;
         try {
             stmt = co.createStatement();
+            // Query to check if the product is Pants
             String sqlPants = "SELECT * FROM Pants JOIN Product ON Pants.product_id = Product.product_id WHERE Pants.product_id = " + productId;
             ResultSet res = stmt.executeQuery(sqlPants);
-            if (res.next()) {
-                // Déterminer si le pantalon est un short (isShorts) en fonction de la valeur de longueur
-                boolean isShorts = "Shorts".equalsIgnoreCase(res.getString("length"));
 
-                // Création de l'objet Pants
+            if (res.next()) {
+                boolean isShorts = "Shorts".equalsIgnoreCase(res.getString("length"));
+                // Creates and returns a Pants object if matched
                 return new Pants(
                         res.getLong("product_id"),
                         res.getString("name"),
@@ -72,12 +76,13 @@ public class ProductManager implements DataManager<Product>{
                 );
             }
 
-            // Sinon, vérification si le produit est un Top
+            // Query to check if the product is a Top
             String sqlTop = "SELECT * FROM Top JOIN Product ON Top.product_id = Product.product_id WHERE Top.product_id = " + productId;
             res = stmt.executeQuery(sqlTop);
+
             if (res.next()) {
-                // Création de l'objet Top
                 boolean isTshirt = "T-shirt".equalsIgnoreCase(res.getString("sleevesType"));
+                // Creates and returns a Top object if matched
                 return new Top(
                         res.getLong("product_id"),
                         res.getString("name"),
@@ -90,151 +95,248 @@ public class ProductManager implements DataManager<Product>{
                         isTshirt
                 );
             }
-
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return null; // afficher qu'il y a eu une erreur lors de la récupération des données de la base
+        return null; // Returns null if no matching product is found
     }
 
-    public void refresh(){
-        products= new ArrayList<Product>();
+    // Refreshes the product list by reloading all products from the database.
+    public void refresh() {
+        products = new ArrayList<Product>();
         loadProductFromBd();
     }
 
+    // Returns the list of all products.
     public ArrayList<Product> getProducts() {
         return products;
     }
 
+    // Returns a list of products that are in stock (stock > 0).
     public ArrayList<Product> getProductsInStock() {
         ArrayList<Product> inStock = new ArrayList<>();
         for (Product p : products) {
-            if(p.getStock()>0){
+            if (p.getStock() > 0) {
                 inStock.add(p);
             }
         }
         return inStock;
     }
 
+    // Returns a product by its ID if it exists in the products list.
     public Product getProductById(long productId) {
         for (Product p : products) {
-            if(p.getProductId() == productId){
+            if (p.getProductId() == productId) {
                 return p;
             }
         }
         return null;
     }
 
-
-
     public ArrayList<Product> searchByKeyWords(String searchDemand) {
-        //récupère
+        if (removeExtraSpaces(searchDemand).isEmpty()) {
+            return products;
+        }
+
+
+        if (searchDemand.toLowerCase().contains("and") || searchDemand.toLowerCase().contains("or")) {
+            return searchWithLogicalOperators(searchDemand);
+        }
+
         ArrayList<Product> keyWordsCorrespondingProducts = new ArrayList<>();
         String[] separatedWords = searchDemand.split(" ");
         ArrayList<String> keyWords = new ArrayList<>();
-        for(String s :separatedWords){
-            if (s.equals(" ")){
-                keyWords.add(s);
+
+        for (String s : separatedWords) {
+            String cleanedWord = removeExtraSpaces(s);
+            if (!cleanedWord.isEmpty()) { // Vérifie que le mot n'est pas vide
+                keyWords.add(cleanedWord.toLowerCase()); // Transforme immédiatement en minuscule
             }
         }
 
-        Boolean containsKeyWord = false;
-        int cpt=0;
+        // Vérifie chaque produit pour trouver les mots-clés
         for (Product p : products) {
-            while(cpt<keyWords.size() && !containsKeyWord){
-                if(p.getDescription().contains(keyWords.get(cpt))){
+            boolean containsKeyWord = false;
+            for (String keyword : keyWords) {
+                if (p.getDescription().toLowerCase().contains(keyword) ||
+                        p.getName().toLowerCase().contains(keyword)) {
                     containsKeyWord = true;
+                    break;
                 }
             }
-            if(containsKeyWord){
+            if (containsKeyWord) {
                 keyWordsCorrespondingProducts.add(p);
             }
-            containsKeyWord = false;
         }
+
         return keyWordsCorrespondingProducts;
     }
 
-    public ArrayList<Product> showOnlyPants (int criteria){
+    public ArrayList<Product> searchWithLogicalOperators(String searchDemand) {
+        ArrayList<Product> resultingProducts = new ArrayList<>();
+        String[] andSeparatedWords = searchDemand.toLowerCase().split("and");
+
+        for (Product p : products) {
+            boolean matchesAllAndConditions = true;
+
+            for (String andCondition : andSeparatedWords) {
+                String cleanedAndCondition = removeExtraSpaces(andCondition);
+                boolean matchesOrCondition = false;
+
+                if (cleanedAndCondition.contains("or")) {
+                    String[] orSeparatedWords = cleanedAndCondition.split("or");
+                    for (String orCondition : orSeparatedWords) {
+                        String cleanedOrCondition = removeExtraSpaces(orCondition);
+                        if (p.getDescription().toLowerCase().contains(cleanedOrCondition) ||
+                                p.getName().toLowerCase().contains(cleanedOrCondition)) {
+                            matchesOrCondition = true;
+                            break;
+                        }
+                    }
+                } else {
+                    // Vérifie une condition AND sans OR
+                    if (p.getDescription().toLowerCase().contains(cleanedAndCondition) ||
+                            p.getName().toLowerCase().contains(cleanedAndCondition)) {
+                        matchesOrCondition = true;
+                    }
+                }
+
+                if (!matchesOrCondition) {
+                    matchesAllAndConditions = false;
+                    break;
+                }
+            }
+
+            if (matchesAllAndConditions) {
+                resultingProducts.add(p);
+            }
+        }
+
+        return resultingProducts;
+    }
+
+
+    public String removeExtraSpaces(String input) {
+        if (input == null) {
+            return ""; // Gérer le cas où la chaîne est nulle
+        }
+        return input.trim().replaceAll("\\s+", " ");
+    }
+
+    // Filters products to return only Pants based on a given criterion.
+    public ArrayList<Product> showOnlyPants(int criteria) {
         ArrayList<Product> pants = new ArrayList<>();
-        Pants pant;
-        for(Product p : products){
-            if(p.getStock()>0 && p instanceof Pants){
-                pant = (Pants) p;
-                switch(criteria){
+        for (Product p : products) {
+            if (p.getStock() > 0 && p instanceof Pants) {
+                Pants pant = (Pants) p;
+                switch (criteria) {
                     case 1:
-                        if (pant.getIsShorts()){
-                            pants.add(pant);
+                        if (pant.getIsShorts()) {
+                            pants.add(pant); // Adds only shorts
                         }
                         break;
                     case 2:
-                        if (!pant.getIsShorts()){
-                            pants.add(pant);
+                        if (!pant.getIsShorts()) {
+                            pants.add(pant); // Adds only long pants
                         }
                         break;
                     default:
-                        pants.add(pant);
+                        pants.add(pant); // Adds all pants
                 }
             }
         }
         return pants;
     }
 
-    public ArrayList<Product> showBySize (ArrayList<Product> productsToFilter, int size){
+    // Filters a list of products to return only those of the specified size.
+    public ArrayList<Product> showBySize(ArrayList<Product> productsToFilter, int size) {
         ArrayList<Product> productsOfGivenSize = new ArrayList<>();
-        for(Product p : productsToFilter){
-            if(p.getSize() == size){
+        for (Product p : productsToFilter) {
+            if (p.getSize() == size) {
                 productsOfGivenSize.add(p);
             }
         }
         return productsOfGivenSize;
     }
 
-    public ArrayList<Product> showProductByColor(ArrayList<Product> productsToFilter,String color){
+    // Filters a list of products to return only those of the specified color.
+    public ArrayList<Product> showProductByColor(ArrayList<Product> productsToFilter, String color) {
         ArrayList<Product> productsOfGivenColor = new ArrayList<>();
-        for(Product p : productsToFilter){
-            if(p.getColor().equalsIgnoreCase(color)){
+        for (Product p : productsToFilter) {
+            if (p.getColor().equalsIgnoreCase(color)) {
                 productsOfGivenColor.add(p);
             }
         }
         return productsOfGivenColor;
     }
 
-    public ArrayList<Product> showOnlyTops (int criteria){
+    // Filters products to return only Tops based on a given criterion.
+    public ArrayList<Product> showOnlyTops(int criteria) {
         ArrayList<Product> tops = new ArrayList<>();
-        Top top;
-        for(Product p : products){
-            if(p.getStock()>0 && p instanceof Top){
-                top = (Top) p;
-                switch(criteria){
+        for (Product p : products) {
+            if (p.getStock() > 0 && p instanceof Top) {
+                Top top = (Top) p;
+                switch (criteria) {
                     case 1:
-                        if (top.getIsTshirt()){
-                            tops.add(top);
+                        if (top.getIsTshirt()) {
+                            tops.add(top); // Adds only T-shirts
                         }
                         break;
                     case 2:
-                        if (!top.getIsTshirt()){
-                            tops.add(top);
+                        if (!top.getIsTshirt()) {
+                            tops.add(top); // Adds only non-T-shirt tops
                         }
                         break;
                     default:
-                        tops.add(top);
+                        tops.add(top); // Adds all tops
                 }
             }
         }
         return tops;
     }
 
+    public ArrayList<Product> showMoreThanGivenPrice(int price){
+        ArrayList<Product> productsOfGivenPrice = new ArrayList<>();
+        for (Product p : products) {
+            if (p.getPrice() > price) {
+                productsOfGivenPrice.add(p);
+            }
+        }
+        return productsOfGivenPrice;
+    }
+
+    public ArrayList<Product> showLessThanGivenPrice(int price){
+        ArrayList<Product> productsOfGivenPrice = new ArrayList<>();
+        for (Product p : products) {
+            if (p.getPrice() < price) {
+                productsOfGivenPrice.add(p);
+            }
+        }
+        return productsOfGivenPrice;
+    }
+
+    public ArrayList<Product> showBetweenGivenPrice(int price1, int price2){
+        ArrayList<Product> productsOfGivenPrice = new ArrayList<>();
+        for (Product p : products) {
+            if (p.getPrice() >=price1 && p.getPrice() <=price2) {
+                productsOfGivenPrice.add(p);
+            }
+        }
+        return productsOfGivenPrice;
+    }
+
+
+    // Updates the stock of each product in the products list in the database.
     public void refreshProducts() {
         for (Product p : products) {
             updateProductStock(p);
         }
     }
 
+    // Helper method to update the stock of a specific product in the database.
     private void updateProductStock(Product p) {
         String sql = "UPDATE product SET stock = ? WHERE product_id = ?";
         try (PreparedStatement stmt = co.prepareStatement(sql)) {
-            System.out.println(p.getStock());
             stmt.setInt(1, p.getStock());
             stmt.setLong(2, p.getProductId());
             stmt.executeUpdate();
@@ -243,17 +345,17 @@ public class ProductManager implements DataManager<Product>{
         }
     }
 
-
     @Override
     public void addAnElement(Product product) {
-
+        // Placeholder method for adding a new product
     }
 
     @Override
     public void modifyAnElement(Product product) {
-
+        // Placeholder method for modifying an existing product
     }
 
+    // Deletes a product from the database by product ID.
     @Override
     public void deleteAnElement(Product product) {
         try {
@@ -261,15 +363,10 @@ public class ProductManager implements DataManager<Product>{
             PreparedStatement stmt = co.prepareStatement(sql);
             stmt.setLong(1, product.getProductId());
             stmt.executeUpdate();
-        }
-        catch(SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
-
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
     }
-
-
 }

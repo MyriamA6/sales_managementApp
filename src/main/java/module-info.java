@@ -2,8 +2,8 @@ module org.example.apppooproject {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
-    requires java.desktop;
     requires mysql.connector.java;
+    requires javafx.graphics;
 
     opens org.apppooproject to javafx.fxml;
     exports org.apppooproject;
