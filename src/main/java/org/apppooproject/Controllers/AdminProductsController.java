@@ -330,6 +330,7 @@ public class AdminProductsController {
             }
             pantsSubMenu.setDisable(false);
             topSubMenu.setDisable(false);
+            productManager.modifyAnElement(selectedProduct);
             showAlert("Product modified", "The product has been modified successfully");
         }
         else{
