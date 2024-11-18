@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckMenuItem?>
 <?import javafx.scene.control.MenuButton?>
@@ -20,15 +21,16 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Text>
-      <TableView fx:id="products" layoutX="25.0" layoutY="217.0" prefHeight="163.0" prefWidth="624.0">
+      <TableView fx:id="products" layoutX="25.0" layoutY="217.0" onMouseClicked="#onRowClicked" prefHeight="163.0" prefWidth="624.0">
          <columns>
-            <TableColumn fx:id="productName" prefWidth="78.66665649414062" text="Product" />
-            <TableColumn fx:id="productType" prefWidth="47.333343505859375" text="Type" />
-            <TableColumn fx:id="productQuantity" prefWidth="101.99996948242188" text="Quantity" />
-            <TableColumn fx:id="productPrice" prefWidth="82.0" text="Price" />
-            <TableColumn fx:id="productSize" prefWidth="64.00006103515625" text="Size" />
-            <TableColumn fx:id="productColor" prefWidth="86.6666259765625" text="Color" />
-            <TableColumn fx:id="productDescription" prefWidth="160.66665649414062" text="Description" />
+            <TableColumn fx:id="productName" prefWidth="89.99996757507324" text="Product" />
+            <TableColumn fx:id="productType" prefWidth="79.3333511352539" text="Type" />
+            <TableColumn fx:id="productStock" prefWidth="63.33329772949219" text="Stock" />
+            <TableColumn fx:id="productPrice" prefWidth="57.3333740234375" text="Price" />
+            <TableColumn fx:id="productGender" prefWidth="62.6666259765625" text="Gender" />
+            <TableColumn fx:id="productSize" prefWidth="62.0" text="Size" />
+            <TableColumn fx:id="productColor" prefWidth="72.0" text="Color" />
+            <TableColumn fx:id="productDescription" prefWidth="140.66665649414062" text="Description" />
          </columns>
       </TableView>
       <HBox layoutX="79.0" layoutY="130.0" prefHeight="39.0" prefWidth="535.0" spacing="30.0">
@@ -68,11 +70,11 @@
       <HBox layoutX="79.0" layoutY="87.0" prefHeight="36.0" prefWidth="515.0" spacing="30.0">
          <children>
             <TextField fx:id="productNameField" promptText="Name for the product" />
-            <MenuButton mnemonicParsing="false" prefHeight="29.0" prefWidth="90.0" text="Type">
+            <MenuButton fx:id="type_button" mnemonicParsing="false" prefHeight="29.0" prefWidth="90.0" text="Type">
                <items>
-                  <CheckMenuItem fx:id="pantsSubMenu" mnemonicParsing="false">
+                  <CheckMenuItem mnemonicParsing="false">
                      <graphic>
-                        <MenuButton mnemonicParsing="false" text="Pants">
+                        <MenuButton fx:id="pantsSubMenu" mnemonicParsing="false" text="Pants">
                           <items>
                             <RadioMenuItem fx:id="regular_button" mnemonicParsing="false" text="Regular" />
                             <RadioMenuItem fx:id="shorts_button" mnemonicParsing="false" text="Shorts" />
@@ -103,5 +105,6 @@
             <RadioMenuItem fx:id="modification_button" mnemonicParsing="false" text="Modification mode" />
          </items>
       </MenuButton>
+      <Accordion />
    </children>
 </AnchorPane>

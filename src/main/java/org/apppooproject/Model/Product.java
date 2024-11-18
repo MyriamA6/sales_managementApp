@@ -21,6 +21,16 @@ public abstract class Product {
         this.gender = gender;
     }
 
+    public Product(String name, double price, int stock, String color,int size, String description, String gender) {
+        this.name = name;
+        this.price = price;
+        this.stock = stock;
+        this.size=size;
+        this.color = color;
+        this.description = description;
+        this.gender = gender;
+    }
+
     public long getProductId() {
         return productId;
     }
@@ -41,6 +51,10 @@ public abstract class Product {
 
     public int getSize() {
         return size;
+    }
+
+    public void setProductId(long productId) {
+        this.productId = productId;
     }
 
     public void setStock(int stock) {

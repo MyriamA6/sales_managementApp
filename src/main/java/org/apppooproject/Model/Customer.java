@@ -80,7 +80,7 @@ public class Customer {
 
     public Order payCart(){
         ProductManager productManager = ProductManager.getInstance();
-        productManager.refreshProducts();
+        productManager.refreshProductsStock();
 
         cart.clear();
         return null;

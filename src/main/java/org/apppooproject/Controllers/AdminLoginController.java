@@ -7,7 +7,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import org.apppooproject.Model.Admin;
-import org.apppooproject.Model.Customer;
 import org.apppooproject.Views.ViewModel;
 
 public class AdminLoginController {
@@ -23,6 +22,10 @@ public class AdminLoginController {
 
     @FXML
     private Label error_label;
+
+    public void initialize() {
+        error_label.setVisible(false);
+    }
 
     @FXML
     void connectionToUserAccountAction(ActionEvent event) {

@@ -333,7 +333,7 @@ public class ProductManager implements DataManager<Product> {
 
 
     // Updates the stock of each product in the products list in the database.
-    public void refreshProducts() {
+    public void refreshProductsStock() {
         for (Product p : products) {
             updateProductStock(p);
         }
@@ -353,24 +353,121 @@ public class ProductManager implements DataManager<Product> {
 
     @Override
     public void addAnElement(Product product) {
-        // Placeholder method for adding a new product
+        try {
+            // Étape 1 : Insertion dans la table Product
+            String sqlProduct = "INSERT INTO Product (name, price, stock, gender, color, size, description) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement stmtProduct = co.prepareStatement(sqlProduct, Statement.RETURN_GENERATED_KEYS);
+            stmtProduct.setString(1, product.getName());
+            stmtProduct.setDouble(2, product.getPrice());
+            stmtProduct.setInt(3, product.getStock());
+            stmtProduct.setString(4, product.getGender());
+            stmtProduct.setString(5, product.getColor());
+            stmtProduct.setInt(6, product.getSize());
+            stmtProduct.setString(7, product.getDescription());
+            stmtProduct.executeUpdate();
+
+            // Récupération de l'ID généré
+            ResultSet generatedKeys = stmtProduct.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                long productId = generatedKeys.getLong(1);
+                product.setProductId(productId);
+
+                // Étape 2 : Insertion dans la table Pants ou Top
+                if (product instanceof Pants) {
+                    Pants pants = (Pants) product;
+                    String length = pants.getIsShorts() ? "Shorts" : "Regular";
+                    String sqlPants = "INSERT INTO Pants (product_id, length) VALUES (?, ?)";
+                    PreparedStatement stmtPants = co.prepareStatement(sqlPants);
+                    stmtPants.setLong(1, productId);
+                    stmtPants.setString(2, length);
+                    stmtPants.executeUpdate();
+                } else if (product instanceof Top) {
+                    Top top = (Top) product;
+                    String sleevesType = top.getIsTshirt() ? "T-shirt" : "Sweater";
+                    String sqlTop = "INSERT INTO Top (product_id, sleevesType) VALUES (?, ?)";
+                    PreparedStatement stmtTop = co.prepareStatement(sqlTop);
+                    stmtTop.setLong(1, productId);
+                    stmtTop.setString(2, sleevesType);
+                    stmtTop.executeUpdate();
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error adding product: " + e.getMessage());
+        }
     }
+
 
     @Override
     public void modifyAnElement(Product product) {
-        // Placeholder method for modifying an existing product
+        try {
+            // Étape 1 : Mise à jour de la table Product
+            String sqlProduct = "UPDATE Product SET name = ?, price = ?, stock = ?, gender = ?, color = ?, size = ?, description = ? " +
+                    "WHERE product_id = ?";
+            PreparedStatement stmtProduct = co.prepareStatement(sqlProduct);
+            stmtProduct.setString(1, product.getName());
+            stmtProduct.setDouble(2, product.getPrice());
+            stmtProduct.setInt(3, product.getStock());
+            stmtProduct.setString(4, product.getGender());
+            stmtProduct.setString(5, product.getColor());
+            stmtProduct.setInt(6, product.getSize());
+            stmtProduct.setString(7, product.getDescription());
+            stmtProduct.setLong(8, product.getProductId());
+            stmtProduct.executeUpdate();
+
+            // Étape 2 : Mise à jour de Pants ou Top selon le type
+            if (product instanceof Pants) {
+                Pants pants = (Pants) product;
+                String length = pants.getIsShorts() ? "Shorts" : "Regular";
+                String sqlPants = "UPDATE Pants SET length = ? WHERE product_id = ?";
+                PreparedStatement stmtPants = co.prepareStatement(sqlPants);
+                stmtPants.setString(1, length);
+                stmtPants.setLong(2, product.getProductId());
+                stmtPants.executeUpdate();
+            } else if (product instanceof Top) {
+                Top top = (Top) product;
+                String sleevesType = top.getIsTshirt() ? "T-shirt" : "Sweater";
+                String sqlTop = "UPDATE Top SET sleevesType = ? WHERE product_id = ?";
+                PreparedStatement stmtTop = co.prepareStatement(sqlTop);
+                stmtTop.setString(1, sleevesType);
+                stmtTop.setLong(2, product.getProductId());
+                stmtTop.executeUpdate();
+            }
+        } catch (SQLException e) {
+            System.out.println("Error modifying product: " + e.getMessage());
+        }
     }
+
 
     // Deletes a product from the database by product ID.
     @Override
     public void deleteAnElement(Product product) {
         try {
-            String sql = "DELETE from Product where product_id=? ";
-            PreparedStatement stmt = co.prepareStatement(sql);
-            stmt.setLong(1, product.getProductId());
-            stmt.executeUpdate();
+            // Step 1: Delete from the Pants table if the product is of type Pants
+            if (product instanceof Pants) {
+                String sqlPants = "DELETE FROM Pants WHERE product_id = ?";
+                PreparedStatement stmtPants = co.prepareStatement(sqlPants);
+                stmtPants.setLong(1, product.getProductId());
+                stmtPants.executeUpdate();
+            }
+
+            // Step 2: Delete from the Top table if the product is of type Top
+            if (product instanceof Top) {
+                String sqlTop = "DELETE FROM Top WHERE product_id = ?";
+                PreparedStatement stmtTop = co.prepareStatement(sqlTop);
+                stmtTop.setLong(1, product.getProductId());
+                stmtTop.executeUpdate();
+            }
+
+            // Step 3: Delete from the Product table
+            String sqlProduct = "DELETE FROM Product WHERE product_id = ?";
+            PreparedStatement stmtProduct = co.prepareStatement(sqlProduct);
+            stmtProduct.setLong(1, product.getProductId());
+            stmtProduct.executeUpdate();
+            refresh();
+
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Error deleting product: " + e.getMessage());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -53,13 +53,15 @@ public class LoginController {
 
     // Action liée au clic sur l'hyperlien pour la création de compte
     @FXML
-    public void handleHyperlinkAdminConnection() {
+    public void handleHyperlinkAdminConnection(ActionEvent event) {
+        ViewModel.getInstance().getViewFactory().closeCurrentWindow(event);
         ViewModel.getInstance().getViewFactory().showAdminLoginWindow();
     }
 
     // Action liée au clic sur l'hyperlien pour la création de compte
     @FXML
-    public void handleHyperlinkAccountCreation() {
+    public void handleHyperlinkAccountCreation(ActionEvent event) {
+        ViewModel.getInstance().getViewFactory().closeCurrentWindow(event);
         ViewModel.getInstance().getViewFactory().showSignUpWindow();
     }
 

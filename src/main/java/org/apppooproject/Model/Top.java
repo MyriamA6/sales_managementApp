@@ -8,5 +8,10 @@ public class Top extends Product {
         this.isTshirt = isTshirt;
     }
 
+    public Top(String name, double price, int stock,int size, String color, String description, String gender,boolean isTshirt) {
+        super(name, price, stock, color,size, description, gender);
+        this.isTshirt = isTshirt;
+    }
+
     public boolean getIsTshirt(){ return isTshirt; }
 }

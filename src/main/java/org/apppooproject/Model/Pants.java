@@ -7,6 +7,10 @@ public class Pants extends Product {
         super(productId, name, price, stock, color, size, description, gender);
         this.isShorts = isShorts;
     }
+    public Pants(String name, double price, int stock,int size, String color, String description, String gender, boolean isShorts) {
+        super(name, price, stock, color, size, description, gender);
+        this.isShorts = isShorts;
+    }
 
     public boolean getIsShorts() {return isShorts;}
 }
