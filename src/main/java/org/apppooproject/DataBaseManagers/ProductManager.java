@@ -396,6 +396,15 @@ public class ProductManager implements DataManager<Product> {
             System.out.println("Error adding product: " + e.getMessage());
         }
     }
+    // Mettre à jour le stock d'un produit
+    public void updateStock(long productId, int quantityToAdd) throws SQLException {
+        String query = "UPDATE Product SET stock = stock + ? WHERE product_id = ?";
+        try (PreparedStatement stmt = co.prepareStatement(query)) {
+            stmt.setInt(1, quantityToAdd);
+            stmt.setLong(2, productId);
+            stmt.executeUpdate();
+        }
+    }
 
 
     @Override

@@ -16,12 +16,12 @@
             <Button fx:id="account_button" mnemonicParsing="false" onAction="#onClickGoToAccount" text="Account" />
          </children>
       </HBox>
-      <Text fill="#ba2fa9" layoutX="383.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ORDERS" wrappingWidth="93.99997965494794">
+      <Text fill="#ba2fa9" layoutX="292.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ORDERS" wrappingWidth="93.99997965494794">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Text>
-      <TableView fx:id="orders" layoutX="17.0" layoutY="86.0" prefHeight="290.0" prefWidth="565.0">
+      <TableView fx:id="orders" layoutX="17.0" layoutY="92.0" prefHeight="271.0" prefWidth="565.0">
          <columns>
             <TableColumn fx:id="orderID" prefWidth="102.6666259765625" text="orderID" />
             <TableColumn fx:id="orderDate" prefWidth="105.33334350585938" text="Date" />
@@ -29,5 +29,6 @@
             <TableColumn fx:id="orderStatus" prefWidth="164.66668701171875" text="Status" />
          </columns>
       </TableView>
+      <Button layoutX="444.0" layoutY="33.0" mnemonicParsing="false" onAction="#onClickGenerateAssociatedInvoice" text="Generate Invoice" />
    </children>
 </AnchorPane>

@@ -10,15 +10,23 @@ import java.util.List;
 public class InvoiceManager implements DataManager<Invoice> {
 
     private Connection connection;
+    private static InvoiceManager instance;
 
     // Constructeur pour initialiser la connexion
-    public InvoiceManager(Connection connection) {
+    private InvoiceManager() {
         try {
             this.connection = DriverManager.getConnection(
                     "jdbc:mysql://127.0.0.1:3306/baseSchema?useSSL=false", "root", "vautotwu");
         } catch (SQLException e) {
             throw new RuntimeException("Erreur de connexion à la base de données : " + e.getMessage());
         }
+    }
+
+    public static InvoiceManager getInstance() {
+        if (instance == null) {
+            instance = new InvoiceManager();
+        }
+        return instance;
     }
 
     // Implémentation de la méthode addAnElement pour ajouter une facture
@@ -96,12 +104,29 @@ public class InvoiceManager implements DataManager<Invoice> {
 
     // Méthode pour créer une facture à partir d'une commande
     public Invoice createInvoice(Order order) {
-        if (order.getState().equalsIgnoreCase("completed")) {
+        if (order.getState().equalsIgnoreCase("confirmed")) {
             Invoice invoice = new Invoice(order.getOrderId(), order.getDateOrder());
             addAnElement(invoice); // Ajoute la facture à la base de données
             return invoice;
         } else {
             throw new IllegalStateException("La commande n'est pas complétée, la facture ne peut pas être créée.");
         }
+    }
+
+    public Invoice getInvoiceByOrderId(long orderId) {
+        String query = "SELECT * FROM invoice WHERE order_id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1, orderId);
+            System.out.println("here");
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                long invoiceId = resultSet.getLong("invoice_id");
+                java.sql.Date invoiceDate = resultSet.getDate("invoice_date");
+                return new Invoice(invoiceId, orderId, invoiceDate);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

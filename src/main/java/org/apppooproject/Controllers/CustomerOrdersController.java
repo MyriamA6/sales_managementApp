@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import org.apppooproject.DataBaseManagers.CustomerManager;
+import org.apppooproject.DataBaseManagers.InvoiceManager;
 import org.apppooproject.DataBaseManagers.OrderManager;
 import org.apppooproject.Model.Customer;
 import org.apppooproject.Model.Order;
@@ -52,6 +53,22 @@ public class CustomerOrdersController {
         orders.getItems().clear();
         orders.getItems().addAll(customerOrders);
     }
+
+    @FXML
+    void onClickGenerateAssociatedInvoice(ActionEvent event) {
+        Order order = orders.getSelectionModel().getSelectedItem();
+        if (order != null && !(order.getState()).equalsIgnoreCase("in progress")) {
+            InvoiceManager.getInstance().getInvoiceByOrderId(order.getOrderId()).generateInvoice();
+        }
+        else{
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Order not confirmed yet");
+            alert.setHeaderText(null);
+            alert.setContentText("Wait for the confirmation of the order to generate its invoice.");
+            alert.showAndWait(); // Affiche l'alerte et attend que l'utilisateur la ferme
+        }
+    }
+
 
     @FXML
     void onClickGoToAccount(ActionEvent event) {

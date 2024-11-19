@@ -81,6 +81,7 @@ public class Customer {
 
 
     public void payCart() {
+        ProductManager.getInstance().refreshProductsStock();
         // Create a new order and set its initial state to "in progress"
         Order order = new Order(
                 0, // Will be set by the database (auto-incremented)

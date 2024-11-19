@@ -8,6 +8,7 @@ import org.apppooproject.Model.Top;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class OrderManager implements DataManager<Order> {
     private static OrderManager instance;
@@ -219,7 +220,7 @@ public class OrderManager implements DataManager<Order> {
                             rs.getString("sleevesType").equalsIgnoreCase("T-shirt")
                     );
                 } else {
-                    throw new RuntimeException("Produit inconnu !");
+                    throw new RuntimeException("Unknown product !");
                 }
                 content.put(product, rs.getInt("quantity_ordered"));
             }
@@ -228,4 +229,19 @@ public class OrderManager implements DataManager<Order> {
         }
         return content;
     }
+
+
+    // Mettre à jour l'état de la commande (annulée)
+    public void updateOrderState(long orderId, String newState){
+        String query = "UPDATE Order_record SET order_state = ? WHERE order_id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, newState);
+            stmt.setLong(2, orderId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 }

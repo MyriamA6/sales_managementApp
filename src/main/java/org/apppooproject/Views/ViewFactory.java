@@ -50,15 +50,15 @@ public class ViewFactory {
         createStage(loader);
     }
 
+    public void showAdminOrdersManager(){
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/sceneBuilderFiles/Admin/ordersManager.fxml"));
+        createStage(loader);
+    }
+
     public void closeCurrentWindow(ActionEvent event) {
         // Ferme la fenêtre actuelle
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         currentStage.close();
-    }
-
-    public void showAdminModificationsWindow(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/sceneBuilderFiles/Admin/adminModifications.fxml"));
-        createStage(loader);
     }
 
     private void createStage(FXMLLoader loader){

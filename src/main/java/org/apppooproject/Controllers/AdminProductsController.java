@@ -13,6 +13,7 @@ import org.apppooproject.Model.Customer;
 import org.apppooproject.Model.Pants;
 import org.apppooproject.Model.Product;
 import org.apppooproject.Model.Top;
+import org.apppooproject.Views.ViewModel;
 
 import java.util.ArrayList;
 
@@ -370,6 +371,12 @@ public class AdminProductsController {
         resetFields();
         type_button.setDisable(false);
 
+    }
+
+    @FXML
+    void onClickGoToOrdersManager(ActionEvent event) {
+        ViewModel.getInstance().getViewFactory().closeCurrentWindow(event);
+        ViewModel.getInstance().getViewFactory().showAdminOrdersManager();
     }
 
 
