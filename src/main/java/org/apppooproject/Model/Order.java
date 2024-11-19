@@ -5,104 +5,132 @@ import java.util.Date;
 import java.util.List;
 
 public class Order {
-    private long orderId;
+    
+    private long id;
     private long customerId;
-    private Date orderDate;
-    private double totalPrice;
-    private OrderStatus status;
-    private Invoice invoice;
-    private List<Product> content; 
+    private Date dateOrder;
+    private int totalPrice;
+    private String champ;
+    private State state;
+    private List<Product> content;
 
-    public enum OrderStatus {
-        IN_PROGRESS("in progress"),
-        CONFIRMED("confirmed"),
-        CANCELED("canceled"),
-        DELIVERED("delivered");
-
-        private String status;
-
-        // Constructeur privé
-        OrderStatus(String status) {
-            this.status = status;
-        }
-
-        // Getter pour l'attribut
-        public String getStatus() {
-            return status;
-        }
+    public enum State {
+    	IN_PROGRESS, // En cours
+        CONFIRMED, // Validée
+        CANCELED, // Annulée
+        PROCESSED // Traitée
     }
 
     
-    public Order(long orderId, long customerId) {
-        this.orderId = orderId;
+    public Order(long id, long customerId, int totalPrice, Date dateOrder, State state) {
+        this.id = id;
         this.customerId = customerId;
-        this.orderDate = new Date(); 
-        this.status = OrderStatus.IN_PROGRESS;
-        this.content = new ArrayList<>(); 
-        this.totalPrice = 0.0;
-        this.invoice = new Invoice(orderId,customerId,orderDate);
+        this.totalPrice = totalPrice;
+        this.dateOrder = dateOrder;
+        this.state = state;
+        this.content = new ArrayList<>();
     }
 
     
-    public double calculateTotalPrice() {
-    	totalPrice = 0.0; 
-        for (Product product : content) {
-        	totalPrice += product.getPrice();
-        }
-        this.invoice.setTotalPrice(totalPrice);
-        return totalPrice;
+    public long getId() {
+        return id;
     }
 
-
-    public void validateOrder() {
-        if (status == OrderStatus.IN_PROGRESS) {
-            status = OrderStatus.CONFIRMED;
-        }
-    }
-
-
-    public void cancelOrder() {
-        if (status == OrderStatus.IN_PROGRESS) {
-            status = OrderStatus.CANCELED;
-        }
-    }
-
-
-    public void addProductToOrder(Product product, int quantity) {
-        for (int i = 0; i < quantity; i++) {
-            content.add(product);
-        }
-        calculateTotalPrice(); 
-    }
-
-
-    public void removeProductFromOrder(Product product) {
-        content.remove(product);
-        calculateTotalPrice(); 
-    }
-
- 
-    public long getOrderId() {
-        return orderId;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public long getCustomerId() {
         return customerId;
     }
 
-    public Date getOrderDate() {
-        return orderDate;
+    public void setCustomerId(long customerId) {
+        this.customerId = customerId;
     }
 
-    public double getTotalPrice() {
+    public Date getDateOrder() {
+        return dateOrder;
+    }
+
+    public void setDateOrder(Date dateOrder) {
+        this.dateOrder = dateOrder;
+    }
+
+    public int getTotalPrice() {
         return totalPrice;
     }
 
-    public OrderStatus getStatus() {
-        return status;
+    public void setTotalPrice(int totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public String getChamp() {
+        return champ;
+    }
+
+    public void setChamp(String champ) {
+        this.champ = champ;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
     }
 
     public List<Product> getContent() {
         return content;
+    }
+
+    public void setContent(List<Product> content) {
+        this.content = content;
+    }
+
+
+    public int calculateTotalPrice() {
+        int total = 0;
+        for (Product product : content) {
+            total += product.getPrice(); 
+        }
+        return total;
+    }
+
+
+    public void validateOrder() {
+        if (this.state == State.IN_PROGRESS) {
+            this.state = State.CONFIRMED;
+        }
+    }
+
+
+    public void cancelOrder() {
+        if (this.state == State.IN_PROGRESS) {
+            this.state = State.CANCELED;
+        }
+    }
+
+
+    public void addProductToOrder(Product product, int quantity) {
+        for (int i = 0; i < quantity; i++) {
+            this.content.add(product);
+        }
+    }
+
+
+    public static Order makeAnOrder(List<Product> products, Customer customer) {
+        Order order = new Order(0, customer.getId(), 0, new Date(), State.IN_PROGRESS);
+        for (Product product : products) {
+            order.addProductToOrder(product, 1); 
+        }
+        order.totalPrice = order.calculateTotalPrice();
+        return order;
+    }
+
+
+    public void removeProductFromOrder(Product product) {
+        this.content.remove(product);
+        this.totalPrice = calculateTotalPrice(); 
     }
 }
