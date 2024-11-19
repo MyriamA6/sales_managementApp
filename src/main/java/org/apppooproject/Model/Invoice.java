@@ -1,96 +1,122 @@
 package org.apppooproject.Model;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Date;
-import java.util.List;
+import java.util.Map;
 
 public class Invoice {
 
-    private long id;
-    private long customerId;
-    private int totalPrice;
-    private Date dateInvoice;
+    private long invoiceId;
+    private long orderId;
+    private Date invoiceDate;
 
-    public Invoice(long id, long customerId, int totalPrice, Date dateInvoice) {
-        this.id = id;
-        this.customerId = customerId;
-        this.totalPrice = totalPrice;
-        this.dateInvoice = dateInvoice;
+    // Constructeur avec invoiceId (pour récupérer les factures existantes)
+    public Invoice(long invoiceId, long orderId, Date invoiceDate) {
+        this.invoiceId = invoiceId;
+        this.orderId = orderId;
+        this.invoiceDate = invoiceDate;
     }
 
-    public long getId() {
-        return id;
+    // Constructeur pour créer une nouvelle facture sans invoiceId (utilisé lors de l'ajout d'une nouvelle facture)
+    public Invoice(long orderId, Date invoiceDate) {
+        this.orderId = orderId;
+        this.invoiceDate = invoiceDate;
     }
 
-    public long getCustomerId() {
-        return customerId;
+    // Getter et Setter pour chaque attribut
+    public long getInvoiceId() {
+        return invoiceId;
     }
 
-    public int getTotalPrice() {
-        return totalPrice;
+    public void setInvoiceId(long invoiceId) {
+        this.invoiceId = invoiceId;
     }
 
-    public void setTotalPrice(int totalPrice) {
-        this.totalPrice = totalPrice;
+    public long getOrderId() {
+        return orderId;
     }
 
-    public Date getDateInvoice() {
-        return dateInvoice;
+    public void setOrderId(long orderId) {
+        this.orderId = orderId;
     }
 
-    public void setDateInvoice(Date dateInvoice) {
-        this.dateInvoice = dateInvoice;
+    public Date getInvoiceDate() {
+        return invoiceDate;
     }
 
+    public void setInvoiceDate(Date invoiceDate) {
+        this.invoiceDate = invoiceDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Invoice{" +
+                "invoiceId=" + invoiceId +
+                ", orderId=" + orderId +
+                ", invoiceDate=" + invoiceDate +
+                '}';
+    }
 
     public void generateInvoice(Order order) {
-        String invoiceText = "Invoice\n";
-        invoiceText += "Order Number: " + order.getOrderId() + "\n";
-        invoiceText += "Date: " + order.getDateCommande() + "\n\n";
+        // Création de la première partie de la facture avec les informations générales
+        StringBuilder invoiceText = new StringBuilder();
+        invoiceText.append("Invoice\n");
+        invoiceText.append("Order Number: ").append(order.getOrderId()).append("\n");
+        invoiceText.append("Date: ").append(order.getDateOrder()).append("\n\n");
 
-
+        // Récupérer les informations du client
         Customer customer = order.getCustomer();
-        invoiceText += "Customer: " + customer.getFirstName() + " " + customer.getLastName() + "\n";
-        invoiceText += "Address: " + customer.getAddress() + "\n\n";
+        invoiceText.append("Customer: ").append(customer.getFirstName()).append(" ").append(customer.getLastName()).append("\n");
+        invoiceText.append("Address: ").append(customer.getAddress()).append("\n");
+        invoiceText.append("Email: ").append(customer.getEmail()).append("\n");
+        invoiceText.append("Phone: ").append(customer.getPhoneNumber()).append("\n\n");
 
+        // Tableau des produits commandés
+        invoiceText.append(String.format("%-20s %-10s %-5s %-10s\n", "Description", "Price", "Qty", "Total"));
 
-        invoiceText += String.format("%-20s %-10s %-5s %-10s\n", "Description", "Price", "QTY", "Total");
-        for (Product product : order.getProductList()) {
-            int totalPriceForProduct = product.getPrice() * product.getQuantity();
-            invoiceText += String.format("%-20s %-10d %-5d %-10d\n", product.getName(), product.getPrice(), product.getQuantity(), totalPriceForProduct);
+        double totalOrder = 0;
+
+        // Récupérer les produits et quantités commandées via l'ordre
+        for (Map.Entry<Product, Integer> entry : order.getContent().entrySet()) {
+            Product product = entry.getKey();
+            int quantity = entry.getValue();
+            double totalForProduct = product.getPrice() * quantity;
+
+            invoiceText.append(String.format("%-20s %-10.2f %-5d %-10.2f\n", product.getName(), product.getPrice(), quantity, totalForProduct));
+
+            // Additionner le total de la commande
+            totalOrder += totalForProduct;
         }
 
+        // Ajouter le total de la commande
+        invoiceText.append("\nTotal Order: ").append(totalOrder).append("€\n");
 
-        invoiceText += "\nTotal Order: " + order.calculateTotalPrice() + "€\n";
+        // Récupérer le dossier du client où enregistrer la facture
+        File customerFolder = new File("invoices/" + customer.getCustomerId());
 
+        // Si le dossier n'existe pas, le créer
+        if (!customerFolder.exists()) {
+            boolean created = customerFolder.mkdirs();  // Création du dossier pour le client
+            if (created) {
+                System.out.println("Folder created for customer: " + customer.getFirstName() + " " + customer.getLastName());
+            } else {
+                System.out.println("Failed to create folder for customer: " + customer.getFirstName() + " " + customer.getLastName());
+            }
+        }
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("invoice_" + this.id + ".txt"))) {
-            writer.write(invoiceText);
+        // Nom du fichier de la facture
+        File invoiceFile = new File(customerFolder, "invoice_" + order.getOrderId() + ".txt");
+
+        // Générer le fichier texte pour la facture
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(invoiceFile))) {
+            writer.write(invoiceText.toString());
+            System.out.println("Invoice generated successfully for order " + order.getOrderId());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-
-    public void displayInvoice(Order order) {
-        System.out.println("Invoice");
-        System.out.println("Order Number: " + order.getOrderId());
-        System.out.println("Date: " + order.getDateCommande());
-        System.out.println("\n");
-
-
-        Customer customer = order.getCustomer();
-        System.out.println("Customer: " + customer.getFirstName() + " " + customer.getLastName());
-        System.out.println("Address: " + customer.getAddress());
-        System.out.println("\n");
-
-
-        System.out.printf("%-20s %-10s %-5s %-10s\n", "Description", "Price", "QTY", "Total");
-        for (Product product : order.getProductList()) {
-            int totalPriceForProduct = product.getPrice() * product.getQuantity();
-            System.out.printf("%-20s %-10d %-5d %-10d\n", product.getName(), product.getPrice(), product.getQuantity(), totalPriceForProduct);
-        }
-
-
-        System.out.println("\nTotal Order: " + order.calculateTotalPrice() + "€");
-    }
 }

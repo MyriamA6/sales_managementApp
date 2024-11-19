@@ -88,7 +88,6 @@ public class CustomerController {
     void deleteTheAccount(ActionEvent event) {
         customerManager.deleteAnElement(connectedCustomer);
 
-
     }
 
     @FXML

@@ -104,7 +104,7 @@ public class CartController {
             alert.showAndWait(); // Affiche l'alerte et attend que l'utilisateur la ferme
         }
         else{
-            Order newOrder = connectedCustomer.payCart();
+            connectedCustomer.payCart();
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Order successful");
             alert.setHeaderText(null);

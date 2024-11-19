@@ -28,7 +28,7 @@ public class CustomerManager implements DataManager<Customer> {
 
     // Method to find a customer from the database based on the given username and password.
     // Returns the customer if found, otherwise returns null.
-    public Customer getCustomerByID(String username, String password) {
+    public Customer getCustomerByLogin(String username, String password) {
         String sql = "SELECT * FROM Customer WHERE login_name = ? AND user_password = ?";
         try (PreparedStatement stmt = co.prepareStatement(sql)) {
             stmt.setString(1, username);
@@ -55,6 +55,22 @@ public class CustomerManager implements DataManager<Customer> {
             e.printStackTrace();
         }
         return null;
+    }
+
+
+    public Customer getCustomerById(long id) {
+        String sql = "SELECT * FROM Customer WHERE customer_id = ?";
+        PreparedStatement stmt = null;
+        try {
+            stmt = co.prepareStatement(sql);
+            stmt.setLong(1, id);
+            ResultSet res = stmt.executeQuery();
+            Customer customer = createNewCustomer(res); // Helper method to create a Customer from ResultSet
+            stmt.close();
+            return customer;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     // Return a customer from the database based on the provided email, if it exists.

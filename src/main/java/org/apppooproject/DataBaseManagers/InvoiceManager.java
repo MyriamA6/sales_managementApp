@@ -1,115 +1,107 @@
 package org.apppooproject.DataBaseManagers;
 
-import org.apppooproject.Model.Customer;
 import org.apppooproject.Model.Invoice;
 import org.apppooproject.Model.Order;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 
+public class InvoiceManager implements DataManager<Invoice> {
 
-public class InvoiceManager implements DataManager {
+    private Connection connection;
 
-    private static InvoiceManager instance;
-    private Connection co;
-
-    public static InvoiceManager getInstance() {
-        if (instance == null) {
-            instance = new InvoiceManager();
+    // Constructeur pour initialiser la connexion
+    public InvoiceManager(Connection connection) {
+        try {
+            this.connection = DriverManager.getConnection(
+                    "jdbc:mysql://127.0.0.1:3306/baseSchema?useSSL=false", "root", "vautotwu");
+        } catch (SQLException e) {
+            throw new RuntimeException("Erreur de connexion à la base de données : " + e.getMessage());
         }
-        return instance;
     }
 
+    // Implémentation de la méthode addAnElement pour ajouter une facture
     @Override
-    public void addAnElement(Connection co, Invoice invoice) {
-        this.co = co;
-        String query = "INSERT INTO invoices (customer_id, total_price, date_invoice, status) VALUES (?, ?, ?, ?)";
-        try {
-            PreparedStatement stmt = co.prepareStatement(query);
-            stmt.setLong(1, invoice.getCustomerId());
-            stmt.setInt(2, invoice.calculateTotalPrice());
-            stmt.setDate(3, new java.sql.Date(invoice.getDateInvoice().getTime()));
-            stmt.setString(4, invoice.getStatus().toString());
-            stmt.executeUpdate();
-        } catch (SQLException e) {
+    public void addAnElement(Invoice invoice) {
+        String query = "INSERT INTO Invoice (order_id, invoice_date) VALUES (?, ?)";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1, invoice.getOrderId());
+            statement.setDate(2, new java.sql.Date(invoice.getInvoiceDate().getTime()));
+            statement.executeUpdate();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    // Implémentation de la méthode modifyAnElement pour modifier une facture
     @Override
-    public void modifyAnElement(Connection co, Invoice invoice) {
-        this.co = co;
-        String query = "UPDATE invoices SET total_price = ?, status = ? WHERE id = ?";
-        try {
-            PreparedStatement stmt = co.prepareStatement(query);
-            stmt.setInt(1, invoice.calculateTotalPrice());
-            stmt.setString(2, invoice.getStatus().toString());
-            stmt.setLong(3, invoice.getId());
-            stmt.executeUpdate();
-        } catch (SQLException e) {
+    public void modifyAnElement(Invoice invoice) {
+        String query = "UPDATE Invoice SET invoice_date = ? WHERE invoice_id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setDate(1, new java.sql.Date(invoice.getInvoiceDate().getTime()));
+            statement.setLong(2, invoice.getInvoiceId());
+            statement.executeUpdate();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    // Implémentation de la méthode deleteAnElement pour supprimer une facture
     @Override
-    public void deleteAnElement(Connection co, Invoice invoice) {
-        this.co = co;
-        String query = "DELETE FROM invoices WHERE id = ?";
-        try {
-            PreparedStatement stmt = co.prepareStatement(query);
-            stmt.setLong(1, invoice.getId());
-            stmt.executeUpdate();
-        } catch (SQLException e) {
+    public void deleteAnElement(Invoice invoice) {
+        String query = "DELETE FROM Invoice WHERE invoice_id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1, invoice.getInvoiceId());
+            statement.executeUpdate();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public List<Invoice> getAllInvoices(Connection co, Customer customer) {
-        List<Invoice> invoices = new ArrayList<>();
-        String query = "SELECT * FROM invoices WHERE customer_id = ?";
-        try {
-            PreparedStatement stmt = co.prepareStatement(query);
-            stmt.setLong(1, customer.getId());
-            ResultSet resultSet = stmt.executeQuery();
-            while (resultSet.next()) {
-                long id = resultSet.getLong("id");
-                long customerId = resultSet.getLong("customer_id");
-                int totalPrice = resultSet.getInt("total_price");
-                Date dateInvoice = resultSet.getDate("date_invoice");
-                Invoice.Status status = Invoice.Status.valueOf(resultSet.getString("status"));
-                Invoice invoice = new Invoice(id, customerId, totalPrice, new Date(dateInvoice.getTime()), status);
-                invoices.add(invoice);
+    // Méthode pour récupérer une facture par son ID
+    public Invoice getInvoiceById(long invoiceId) {
+        String query = "SELECT * FROM Invoice WHERE invoice_id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setLong(1, invoiceId);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                long orderId = resultSet.getLong("order_id");
+                java.sql.Date invoiceDate = resultSet.getDate("invoice_date");
+                return new Invoice(invoiceId, orderId, invoiceDate);
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    // Méthode pour récupérer toutes les factures
+    public List<Invoice> getAllInvoices() {
+        List<Invoice> invoices = new ArrayList<>();
+        String query = "SELECT * FROM Invoice";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                long invoiceId = resultSet.getLong("invoice_id");
+                long orderId = resultSet.getLong("order_id");
+                java.sql.Date invoiceDate = resultSet.getDate("invoice_date");
+                invoices.add(new Invoice(invoiceId, orderId, invoiceDate));
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return invoices;
     }
 
-    public Invoice getInvoiceById(Connection co, int invoiceId) {
-        Invoice invoice = null;
-        String query = "SELECT * FROM invoices WHERE id = ?";
-        try {
-            PreparedStatement stmt = co.prepareStatement(query);
-            stmt.setInt(1, invoiceId);
-            ResultSet resultSet = stmt.executeQuery();
-            if (resultSet.next()) {
-                long id = resultSet.getLong("id");
-                long customerId = resultSet.getLong("customer_id");
-                int totalPrice = resultSet.getInt("total_price");
-                Date dateInvoice = resultSet.getDate("date_invoice");
-                Invoice.Status status = Invoice.Status.valueOf(resultSet.getString("status"));
-                invoice = new Invoice(id, customerId, totalPrice, new Date(dateInvoice.getTime()), status);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+    // Méthode pour créer une facture à partir d'une commande
+    public Invoice createInvoice(Order order) {
+        if (order.getState().equalsIgnoreCase("completed")) {
+            Invoice invoice = new Invoice(order.getOrderId(), order.getDateOrder());
+            addAnElement(invoice); // Ajoute la facture à la base de données
+            return invoice;
+        } else {
+            throw new IllegalStateException("La commande n'est pas complétée, la facture ne peut pas être créée.");
         }
-        return invoice;
     }
 }
-

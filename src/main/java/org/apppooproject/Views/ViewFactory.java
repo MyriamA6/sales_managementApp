@@ -36,7 +36,7 @@ public class ViewFactory {
     }
 
     public void showOrdersWindow(){
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/sceneBuilderFiles/Customer/orders.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/sceneBuilderFiles/Customer/ordersView.fxml"));
         createStage(loader);
     }
 

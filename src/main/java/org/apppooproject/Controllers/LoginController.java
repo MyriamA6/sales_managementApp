@@ -39,7 +39,7 @@ public class LoginController {
     public void connectionToUserAccountAction(ActionEvent event) {
         String username = login_name.getText();
         String pwd = password.getText();
-        Customer customer = customerManager.getCustomerByID(username, pwd);
+        Customer customer = customerManager.getCustomerByLogin(username, pwd);
         if (customer!=null) {
             customerManager.setConnectedCustomer(customer);
             ViewModel.getInstance().getViewFactory().closeCurrentWindow(event);

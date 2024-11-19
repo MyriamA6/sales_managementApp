@@ -1,7 +1,9 @@
 package org.apppooproject.Model;
 
+import org.apppooproject.DataBaseManagers.OrderManager;
 import org.apppooproject.DataBaseManagers.ProductManager;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -78,12 +80,30 @@ public class Customer {
     }
 
 
-    public Order payCart(){
-        ProductManager productManager = ProductManager.getInstance();
-        productManager.refreshProductsStock();
+    public void payCart() {
+        // Create a new order and set its initial state to "in progress"
+        Order order = new Order(
+                0, // Will be set by the database (auto-incremented)
+                this,
+                cartCurrentPrice(),  // Total price calculated from the cart
+                new Date(), // Current date as the order date
+                "in progress" // Initial order state
+        );
 
+        // Add products from the cart to the order
+        ProductManager productManager = ProductManager.getInstance();
+        for (Map.Entry<Long, Integer> entry : cart.entrySet()) {
+            Product product = productManager.getProductById(entry.getKey());
+            order.addProductToOrder(product, entry.getValue());
+        }
+
+        // Use the OrderManager to persist the order and its contents in the database
+        OrderManager orderManager = OrderManager.getInstance();
+        orderManager.addAnElement(order);
+
+        // Clear the cart after the order is created
         cart.clear();
-        return null;
+
     }
 
     public double cartCurrentPrice() {
