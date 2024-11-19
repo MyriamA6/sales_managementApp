@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckMenuItem?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.RadioMenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="447.0" prefWidth="673.0" stylesheets="@../styleSheetsCss/appCentralView.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.apppooproject.Controllers.AdminProductsController">
+   <children>
+      <Text fill="#ba2fa9" layoutX="229.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Product Management" wrappingWidth="216.66666666666669">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Text>
+      <TableView fx:id="products" layoutX="25.0" layoutY="217.0" onMouseClicked="#onRowClicked" prefHeight="163.0" prefWidth="624.0">
+         <columns>
+            <TableColumn fx:id="productName" prefWidth="89.99996757507324" text="Product" />
+            <TableColumn fx:id="productType" prefWidth="79.3333511352539" text="Type" />
+            <TableColumn fx:id="productStock" prefWidth="63.33329772949219" text="Stock" />
+            <TableColumn fx:id="productPrice" prefWidth="57.3333740234375" text="Price" />
+            <TableColumn fx:id="productGender" prefWidth="62.6666259765625" text="Gender" />
+            <TableColumn fx:id="productSize" prefWidth="62.0" text="Size" />
+            <TableColumn fx:id="productColor" prefWidth="72.0" text="Color" />
+            <TableColumn fx:id="productDescription" prefWidth="140.66665649414062" text="Description" />
+         </columns>
+      </TableView>
+      <HBox layoutX="79.0" layoutY="130.0" prefHeight="39.0" prefWidth="535.0" spacing="30.0">
+         <children>
+            <MenuButton mnemonicParsing="false" prefHeight="29.0" prefWidth="66.0" text="Size">
+               <items>
+                  <RadioMenuItem mnemonicParsing="false" text="XS 34" fx:id="xs_button" />
+                  <RadioMenuItem fx:id="s_button" mnemonicParsing="false" text="S 36" />
+                  <RadioMenuItem fx:id="m_button" mnemonicParsing="false" text="M 38" />
+                  <RadioMenuItem fx:id="l_button" mnemonicParsing="false" text="L 40" />
+                  <RadioMenuItem mnemonicParsing="false" text="XL 42" fx:id="xl_button" />
+               </items>
+            </MenuButton>
+            <MenuButton mnemonicParsing="false" prefHeight="29.0" prefWidth="74.0" text="Color">
+               <items>
+                  <RadioMenuItem fx:id="blue_button" mnemonicParsing="false" text="Blue" />
+                  <RadioMenuItem fx:id="green_button" mnemonicParsing="false" text="Green" />
+                  <RadioMenuItem fx:id="red_button" mnemonicParsing="false" text="Red" />
+                  <RadioMenuItem fx:id="yellow_button" mnemonicParsing="false" text="Yellow" />
+                  <RadioMenuItem fx:id="black_button" mnemonicParsing="false" text="Black" />
+                  <RadioMenuItem fx:id="white_button" mnemonicParsing="false" text="White" />
+                  <RadioMenuItem fx:id="orange_button" mnemonicParsing="false" text="Orange" />
+                  <RadioMenuItem fx:id="pink_button" mnemonicParsing="false" text="Pink" />
+                  <RadioMenuItem fx:id="grey_button" mnemonicParsing="false" text="Grey" />
+               </items>
+            </MenuButton>
+            <MenuButton mnemonicParsing="false" text="Gender">
+              <items>
+                  <RadioMenuItem fx:id="male_button" mnemonicParsing="false" text="Male" />
+                  <RadioMenuItem fx:id="female_button" mnemonicParsing="false" text="Female" />
+                  <RadioMenuItem fx:id="unisex_button" mnemonicParsing="false" text="Unisex" />
+              </items>
+            </MenuButton>
+            <TextArea fx:id="description" prefHeight="200.0" prefWidth="200.0" promptText="Description" />
+         </children>
+      </HBox>
+      <HBox layoutX="79.0" layoutY="87.0" prefHeight="36.0" prefWidth="515.0" spacing="30.0">
+         <children>
+            <TextField fx:id="productNameField" promptText="Name for the product" />
+            <MenuButton fx:id="type_button" mnemonicParsing="false" prefHeight="29.0" prefWidth="90.0" text="Type">
+               <items>
+                  <CheckMenuItem mnemonicParsing="false">
+                     <graphic>
+                        <MenuButton fx:id="pantsSubMenu" mnemonicParsing="false" text="Pants">
+                          <items>
+                            <RadioMenuItem fx:id="regular_button" mnemonicParsing="false" text="Regular" />
+                            <RadioMenuItem fx:id="shorts_button" mnemonicParsing="false" text="Shorts" />
+                          </items>
+                        </MenuButton>
+                     </graphic></CheckMenuItem>
+                  <CheckMenuItem mnemonicParsing="false">
+                     <graphic>
+                        <MenuButton fx:id="topSubMenu" mnemonicParsing="false" text="Top">
+                          <items>
+                            <RadioMenuItem fx:id="tshirt_button" mnemonicParsing="false" text="T-shirt" />
+                            <RadioMenuItem fx:id="sweater_button" mnemonicParsing="false" text="Sweater" />
+                          </items>
+                        </MenuButton>
+                     </graphic>
+                  </CheckMenuItem>
+               </items>
+            </MenuButton>
+            <TextField fx:id="quantity" promptText="Quantity" />
+            <TextField fx:id="price" prefHeight="29.0" prefWidth="91.0" promptText="Price" />
+         </children>
+      </HBox>
+      <Button layoutX="581.0" layoutY="177.0" mnemonicParsing="false" onAction="#onClickApplyChanges" prefHeight="29.0" prefWidth="57.0" text="Apply" />
+      <Button layoutX="254.0" layoutY="397.0" mnemonicParsing="false" onAction="#onClickDeleteSelectedItem" prefHeight="36.0" prefWidth="166.0" text="Delete the selected item" />
+      <MenuButton layoutX="25.0" layoutY="48.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="155.0" text="Choosen mode">
+         <items>
+            <RadioMenuItem fx:id="creation_button" mnemonicParsing="false" text="Creation mode" />
+            <RadioMenuItem fx:id="modification_button" mnemonicParsing="false" text="Modification mode" />
+         </items>
+      </MenuButton>
+      <Accordion />
+   </children>
+</AnchorPane>

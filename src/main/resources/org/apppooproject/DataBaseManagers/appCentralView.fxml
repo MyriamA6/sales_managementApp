@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fa="http://www.jensd.de/2017/fx/glyphs/fontawesome" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.apppooproject.DataBaseManagers.appCentralView">   <children>
+      <MenuBar layoutY="8.0" prefHeight="32.0" prefWidth="566.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="34.0" AnchorPane.topAnchor="0.0">
+        <menus>
+            <Menu mnemonicParsing="false" text="Clothes">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Pants" />
+                  <MenuItem mnemonicParsing="false" text="Shirt" />
+                  <MenuItem mnemonicParsing="false" text="Dress" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Accessories">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+              </items>
+            </Menu>
+          <Menu mnemonicParsing="false" text="Account">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Orders" />
+                  <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <Button layoutX="564.0" layoutY="9.0" mnemonicParsing="false" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <graphic>
+            <FontAwesomeIcon glyphName="USER" size="2em" />
+         </graphic>
+      </Button>
+   </children>
+</AnchorPane>
