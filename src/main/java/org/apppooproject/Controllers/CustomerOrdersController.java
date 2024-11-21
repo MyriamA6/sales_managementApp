@@ -10,6 +10,7 @@ import org.apppooproject.DataBaseManagers.CustomerManager;
 import org.apppooproject.DataBaseManagers.InvoiceManager;
 import org.apppooproject.DataBaseManagers.OrderManager;
 import org.apppooproject.Model.Customer;
+import org.apppooproject.Model.Invoice;
 import org.apppooproject.Model.Order;
 import org.apppooproject.Views.ViewModel;
 
@@ -58,7 +59,10 @@ public class CustomerOrdersController {
     void onClickGenerateAssociatedInvoice(ActionEvent event) {
         Order order = orders.getSelectionModel().getSelectedItem();
         if (order != null && !(order.getState()).equalsIgnoreCase("in progress")) {
-            InvoiceManager.getInstance().getInvoiceByOrderId(order.getOrderId()).generateInvoice();
+            Invoice invoice = InvoiceManager.getInstance().getInvoiceByOrderId(order.getOrderId());
+            InvoiceManager.getInstance().setSelectedInvoice(invoice);
+            invoice.generateInvoice();
+            viewModel.getViewFactory().showInvoiceDisplay();
         }
         else{
             Alert alert = new Alert(Alert.AlertType.WARNING);

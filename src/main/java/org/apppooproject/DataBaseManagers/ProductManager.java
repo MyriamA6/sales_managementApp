@@ -14,12 +14,7 @@ public class ProductManager implements DataManager<Product> {
 
     // Constructeur privé pour empêcher l'instanciation directe
     private ProductManager() {
-        try {
-            this.co = DriverManager.getConnection(
-                    "jdbc:mysql://127.0.0.1:3306/baseSchema?useSSL=false", "root", "vautotwu");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        this.co=DatabaseInitializer.getH2Connection();
         products = new ArrayList<Product>();
         loadProductFromBd();  // Charger les produits depuis la base de données
     }

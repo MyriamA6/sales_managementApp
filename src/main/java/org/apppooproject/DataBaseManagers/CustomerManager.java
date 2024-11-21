@@ -4,24 +4,19 @@ import org.apppooproject.Model.Customer;
 import java.sql.*;
 
 public class CustomerManager implements DataManager<Customer> {
-    private static CustomerManager instance;  // Instance unique de CustomerManager
-    private final Connection co;               // Connexion à la base de données
-    private Customer connectedCustomer;        // Le client connecté
+    private static CustomerManager instance;  // Instance of CustomerManager
+    private final Connection co;               // Connection to the dataBase
+    private Customer connectedCustomer;        // The connected client
 
-    // Constructeur privé pour empêcher l'instanciation directe
+    //implementation of the singleton design pattern
     private CustomerManager() {
-        try {
-            this.co = DriverManager.getConnection(
-                    "jdbc:mysql://127.0.0.1:3306/baseSchema?useSSL=false", "root", "vautotwu");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        this.co = DatabaseInitializer.getH2Connection();
     }
 
-    // Méthode pour obtenir l'instance unique de CustomerManager
+
     public static CustomerManager getInstance() {
         if (instance == null) {
-            instance = new CustomerManager();  // Création de l'instance unique
+            instance = new CustomerManager();  // Creation of the instance of CustomerManager
         }
         return instance;
     }
@@ -34,23 +29,9 @@ public class CustomerManager implements DataManager<Customer> {
             stmt.setString(1, username);
             stmt.setString(2, password);
             ResultSet res = stmt.executeQuery();
-
-            if (res.next()) {
-                long customerId = res.getLong("customer_id");
-                String firstName = res.getString("first_name");
-                String lastName = res.getString("last_name");
-                String email = res.getString("email");
-                String address = res.getString("address");
-                String phoneNumber = res.getString("phone_number");
-                String loginName = res.getString("login_name");
-                String userPassword = res.getString("user_password");
-
-                connectedCustomer = new Customer(customerId, firstName, lastName, email, address, phoneNumber, loginName, userPassword);
-                stmt.close();
-                return connectedCustomer;
-            } else {
-                System.out.println("No client found with this username or password.");
-            }
+            connectedCustomer = createCustomerFromResultSet(res);
+            stmt.close();
+            return connectedCustomer;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -58,6 +39,7 @@ public class CustomerManager implements DataManager<Customer> {
     }
 
 
+    //method to get a customer from the database using its ID
     public Customer getCustomerById(long id) {
         String sql = "SELECT * FROM Customer WHERE customer_id = ?";
         PreparedStatement stmt = null;
@@ -65,7 +47,7 @@ public class CustomerManager implements DataManager<Customer> {
             stmt = co.prepareStatement(sql);
             stmt.setLong(1, id);
             ResultSet res = stmt.executeQuery();
-            Customer customer = createNewCustomer(res); // Helper method to create a Customer from ResultSet
+            Customer customer = createCustomerFromResultSet(res);
             stmt.close();
             return customer;
         } catch (SQLException e) {
@@ -81,7 +63,7 @@ public class CustomerManager implements DataManager<Customer> {
             stmt = co.prepareStatement(sql);
             stmt.setString(1, email);
             ResultSet res = stmt.executeQuery();
-            Customer customer = createNewCustomer(res); // Helper method to create a Customer from ResultSet
+            Customer customer = createCustomerFromResultSet(res); // Helper method to create a Customer from ResultSet
             stmt.close();
             return customer;
         } catch (SQLException e) {
@@ -89,23 +71,19 @@ public class CustomerManager implements DataManager<Customer> {
         }
     }
 
-    // Method to create a Customer object from a ResultSet.
-    // Returns a Customer if data is found; otherwise, returns null.
-    public Customer createNewCustomer(ResultSet res) {
-        try {
-            if (res.next()) {
-                long customerId = res.getLong("customer_id");
-                String firstName = res.getString("first_name");
-                String lastName = res.getString("last_name");
-                String email = res.getString("email");
-                String address = res.getString("address");
-                String phoneNumber = res.getString("phone_number");
-                String loginName = res.getString("login_name");
-                String userPassword = res.getString("user_password");
-                return new Customer(customerId, firstName, lastName, email, address, phoneNumber, loginName, userPassword);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+
+    //method to create an instance of Customer using a resultSet obtained with a sql query
+    private Customer createCustomerFromResultSet(ResultSet res) throws SQLException {
+        if (res.next()) {
+            long customerId = res.getLong("customer_id");
+            String firstName = res.getString("first_name");
+            String lastName = res.getString("last_name");
+            String email = res.getString("email");
+            String address = res.getString("address");
+            String phoneNumber = res.getString("phone_number");
+            String loginName = res.getString("login_name");
+            String userPassword = res.getString("user_password");
+            return new Customer(customerId, firstName, lastName, email, address, phoneNumber, loginName, userPassword);
         }
         return null;
     }

@@ -11,15 +11,11 @@ public class InvoiceManager implements DataManager<Invoice> {
 
     private Connection connection;
     private static InvoiceManager instance;
+    private static Invoice selectedInvoice;
 
     // Constructeur pour initialiser la connexion
     private InvoiceManager() {
-        try {
-            this.connection = DriverManager.getConnection(
-                    "jdbc:mysql://127.0.0.1:3306/baseSchema?useSSL=false", "root", "vautotwu");
-        } catch (SQLException e) {
-            throw new RuntimeException("Erreur de connexion à la base de données : " + e.getMessage());
-        }
+        this.connection = DatabaseInitializer.getH2Connection();
     }
 
     public static InvoiceManager getInstance() {
@@ -128,5 +124,12 @@ public class InvoiceManager implements DataManager<Invoice> {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void setSelectedInvoice(Invoice selectedInvoice) {
+        InvoiceManager.selectedInvoice = selectedInvoice;
+    }
+    public Invoice getSelectedInvoice() {
+        return InvoiceManager.selectedInvoice;
     }
 }

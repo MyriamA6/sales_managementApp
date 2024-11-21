@@ -55,6 +55,11 @@ public class ViewFactory {
         createStage(loader);
     }
 
+    public void showInvoiceDisplay(){
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/sceneBuilderFiles/Customer/invoiceDisplay.fxml"));
+        createStage(loader);
+    }
+
     public void closeCurrentWindow(ActionEvent event) {
         // Ferme la fenêtre actuelle
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();

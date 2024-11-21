@@ -5,11 +5,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.apppooproject.DataBaseManagers.DatabaseInitializer;
 
 public class MainApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
+        //Initialization of the database
         // Charger le fichier FXML depuis le chemin des ressources
         Parent root = FXMLLoader.load(getClass().getResource("/sceneBuilderFiles/login.fxml"));
         primaryStage.setTitle("Central View");

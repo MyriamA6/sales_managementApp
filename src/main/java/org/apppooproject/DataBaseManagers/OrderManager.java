@@ -15,12 +15,7 @@ public class OrderManager implements DataManager<Order> {
     private final Connection connection;
 
     private OrderManager() {
-        try {
-            this.connection = DriverManager.getConnection(
-                    "jdbc:mysql://127.0.0.1:3306/baseSchema?useSSL=false", "root", "vautotwu");
-        } catch (SQLException e) {
-            throw new RuntimeException("Erreur de connexion à la base de données : " + e.getMessage());
-        }
+        this.connection = DatabaseInitializer.getH2Connection();
     }
 
     public static OrderManager getInstance() {

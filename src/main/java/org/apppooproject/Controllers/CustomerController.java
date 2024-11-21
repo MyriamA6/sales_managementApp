@@ -72,9 +72,6 @@ public class CustomerController {
         connectedCustomer.setPhoneNumber(phone_number.getText());
         connectedCustomer.setAddress(address.getText());
         connectedCustomer.setLoginName(login_name.getText());
-        System.out.println(new_password.getText());
-        System.out.println(new_password.getText().isEmpty());
-        System.out.println(new_password.getText().equals(" "));
         connectedCustomer.setUserPassword(new_password.getText());
         customerManager.modifyAnElement(connectedCustomer);
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -94,11 +91,6 @@ public class CustomerController {
     void goToCentralView(ActionEvent event) {
         viewModel.getViewFactory().closeCurrentWindow(event);
         viewModel.getViewFactory().showAppViewWindow();
-    }
-
-    @FXML
-    void goToInvoiceView(ActionEvent event) {
-
     }
 
     @FXML
