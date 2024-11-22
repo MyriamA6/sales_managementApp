@@ -111,7 +111,7 @@ VALUES
     ('Leggings', 30, 40, 'Female', 'Black', 36, 'Stretchable and comfortable leggings'),
     ('Shorts', 25, 35, 'Male', 'Green', 34, 'Casual summer shorts'),
     ('Jogging', 40, 28, 'Unisex', 'Grey', 38, 'Perfect for workouts'),
-    ('Pleated Pants', 65, 15, 'Female', 'Navy Blue', 36, 'Elegant pleated pants'),
+    ('Pleated Pants', 65, 15, 'Female', 'White', 36, 'Elegant pleated pants'),
     ('Joggers', 45, 20, 'Unisex', 'Olive Green', 40, 'Comfortable jogger pants');
 
 -- Insert pants into the Pants table with specific attributes
