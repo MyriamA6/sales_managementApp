@@ -123,7 +123,6 @@ VALUES
     ('Blouse', 38, 20, 'Female', 'Yellow', 36, 'Elegant blouse with subtle patterns'),
     ('Jeans', 75, 35, 'Unisex', 'Blue', 38, 'Skinny fit denim jeans'),
     ('Chino Pants', 65, 25, 'Male', 'Green', 34, 'Slim-fit chino pants for a casual look'),
-    ('Cargo Pants', 60, 15, 'Unisex', 'Black', 38, 'Utility-style cargo pants'),
     ('Leggings', 28, 40, 'Female', 'Pink', 36, 'Comfortable and flexible leggings'),
     ('Shorts', 30, 30, 'Male', 'Grey', 34, 'Relaxed-fit shorts for outdoor activities'),
     ('Jogging', 45, 20, 'Unisex', 'White', 40, 'Stylish jogger pants with elastic cuffs'),
