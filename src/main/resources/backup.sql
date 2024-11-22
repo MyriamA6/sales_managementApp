@@ -101,7 +101,7 @@ VALUES
     ('Blouse', 35, 25, 'Female', 'White', 36, 'Light cotton blouse'),
     ('Cargo Pants', 55, 10, 'Unisex', 'Black', 38, 'Practical cargo pants'),
     ('Hoodie', 45, 30, 'Unisex', 'Blue', 40, 'Warm and cozy hoodie'),
-    ('Formal Shirt', 50, 20, 'Male', 'Blue', 42, 'Elegant formal shirt');
+    ('Formal Shirt', 50, 20, 'Male', 'Blue', 42, 'Elegant formal shirt'),
     ('T-Shirt', 25, 50, 'Unisex', 'Black', 38, 'Basic cotton t-shirt'),
     ('Tank Top', 20, 40, 'Female', 'Pink', 34, 'Sleeveless tank top for summer'),
     ('Polo Shirt', 35, 25, 'Male', 'Green', 40, 'Classic short-sleeved polo shirt'),
@@ -112,7 +112,31 @@ VALUES
     ('Shorts', 25, 35, 'Male', 'Green', 34, 'Casual summer shorts'),
     ('Jogging', 40, 28, 'Unisex', 'Grey', 38, 'Perfect for workouts'),
     ('Pleated Pants', 65, 15, 'Female', 'White', 36, 'Elegant pleated pants'),
-    ('Jogging', 45, 20, 'Unisex', 'Green', 40, 'Comfortable jogger pants');
+    ('Jogging', 45, 20, 'Unisex', 'Green', 40, 'Comfortable jogger pants'),
+    ('Sweatshirt', 40, 25, 'Unisex', 'Red', 38, 'Cozy sweatshirt with a minimalist design'),
+    ('Hoodie', 50, 30, 'Unisex', 'Yellow', 40, 'Bright hoodie perfect for casual outings'),
+    ('Tank Top', 18, 35, 'Female', 'Green', 34, 'Lightweight tank top for summer'),
+    ('Formal Shirt', 55, 20, 'Male', 'White', 42, 'Classic formal shirt for office wear'),
+    ('Cardigan', 70, 15, 'Female', 'Red', 36, 'Stylish cardigan with button closure'),
+    ('T-Shirt', 22, 50, 'Unisex', 'Blue', 38, 'Soft and breathable cotton t-shirt'),
+    ('Polo Shirt', 40, 28, 'Male', 'Pink', 40, 'Comfortable polo shirt with short sleeves'),
+    ('Sweater', 55, 18, 'Male', 'Grey', 40, 'Warm knitted sweater for winter'),
+    ('Blouse', 38, 20, 'Female', 'Yellow', 36, 'Elegant blouse with subtle patterns'),
+    ('Jeans', 75, 35, 'Unisex', 'Blue', 38, 'Skinny fit denim jeans'),
+    ('Chino Pants', 65, 25, 'Male', 'Green', 34, 'Slim-fit chino pants for a casual look'),
+    ('Cargo Pants', 60, 15, 'Unisex', 'Black', 38, 'Utility-style cargo pants'),
+    ('Leggings', 28, 40, 'Female', 'Pink', 36, 'Comfortable and flexible leggings'),
+    ('Shorts', 30, 30, 'Male', 'Grey', 34, 'Relaxed-fit shorts for outdoor activities'),
+    ('Jogging', 45, 20, 'Unisex', 'White', 40, 'Stylish jogger pants with elastic cuffs'),
+    ('Pleated Pants', 70, 10, 'Female', 'Orange', 36, 'Elegant pleated pants for formal occasions'),
+    ('Jogging', 50, 22, 'Unisex', 'Red', 38, 'Sporty track pants for exercise'),
+    ('Sweatpants', 42, 18, 'Unisex', 'Yellow', 40, 'Relaxed-fit sweatpants for lounging'),
+    ('Denim Pants', 80, 15, 'Unisex', 'Blue', 38, 'Wide-leg denim pants with a vintage vibe'),
+    ('Hooded Sweatshirt', 48, 25, 'Unisex', 'Green', 38, 'Stylish hoodie with kangaroo pockets'),
+    ('Tunic', 50, 30, 'Female', 'White', 36, 'Flowy tunic perfect for summer'),
+    ('Crop Top', 25, 40, 'Female', 'Pink', 34, 'Trendy crop top for casual wear'),
+    ('Oversized T-Shirt', 35, 20, 'Unisex', 'Orange', 40, 'Comfortable oversized t-shirt'),
+    ('Wool Sweater', 60, 15, 'Male', 'Yellow', 40, 'Premium wool sweater for cold weather');
 
 -- Insert pants into the Pants table with specific attributes
 INSERT INTO Pants (product_id, length)
