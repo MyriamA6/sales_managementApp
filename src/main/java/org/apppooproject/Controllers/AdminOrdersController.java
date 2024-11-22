@@ -78,6 +78,7 @@ public class AdminOrdersController {
     @FXML
     void onRowClicked(MouseEvent event) {
         inProgress_button.setDisable(false);
+        confirmed_button.setDisable(false);
         delivered_button.setDisable(false);
         Order order = ordersTable.getSelectionModel().getSelectedItem();
         if (order != null) {
@@ -91,6 +92,7 @@ public class AdminOrdersController {
             else if (order.getState().equalsIgnoreCase("delivered")){
                 delivered_button.setSelected(true);
                 confirmed_button.setDisable(true);
+                inProgress_button.setDisable(true);
             }
         }
     }

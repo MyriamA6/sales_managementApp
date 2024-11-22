@@ -5,8 +5,12 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import org.apppooproject.DataBaseManagers.CustomerManager;
 import org.apppooproject.DataBaseManagers.ProductManager;
 import org.apppooproject.Model.Customer;
@@ -14,6 +18,7 @@ import org.apppooproject.Model.Product;
 import org.apppooproject.Model.Top;
 import org.apppooproject.Views.ViewModel;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -54,9 +59,12 @@ public class CentralViewController {
                 xs_button, s_button, m_button, l_button, xl_button,
                 isShorts_button, isRegular_button, isTshirt_button, isSweater_button
         ));
-        // Configurer la colonne productType pour afficher "Top" ou "Pants" selon le type d'objet
+
+        // Personalisation of the welcoming text
         welcomeText.setText("Welcome, "+ customerManager.getConnectedCustomer().getFirstName() + " " +
                 customerManager.getConnectedCustomer().getLastName());
+
+        // Configuration of the column that will contain the type of the products
         productType.setCellValueFactory(cellData -> {
             Product product = cellData.getValue();
             String type = (product instanceof Top) ? "Top" : "Pants";
@@ -70,7 +78,7 @@ public class CentralViewController {
         btw50_100_button.setToggleGroup(priceGroup);
         more100_button.setToggleGroup(priceGroup);
 
-        // Configurer les autres colonnes
+        // Configuration of the columns
         productName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
         productPrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getPrice()).asObject());
         productSize.setCellValueFactory(cellData-> new SimpleIntegerProperty(cellData.getValue().getSize()).asObject());
@@ -80,16 +88,16 @@ public class CentralViewController {
         setupTable();
     }
 
-    @FXML
+    /*@FXML
     void addSelectedProductToCart(ActionEvent event) {
         Product selectedProduct = products.getSelectionModel().getSelectedItem();
         if (selectedProduct != null) {
             int productAdded= connectedCustomer.addToCart(selectedProduct);
             updateTable();
         }
-    }
+    }*/
 
-    public void setupTable(){
+    private void setupTable(){
         products.getItems().addAll(productManager.getProductsInStock());
     }
 
@@ -105,14 +113,35 @@ public class CentralViewController {
         viewModel.getViewFactory().showCustomerAccountWindow();
     }
 
-    public void deselectAllButtons() {
-        for (CheckMenuItem button : buttons) {
-            button.setSelected(false);
+
+
+    // Print of the product selected with the necessary information
+    public void onProductClicked(javafx.scene.input.MouseEvent mouseEvent) {
+        Product selectedProduct = products.getSelectionModel().getSelectedItem();
+        if (selectedProduct != null) {
+            showProductDetails(selectedProduct);
         }
     }
 
+    private void showProductDetails(Product product) {
+        try {
+            Stage currentStage = (Stage) products.getScene().getWindow();
+            currentStage.close();
 
-    @FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/sceneBuilderFiles/productDetails.fxml"));
+            Parent root = loader.load();
+            ProductDetailsController controller = loader.getController();
+            controller.setProduct(product);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Product Details");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+        @FXML
     void applySelectedFilters(ActionEvent event) {
         products.getItems().clear();
 
@@ -200,16 +229,16 @@ public class CentralViewController {
     public ArrayList<Product> showByPrice(ArrayList<Product> productsToFilter){
         ArrayList<Product> filteredProducts = new ArrayList<>();
         if(less25_button.isSelected()){
-            filteredProducts.addAll(productManager.showLessThanGivenPrice(25));
+            filteredProducts.addAll(productManager.showLessThanGivenPrice(productsToFilter,25));
         }
         else if(more100_button.isSelected()){
-            filteredProducts.addAll(productManager.showMoreThanGivenPrice(100));
+            filteredProducts.addAll(productManager.showMoreThanGivenPrice(productsToFilter,100));
         }
         else if(btw25_50_button.isSelected()){
-            filteredProducts.addAll(productManager.showBetweenGivenPrice(25,50));
+            filteredProducts.addAll(productManager.showBetweenGivenPrice(productsToFilter,25,50));
         }
         else if(btw50_100_button.isSelected()){
-            filteredProducts.addAll(productManager.showBetweenGivenPrice(50,100));
+            filteredProducts.addAll(productManager.showBetweenGivenPrice(productsToFilter,50,100));
         }
         else{
             filteredProducts.addAll(productsToFilter);
@@ -224,18 +253,33 @@ public class CentralViewController {
         products.refresh();
     }
 
+    //helper method to deselect all the buttons when filter are reset
+    private void deselectAllButtons() {
+        for (CheckMenuItem button : buttons) {
+            button.setSelected(false);
+        }
+        less25_button.setSelected(false);
+        btw25_50_button.setSelected(false);
+        btw50_100_button.setSelected(false);
+        more100_button.setSelected(false);
+    }
+
     @FXML
     void resetFilters(ActionEvent event) {
         products.getItems().clear();
-        products.getItems().addAll(productManager.getProducts());
+        products.getItems().addAll(productManager.getAllProducts());
         deselectAllButtons();
+        searchField.clear();
         products.refresh();
     }
 
+    //helper method to update the table of products
+    //Used after each action of modification
     public void updateTable(){
         products.getItems().clear();
         setupTable();
         products.refresh();
     }
+
 
 }

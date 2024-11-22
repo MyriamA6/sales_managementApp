@@ -108,7 +108,7 @@ public class ProductManager implements DataManager<Product> {
     }
 
     // Returns the list of all products.
-    public ArrayList<Product> getProducts() {
+    public ArrayList<Product> getAllProducts() {
         return products;
     }
 
@@ -133,12 +133,24 @@ public class ProductManager implements DataManager<Product> {
         return null;
     }
 
+    /*public ArrayList<Product> getProductsByName() {
+        ArrayList<String> productsNames = new ArrayList<>();
+        ArrayList<Product> productsByName = new ArrayList<>();
+        for (Product p : products) {
+            if (!(productsByName.contains(p.getName()))) {
+                productsByName.add(p);
+            }
+        }
+        return productsByName;
+    }*/
+
     //method that returns the products that contains all the given keywords
     //if it contains logical operators then the method return the list of products
     // respecting the logical query with searchWithLogicalOperator
     public ArrayList<Product> searchByKeyWords(String searchDemand) {
+        //if the searchDemand is empty we return all the products
         if (removeExtraSpaces(searchDemand).isEmpty()) {
-            return products;
+            return getProductsInStock();
         }
 
 
@@ -152,18 +164,20 @@ public class ProductManager implements DataManager<Product> {
 
         for (String s : separatedWords) {
             String cleanedWord = removeExtraSpaces(s);
-            if (!cleanedWord.isEmpty()) { // Vérifie que le mot n'est pas vide
-                keyWords.add(cleanedWord.toLowerCase()); // Transforme immédiatement en minuscule
+            if (!cleanedWord.isEmpty()) { // Check if the word is not empty
+                keyWords.add(cleanedWord.toLowerCase());
             }
         }
 
-        // Vérifie chaque produit pour trouver les mots-clés
-        for (Product p : products) {
-            boolean containsKeyWord = false;
+        ArrayList<Product> productInStock = getProductsInStock();
+        // Check each product to find the ones containing the keywords
+        for (Product p : productInStock) {
+            boolean containsKeyWord = true;
             for (String keyword : keyWords) {
-                if (p.getDescription().toLowerCase().contains(keyword) ||
-                        p.getName().toLowerCase().contains(keyword)) {
-                    containsKeyWord = true;
+                //if the product does not contain one of the keyWords we try the next product
+                if (!(p.getDescription().toLowerCase().contains(keyword) ||
+                        p.getName().toLowerCase().contains(keyword))) {
+                    containsKeyWord = false;
                     break;
                 }
             }
@@ -175,11 +189,13 @@ public class ProductManager implements DataManager<Product> {
         return keyWordsCorrespondingProducts;
     }
 
+    //We collect all products respecting the logical conditions of searchDemand
     public ArrayList<Product> searchWithLogicalOperators(String searchDemand) {
         ArrayList<Product> resultingProducts = new ArrayList<>();
         String[] andSeparatedWords = searchDemand.toLowerCase().split("and");
+        ArrayList<Product> productInStock = getProductsInStock();
 
-        for (Product p : products) {
+        for (Product p : productInStock) {
             boolean matchesAllAndConditions = true;
 
             for (String andCondition : andSeparatedWords) {
@@ -197,7 +213,7 @@ public class ProductManager implements DataManager<Product> {
                         }
                     }
                 } else {
-                    // Vérifie une condition AND sans OR
+                    // We verify  "and" condition not containing any "or"
                     if (p.getDescription().toLowerCase().contains(cleanedAndCondition) ||
                             p.getName().toLowerCase().contains(cleanedAndCondition)) {
                         matchesOrCondition = true;
@@ -219,9 +235,10 @@ public class ProductManager implements DataManager<Product> {
     }
 
 
+    //helper method to remove extra spaces from a string
     public String removeExtraSpaces(String input) {
         if (input == null) {
-            return ""; // Gérer le cas où la chaîne est nulle
+            return "";
         }
         return input.trim().replaceAll("\\s+", " ");
     }
@@ -229,7 +246,8 @@ public class ProductManager implements DataManager<Product> {
     // Filters products to return only Pants based on a given criterion.
     public ArrayList<Product> showOnlyPants(int criteria) {
         ArrayList<Product> pants = new ArrayList<>();
-        for (Product p : products) {
+        ArrayList<Product> productsInStock = getProductsInStock();
+        for (Product p : productsInStock) {
             if (p.getStock() > 0 && p instanceof Pants) {
                 Pants pant = (Pants) p;
                 switch (criteria) {
@@ -276,7 +294,9 @@ public class ProductManager implements DataManager<Product> {
     // Filters products to return only Tops based on a given criterion.
     public ArrayList<Product> showOnlyTops(int criteria) {
         ArrayList<Product> tops = new ArrayList<>();
-        for (Product p : products) {
+        ArrayList<Product> productsInStock = getProductsInStock();
+
+        for (Product p : productsInStock) {
             if (p.getStock() > 0 && p instanceof Top) {
                 Top top = (Top) p;
                 switch (criteria) {
@@ -298,9 +318,11 @@ public class ProductManager implements DataManager<Product> {
         return tops;
     }
 
-    public ArrayList<Product> showMoreThanGivenPrice(int price){
+
+    // Method to collect all products having a smaller price than the one given
+    public ArrayList<Product> showMoreThanGivenPrice(ArrayList<Product> productsToFilter,int price){
         ArrayList<Product> productsOfGivenPrice = new ArrayList<>();
-        for (Product p : products) {
+        for (Product p : productsToFilter) {
             if (p.getPrice() > price) {
                 productsOfGivenPrice.add(p);
             }
@@ -308,9 +330,10 @@ public class ProductManager implements DataManager<Product> {
         return productsOfGivenPrice;
     }
 
-    public ArrayList<Product> showLessThanGivenPrice(int price){
+    // Method to collect all products having a higher price than the one given
+    public ArrayList<Product> showLessThanGivenPrice(ArrayList<Product> productsToFilter,int price){
         ArrayList<Product> productsOfGivenPrice = new ArrayList<>();
-        for (Product p : products) {
+        for (Product p : productsToFilter) {
             if (p.getPrice() < price) {
                 productsOfGivenPrice.add(p);
             }
@@ -318,9 +341,10 @@ public class ProductManager implements DataManager<Product> {
         return productsOfGivenPrice;
     }
 
-    public ArrayList<Product> showBetweenGivenPrice(int price1, int price2){
+    // Method to collect all products having a price in the interval of given prices
+    public ArrayList<Product> showBetweenGivenPrice(ArrayList<Product> productsToFilter,int price1, int price2){
         ArrayList<Product> productsOfGivenPrice = new ArrayList<>();
-        for (Product p : products) {
+        for (Product p : productsToFilter) {
             if (p.getPrice() >=price1 && p.getPrice() <=price2) {
                 productsOfGivenPrice.add(p);
             }
@@ -351,7 +375,7 @@ public class ProductManager implements DataManager<Product> {
     @Override
     public void addAnElement(Product product) {
         try {
-            // Étape 1 : Insertion dans la table Product
+            //First : insertion of the product in the table of products
             String sqlProduct = "INSERT INTO Product (name, price, stock, gender, color, size, description) " +
                     "VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmtProduct = co.prepareStatement(sqlProduct, Statement.RETURN_GENERATED_KEYS);
@@ -364,13 +388,15 @@ public class ProductManager implements DataManager<Product> {
             stmtProduct.setString(7, product.getDescription());
             stmtProduct.executeUpdate();
 
-            // Récupération de l'ID généré
+            //Second : we get the generated key to insert the needed line in the table pants or top
+            //According to the type of the product
             ResultSet generatedKeys = stmtProduct.getGeneratedKeys();
             if (generatedKeys.next()) {
                 long productId = generatedKeys.getLong(1);
                 product.setProductId(productId);
 
-                // Étape 2 : Insertion dans la table Pants ou Top
+                //if the product is a Pants in the database, we add its type
+                //otherwise we do the same for a Top
                 if (product instanceof Pants) {
                     Pants pants = (Pants) product;
                     String length = pants.getIsShorts() ? "Shorts" : "Regular";
@@ -393,7 +419,8 @@ public class ProductManager implements DataManager<Product> {
             System.out.println("Error adding product: " + e.getMessage());
         }
     }
-    // Mettre à jour le stock d'un produit
+
+    /*// Mettre à jour le stock d'un produit
     public void updateStock(long productId, int quantityToAdd) throws SQLException {
         String query = "UPDATE Product SET stock = stock + ? WHERE product_id = ?";
         try (PreparedStatement stmt = co.prepareStatement(query)) {
@@ -401,13 +428,13 @@ public class ProductManager implements DataManager<Product> {
             stmt.setLong(2, productId);
             stmt.executeUpdate();
         }
-    }
+    }*/
 
 
     @Override
     public void modifyAnElement(Product product) {
         try {
-            // Étape 1 : Mise à jour de la table Product
+            // First : update of the product in the general table Product
             String sqlProduct = "UPDATE Product SET name = ?, price = ?, stock = ?, gender = ?, color = ?, size = ?, description = ? " +
                     "WHERE product_id = ?";
             PreparedStatement stmtProduct = co.prepareStatement(sqlProduct);
@@ -421,7 +448,7 @@ public class ProductManager implements DataManager<Product> {
             stmtProduct.setLong(8, product.getProductId());
             stmtProduct.executeUpdate();
 
-            // Étape 2 : Mise à jour de Pants ou Top selon le type
+            //Second : Update of the product characteristics in the right table Pants or Top
             if (product instanceof Pants) {
                 Pants pants = (Pants) product;
                 String length = pants.getIsShorts() ? "Shorts" : "Regular";
@@ -449,7 +476,7 @@ public class ProductManager implements DataManager<Product> {
     @Override
     public void deleteAnElement(Product product) {
         try {
-            // Step 1: Delete from the Pants table if the product is of type Pants
+            // First: Delete from the Pants table if the product is of type Pants
             if (product instanceof Pants) {
                 String sqlPants = "DELETE FROM Pants WHERE product_id = ?";
                 PreparedStatement stmtPants = co.prepareStatement(sqlPants);
@@ -457,7 +484,7 @@ public class ProductManager implements DataManager<Product> {
                 stmtPants.executeUpdate();
             }
 
-            // Step 2: Delete from the Top table if the product is of type Top
+            // Otherwise: Delete from the Top table if the product is of type Top
             if (product instanceof Top) {
                 String sqlTop = "DELETE FROM Top WHERE product_id = ?";
                 PreparedStatement stmtTop = co.prepareStatement(sqlTop);
@@ -465,7 +492,7 @@ public class ProductManager implements DataManager<Product> {
                 stmtTop.executeUpdate();
             }
 
-            // Step 3: Delete from the Product table
+            // Finally: Delete from the Product table
             String sqlProduct = "DELETE FROM Product WHERE product_id = ?";
             PreparedStatement stmtProduct = co.prepareStatement(sqlProduct);
             stmtProduct.setLong(1, product.getProductId());

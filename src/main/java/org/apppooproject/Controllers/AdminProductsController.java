@@ -177,7 +177,7 @@ public class AdminProductsController {
     }
 
     public void setupTable(){
-        products.getItems().addAll(productManager.getProducts());
+        products.getItems().addAll(productManager.getAllProducts());
     }
 
     public void modificationChoosen(){
@@ -474,27 +474,4 @@ public class AdminProductsController {
         products.refresh();
     }
 
-    @FXML
-private void onProductNameClicked(MouseEvent event) {
-    Product selectedProduct = products.getSelectionModel().getSelectedItem();
-    if (selectedProduct != null) {
-        showProductDetails(selectedProduct);
-    }
-}
-
-private void showProductDetails(Product product) {
-    try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/sceneBuilderFiles/productDetails.fxml"));
-        Parent root = loader.load();
-        
-        ProductDetailsController controller = loader.getController();
-        controller.setProduct(product);
-        
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.setTitle("Product Details");
-        stage.show();
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
 }

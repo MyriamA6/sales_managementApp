@@ -16,6 +16,7 @@ import org.apppooproject.Model.Customer;
 import org.apppooproject.Model.Order;
 import org.apppooproject.Model.Product;
 import org.apppooproject.Model.Top;
+import org.apppooproject.Views.AlertShowing;
 import org.apppooproject.Views.ViewModel;
 
 import java.util.ArrayList;
@@ -97,19 +98,11 @@ public class CartController {
     @FXML
     void onClickPayCart(ActionEvent event) {
         if (connectedCustomer.getCart().isEmpty()){
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Cart is empty");
-            alert.setHeaderText(null);
-            alert.setContentText("Cart is empty");
-            alert.showAndWait(); // Affiche l'alerte et attend que l'utilisateur la ferme
+            AlertShowing.showAlert("Cart is empty","Cart is empty",Alert.AlertType.WARNING);
         }
         else{
             connectedCustomer.payCart();
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Order successful");
-            alert.setHeaderText(null);
-            alert.setContentText("Thank you for your order !" );
-            alert.showAndWait(); // Affiche l'alerte et attend que l'utilisateur la ferme
+            AlertShowing.showAlert("Order successful","Thank you for your order !",Alert.AlertType.INFORMATION);
             resetCart();
         }
     }
@@ -134,12 +127,8 @@ public class CartController {
         if (selectedProduct != null) {
             int productAdded = connectedCustomer.addToCart(selectedProduct);
             if (productAdded == 0) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("No product can be added to cart");
-                alert.setHeaderText(null);
-                alert.setContentText("There is no other unit for this product");
-                alert.showAndWait(); // Affiche l'alerte et attend que l'utilisateur la ferme
-            }
+                AlertShowing.showAlert("No product can be added to cart","There is no other unit for this product",Alert.AlertType.WARNING);
+                }
         }
         updateCart();
     }

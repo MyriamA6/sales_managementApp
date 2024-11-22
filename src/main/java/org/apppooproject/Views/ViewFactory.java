@@ -60,6 +60,12 @@ public class ViewFactory {
         createStage(loader);
     }
 
+    public FXMLLoader showProductDetailsWindow(){
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/sceneBuilderFiles/productDetails.fxml"));
+        createStage(loader);
+        return loader;
+    }
+
     public void closeCurrentWindow(ActionEvent event) {
         // Ferme la fenêtre actuelle
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
