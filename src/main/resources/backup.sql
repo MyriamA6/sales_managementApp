@@ -100,17 +100,17 @@ VALUES
     ('Chino Pants', 60, 15, 'Male', 'Beige', 34, 'Elegant chino pants'),
     ('Blouse', 35, 25, 'Female', 'White', 36, 'Light cotton blouse'),
     ('Cargo Pants', 55, 10, 'Unisex', 'Black', 38, 'Practical cargo pants'),
-    ('Hoodie', 45, 30, 'Unisex', 'Navy Blue', 40, 'Warm and cozy hoodie'),
+    ('Hoodie', 45, 30, 'Unisex', 'Blue', 40, 'Warm and cozy hoodie'),
     ('Formal Shirt', 50, 20, 'Male', 'Blue', 42, 'Elegant formal shirt');
     ('T-Shirt', 25, 50, 'Unisex', 'Black', 38, 'Basic cotton t-shirt'),
     ('Tank Top', 20, 40, 'Female', 'Pink', 34, 'Sleeveless tank top for summer'),
     ('Polo Shirt', 35, 25, 'Male', 'Green', 40, 'Classic short-sleeved polo shirt'),
     ('Cardigan', 60, 18, 'Female', 'Orange', 36, 'Soft and stylish cardigan'),
     ('Sweater', 50, 22, 'Male', 'Yellow', 40, 'Warm and cozy sweater'),
-    ('Jeans', 70, 30, 'Unisex', 'Dark Blue', 38, 'Classic denim jeans'),
+    ('Jeans', 70, 30, 'Unisex', 'Blue', 38, 'Classic denim jeans'),
     ('Leggings', 30, 40, 'Female', 'Black', 36, 'Stretchable and comfortable leggings'),
     ('Shorts', 25, 35, 'Male', 'Green', 34, 'Casual summer shorts'),
-    ('Track Pants', 40, 28, 'Unisex', 'Grey', 38, 'Perfect for workouts'),
+    ('Jogging', 40, 28, 'Unisex', 'Grey', 38, 'Perfect for workouts'),
     ('Pleated Pants', 65, 15, 'Female', 'Navy Blue', 36, 'Elegant pleated pants'),
     ('Joggers', 45, 20, 'Unisex', 'Olive Green', 40, 'Comfortable jogger pants');
 
