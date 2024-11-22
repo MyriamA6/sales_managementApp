@@ -116,7 +116,6 @@ VALUES
     ('Sweatshirt', 40, 25, 'Unisex', 'Red', 38, 'Cozy sweatshirt with a minimalist design'),
     ('Hoodie', 50, 30, 'Unisex', 'Yellow', 40, 'Bright hoodie perfect for casual outings'),
     ('Tank Top', 18, 35, 'Female', 'Green', 34, 'Lightweight tank top for summer'),
-    ('Formal Shirt', 55, 20, 'Male', 'White', 42, 'Classic formal shirt for office wear'),
     ('Cardigan', 70, 15, 'Female', 'Red', 36, 'Stylish cardigan with button closure'),
     ('T-Shirt', 22, 50, 'Unisex', 'Blue', 38, 'Soft and breathable cotton t-shirt'),
     ('Polo Shirt', 40, 28, 'Male', 'Pink', 40, 'Comfortable polo shirt with short sleeves'),
