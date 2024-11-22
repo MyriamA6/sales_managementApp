@@ -109,7 +109,7 @@ VALUES
     ('Sweater', 50, 22, 'Male', 'Yellow', 40, 'Warm and cozy sweater'),
     ('Jeans', 70, 30, 'Unisex', 'Dark Blue', 38, 'Classic denim jeans'),
     ('Leggings', 30, 40, 'Female', 'Black', 36, 'Stretchable and comfortable leggings'),
-    ('Shorts', 25, 35, 'Male', 'Khaki', 34, 'Casual summer shorts'),
+    ('Shorts', 25, 35, 'Male', 'Green', 34, 'Casual summer shorts'),
     ('Track Pants', 40, 28, 'Unisex', 'Grey', 38, 'Perfect for workouts'),
     ('Pleated Pants', 65, 15, 'Female', 'Navy Blue', 36, 'Elegant pleated pants'),
     ('Joggers', 45, 20, 'Unisex', 'Olive Green', 40, 'Comfortable jogger pants');
