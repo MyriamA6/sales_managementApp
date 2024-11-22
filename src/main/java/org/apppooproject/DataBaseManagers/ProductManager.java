@@ -8,21 +8,20 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class ProductManager implements DataManager<Product> {
-    private static ProductManager instance;  // Instance unique de ProductManager
-    private final Connection co;             // Objet de connexion à la base de données
-    private ArrayList<Product> products;     // Liste de tous les produits récupérés depuis la base de données
+    private static ProductManager instance;  // unique instance of productmanager
+    private final Connection co;             // Object to allow us to connect to the database
+    private ArrayList<Product> products;     // List which will contain all products from the database
 
-    // Constructeur privé pour empêcher l'instanciation directe
+    // Private constructor to only allow the creation of an instance via the singleton design pattern
     private ProductManager() {
         this.co=DatabaseInitializer.getH2Connection();
         products = new ArrayList<Product>();
-        loadProductFromBd();  // Charger les produits depuis la base de données
+        loadProductFromBd();  // Fill the list of products with the ones from the dataBase
     }
 
-    // Méthode pour récupérer l'instance unique de ProductManager
     public static ProductManager getInstance() {
         if (instance == null) {
-            instance = new ProductManager();  // Créer l'instance unique si elle n'existe pas
+            instance = new ProductManager();
         }
         return instance;
     }
@@ -57,7 +56,7 @@ public class ProductManager implements DataManager<Product> {
         Statement stmt = null;
         try {
             stmt = co.createStatement();
-            // Query to check if the product is Pants
+            // We check if the product is Pants
             String sqlPants = "SELECT * FROM Pants JOIN Product ON Pants.product_id = Product.product_id WHERE Pants.product_id = " + productId;
             ResultSet res = stmt.executeQuery(sqlPants);
 
@@ -77,7 +76,7 @@ public class ProductManager implements DataManager<Product> {
                 );
             }
 
-            // Query to check if the product is a Top
+            // We check if the product is a Top
             String sqlTop = "SELECT * FROM Top JOIN Product ON Top.product_id = Product.product_id WHERE Top.product_id = " + productId;
             res = stmt.executeQuery(sqlTop);
 
@@ -102,10 +101,10 @@ public class ProductManager implements DataManager<Product> {
         return null; // Returns null if no matching product is found
     }
 
-    // Refreshes the product list by reloading all products from the database.
+    // Update the product list by reloading all products from the database.
     public void refresh() {
-        products = new ArrayList<Product>();
-        loadProductFromBd();
+        products.clear(); //we first clear the list of products
+        loadProductFromBd(); //we reload
     }
 
     // Returns the list of all products.
@@ -134,6 +133,9 @@ public class ProductManager implements DataManager<Product> {
         return null;
     }
 
+    //method that returns the products that contains all the given keywords
+    //if it contains logical operators then the method return the list of products
+    // respecting the logical query with searchWithLogicalOperator
     public ArrayList<Product> searchByKeyWords(String searchDemand) {
         if (removeExtraSpaces(searchDemand).isEmpty()) {
             return products;

@@ -6,13 +6,13 @@ import java.nio.charset.StandardCharsets;
 
 public class DatabaseInitializer {
 
-    // Cette méthode initialise la base de données H2
+    //initialization of the h2 database
+
     public static void initializeDatabase() {
         String url = "jdbc:h2:~/projectdbTest"; // Base de données H2 (mode fichier)
         String user = "sa";
         String password = "";
 
-        // Chargement de backup.sql depuis le classpath
         try (Connection connection = DriverManager.getConnection(url, user, password);
              Statement statement = connection.createStatement();
              InputStream inputStream = DatabaseInitializer.class.getClassLoader().getResourceAsStream("backup.sql")) {
@@ -21,7 +21,7 @@ public class DatabaseInitializer {
                 throw new FileNotFoundException("Le fichier backup.sql est introuvable dans le classpath.");
             }
 
-            // Lire le fichier SQL et construire le script
+            //we get the sql script from backup.sql
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
             StringBuilder sqlScript = new StringBuilder();
             String line;
@@ -31,7 +31,7 @@ public class DatabaseInitializer {
                 }
             }
 
-            // Diviser et exécuter les commandes SQL
+            // Divide and execute sql queries
             String[] sqlCommands = sqlScript.toString().split(";");
             for (String command : sqlCommands) {
                 if (!command.trim().isEmpty()) {
@@ -39,23 +39,24 @@ public class DatabaseInitializer {
                 }
             }
 
-            System.out.println("Base de données initialisée avec succès !");
+            System.out.println("The dataBase has been initialized.");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    // Méthode pour établir une connexion à H2
+    // Method to get the connection from the created dataBase
     public static Connection getH2Connection() {
         try {
-            String url = "jdbc:h2:~/projectdbTest"; // Base de données H2 (mode fichier)
+            String url = "jdbc:h2:~/projectdbTest"; //url to the created database
             String user = "sa";
             String password = "";
-            // Connexion à une base de données H2 (en mémoire ou fichier)
+
+            //connection to the database
             return DriverManager.getConnection(url, user, password);
-            // "sa" est l'utilisateur par défaut pour H2, le mot de passe est vide par défaut
+            // "sa" is the default user for h2 and the password is empty by default
         } catch (SQLException e) {
-            System.out.println("Erreur lors de la connexion à la base de données H2 : " + e.getMessage());
+            System.out.println("Error when trying to connect to the database" + e.getMessage());
             throw new RuntimeException(e);
         }
     }

@@ -12,8 +12,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        //Initialization of the database
-        // Charger le fichier FXML depuis le chemin des ressources
+        //We charge the first GUI
         Parent root = FXMLLoader.load(getClass().getResource("/sceneBuilderFiles/login.fxml"));
         primaryStage.setTitle("Central View");
         primaryStage.setScene(new Scene(root, 600, 400));
