@@ -112,7 +112,7 @@ VALUES
     ('Shorts', 25, 35, 'Male', 'Green', 34, 'Casual summer shorts'),
     ('Jogging', 40, 28, 'Unisex', 'Grey', 38, 'Perfect for workouts'),
     ('Pleated Pants', 65, 15, 'Female', 'White', 36, 'Elegant pleated pants'),
-    ('Joggers', 45, 20, 'Unisex', 'Olive Green', 40, 'Comfortable jogger pants');
+    ('Jogging', 45, 20, 'Unisex', 'Green', 40, 'Comfortable jogger pants');
 
 -- Insert pants into the Pants table with specific attributes
 INSERT INTO Pants (product_id, length)
