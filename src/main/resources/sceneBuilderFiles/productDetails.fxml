@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="org.apppooproject.Controllers.ProductDetailsController" spacing="10" alignment="CENTER">
+    <ImageView fx:id="productImage" fitWidth="300" fitHeight="300" preserveRatio="true"/>
+    <Label fx:id="productDescription" style="-fx-font-size: 14px;"/>
+</VBox>
