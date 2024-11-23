@@ -44,7 +44,7 @@ CREATE TABLE Invoice (
 -- Create the Product table
 CREATE TABLE Product (
                          product_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-                         name VARCHAR(50) UNIQUE NOT NULL,
+                         name VARCHAR(50) NOT NULL,
                          price INTEGER NOT NULL,
                          stock INTEGER NOT NULL,
                          gender VARCHAR(30) NOT NULL,
