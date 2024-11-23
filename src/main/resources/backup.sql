@@ -85,6 +85,8 @@ CREATE TABLE Content (
                              FOREIGN KEY (order_id) REFERENCES Order_record(order_id)
 );
 
+ALTER TABLE Product ADD CONSTRAINT product_unique UNIQUE (name, color, size);
+
 -- Insert customers into the Customer table
 INSERT INTO Customer (first_name, last_name, email, address, phone_number, login_name, user_password)
 VALUES
