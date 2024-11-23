@@ -130,7 +130,7 @@ VALUES
     ('Jogging', 50, 22, 'Unisex', 'Red', 38, 'Sporty track pants for exercise'),
     ('Denim', 80, 15, 'Unisex', 'Black', 38, 'Wide-leg denim pants with a vintage vibe'),
     ('Hooded Sweatshirt', 48, 25, 'Unisex', 'Green', 38, 'Stylish hoodie with kangaroo pockets'),
-    ('Tunic', 50, 30, 'Female', 'White', 36, 'Flowy tunic perfect for summer'),
+    ('Tunic', 50, 30, 'Female', 'Red', 36, 'Flowy tunic perfect for summer'),
     ('Crop Top', 25, 40, 'Female', 'Pink', 34, 'Trendy crop top for casual wear'),
     ('Oversized T-Shirt', 35, 20, 'Unisex', 'Orange', 40, 'Comfortable oversized t-shirt'),
     ('Wool Sweater', 60, 15, 'Male', 'Yellow', 40, 'Premium wool sweater for cold weather');
