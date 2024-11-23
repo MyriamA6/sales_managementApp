@@ -133,7 +133,7 @@ VALUES
     ('Tunic', 50, 30, 'Female', 'Red', 36, 'Flowy tunic perfect for summer'),
     ('Crop Top', 25, 40, 'Female', 'Pink', 34, 'Trendy crop top for casual wear'),
     ('Oversized T-Shirt', 35, 20, 'Unisex', 'Orange', 40, 'Comfortable oversized t-shirt'),
-    ('Wool Sweater', 60, 15, 'Male', 'Yellow', 40, 'Premium wool sweater for cold weather');
+    ('Wool Sweater', 60, 15, 'Female', 'Yellow', 40, 'Premium wool sweater for cold weather');
 
 -- Insert pants into the Pants table with specific attributes
 INSERT INTO Pants (product_id, length)
