@@ -133,7 +133,30 @@ VALUES
     ('Tunic', 50, 30, 'Female', 'Red', 36, 'Flowy tunic perfect for summer'),
     ('Crop Top', 25, 40, 'Female', 'Pink', 34, 'Trendy crop top for casual wear'),
     ('Oversized T-Shirt', 35, 20, 'Unisex', 'Orange', 40, 'Comfortable oversized t-shirt'),
-    ('Wool Sweater', 60, 15, 'Female', 'Yellow', 40, 'Premium wool sweater for cold weather');
+    ('Wool Sweater', 60, 15, 'Female', 'Yellow', 40, 'Premium wool sweater for cold weather'),
+    ('Turtle Neck', 45, 20, 'Female', 'Blue', 36, 'Stylish turtle neck top for colder days'),
+    ('Party Top', 55, 15, 'Female', 'Black', 36, 'Elegant top for evening events'),
+    ('Zip Sweatshirt', 50, 25, 'Male', 'White', 40, 'Comfortable sweatshirt with a zip closure'),
+    ('Long Sleeve Top', 30, 30, 'Female', 'Pink', 36, 'Soft long-sleeved top for everyday wear'),
+    ('Flared Pants', 60, 18, 'Female', 'Red', 38, 'Fashionable flared pants with a retro vibe'),
+    ('Oversized Jeans', 75, 15, 'Male', 'Grey', 38, 'Comfortable oversized denim jeans'),
+    ('Military Shorts', 40, 20, 'Female', 'Green', 34, 'Casual military-inspired shorts'),
+    ('Fleece Shorts', 35, 25, 'Male', 'Yellow', 36, 'Cozy fleece shorts for relaxation'),
+    ('Wool Sweater', 65, 12, 'Male', 'White', 42, 'Warm wool sweater for winter days'),
+    ('Lace Top', 50, 18, 'Female', 'Black', 36, 'Elegant lace top for special occasions'),
+    ('Sequined Top', 70, 10, 'Female', 'Yellow', 34, 'Sparkling sequined top for parties'),
+    ('Tank Top', 25, 40, 'Male', 'Orange', 38, 'Light and breathable tank top for summer'),
+    ('Turtleneck', 50, 20, 'Male', 'Black', 40, 'Classic turtleneck sweater for colder seasons'),
+    ('T-Shirt', 28, 50, 'Male', 'Green', 38, 'Simple and comfortable t-shirt'),
+    ('Flared Pants', 65, 15, 'Female', 'Black', 36, 'Elegant and stylish flared pants'),
+    ('Shirt', 55, 20, 'Male', 'Blue', 42, 'Smart and versatile shirt'),
+    ('Oversized T-Shirt', 40, 20, 'Male', 'Red', 40, 'Casual oversized t-shirt'),
+    ('Oversized T-Shirt', 45, 18, 'Unisex', 'White', 40, 'Comfortable and trendy oversized t-shirt'),
+    ('Oversized Jeans', 80, 12, 'Unisex', 'Blue', 38, 'Relaxed-fit oversized denim jeans'),
+    ('Cargo Shorts', 35, 25, 'Male', 'Pink', 36, 'Bright and functional cargo shorts'),
+    ('Military Cargo', 50, 20, 'Unisex', 'Green', 38, 'Durable cargo pants with a military design'),
+    ('Blouse', 40, 22, 'Female', 'Pink', 36, 'Chic blouse with a flattering fit'),
+    ('Turtle Neck', 48, 18, 'Male', 'Grey', 40, 'Cozy turtle neck sweater for cooler weather');  
 
 -- Insert pants into the Pants table with specific attributes
 INSERT INTO Pants (product_id, length)
