@@ -235,16 +235,142 @@ VALUES
 -- Insert pants into the Pants table with specific attributes
 INSERT INTO Pants (product_id, length)
 VALUES
-    (2, 'Regular'),  -- Chino Pants
-    (4, 'Shorts');  -- Cargo Pants
+    (1, 'Sweater'), -- Sweatshirt 
+    (3, 'T-shirt'), -- Blouse
+    (5, 'Sweater'), -- Hoodie  
+    (6, 'T-shirt'), -- Formal Shirt 
+    (7, 'T-shirt'), -- T-Shirt 
+    (8, 'T-shirt'), -- Tank Top 
+    (9, 'T-shirt'), -- Polo Shirt 
+    (10, 'Sweater'), -- Cardigan
+    (11, 'Sweater'), -- Sweater
+    (18, 'Sweater'), -- Sweatshirt
+    (19, 'Sweater'), -- Hoodie
+    (20, 'T-shirt'), -- Tank Top
+    (21, 'Sweater'), -- Cardigan
+    (22, 'T-shirt'), -- T-Shirt
+    (23, 'T-shirt'), -- Polo Shirt
+    (24, 'Sweater'), -- Sweater
+    (25, 'T-shirt'), -- Blouse
+    (34, 'Sweater'), -- Hooded Sweatshirt
+    (35,'T-shirt' ), -- Tunic
+    (36,'T-shirt' ), -- Crop Top
+    (37, 'T-shirt'), -- Oversized T-Shirt
+    (38, 'Sweater'), -- Wool Sweater
+    (39, 'T-shirt'), -- Turtle Neck
+    (40, 'T-shirt'), -- Party Top
+    (41, 'Sweater'), -- Zip Sweatshirt
+    (42, 'T-shirt'), -- Long Sleeve Top
+    (47, 'Sweater'), -- Wool Sweater
+    (48, 'T-shirt'), -- Lace Top
+    (49, 'T-shirt'), -- Sequined Top
+    (50, 'T-shirt'), -- Tank Top
+    (51, 'T-shirt'), -- Turtle Neck
+    (52, 'T-shirt'), -- T-Shirt
+    (54, 'T-shirt'), -- Shirt
+    (55, 'T-shirt'), -- Oversied T-Shirt
+    (56, 'T-shirt'), -- Oversied T-Shirt
+    (60, 'T-shirt'), -- Blouse
+    (61, 'T-shirt'), -- Turtle Neck
+    (62, 'Sweater'), -- Sweatshirt
+    (64, 'T-shirt'), -- Blouse
+    (66, 'Sweater'), -- Hoodie
+    (67, 'T-shirt'), -- Formal Shirt
+    (68, 'T-shirt'), -- Formal Shirt
+    (69, 'T-shirt'), -- T-Shirt
+    (70, 'T-shirt'), -- T-Shirt
+    (71, 'T-shirt'), -- Tank Top
+    (72, 'T-shirt'), -- Tank Top
+    (73, 'T-shirt'), -- Polo Shirt
+    (74, 'T-shirt'), -- Polo Shirt
+    (75, 'T-shirt'), -- Polo Shirt
+    (76, 'Sweater'), -- Cardigan
+    (77, 'Sweater'), -- Cardigan
+    (78, 'Sweater'), -- Cardigan
+    (79, 'Sweater'), --  Sweater
+    (80, 'Sweater'), --  Sweater
+    (81, 'Sweater'), --  Sweater
+    (82, 'Sweater'), --  Sweater
+    (83, 'Sweater'), --  Sweater
+    (98, 'Sweater'), -- Hoodie
+    (99, 'Sweater'), -- Hoodie
+    (100, 'T-shirt'), -- Tank Top
+    (101, 'T-shirt'), -- Tank Top
+    (102, 'T-shirt'), -- Tank Top
+    (105, 'T-shirt'), -- Oversied T-Shirt
+    (106, 'T-shirt'), -- Oversied T-Shirt
+    (107, 'T-shirt'), -- Oversied T-Shirt
+    (111, 'T-shirt'), -- T-Shirt
+    (112, 'T-shirt'), -- T-Shirt
+    (113, 'T-shirt'), -- T-Shirt
+    (114, 'T-shirt'), -- Tunic
+    (115, 'T-shirt'), -- Tunic
+    (116, 'T-shirt'), -- Tunic
+    (117, 'Sweater'), -- Zip Sweatshirt
+    (118, 'Sweater'), -- Zip Sweatshirt
+    (119, 'Sweater'), -- Zip Sweatshirt
+    (126, 'T-shirt'), -- Turtle Neck
+    (127, 'T-shirt'), -- Turtle Neck
+    (128, 'T-shirt'), -- Turtle Neck
 
 -- Insert tops into the Top table with specific attributes
 INSERT INTO Top (product_id, sleevesType)
 VALUES
-    (1, 'Sweater'),  -- Sweatshirt
-    (3, 'T-shirt'),  -- Blouse
-    (5, 'Sweater'),  -- Hoodie
-    (6, 'T-shirt');   -- Formal Shirt
+    (2, 'Regular'), -- Chino Pants 
+    (4, 'Regular'), -- Cargo Pants  
+    (12, 'Regular'), -- Jeans
+    (13, 'Regular'), -- Leggins
+    (14, 'Shorts'), -- Shorts 
+    (15, 'Regular'), -- Jogging
+    (16, 'Regular'), -- Pleated Pants
+    (17, 'Regular'), -- Jogging
+    (26, 'Regular'), -- Jeans
+    (27, 'Regular'), -- Chino Pants
+    (28, 'Regular'), -- Leggings
+    (29, 'Shorts'), -- Shorts
+    (30, 'Regular'), -- Jogging
+    (31, 'Regular'), -- Pleated Pants
+    (32, 'Regular'), -- Jogging
+    (33, 'Regular'), -- Denim
+    (43, 'Regular'), -- Flared Pants
+    (44, 'Regular'), -- Oversized Jeans
+    (45, 'Shorts'), -- Military Shorts
+    (46, 'Shorts'), -- Fleece Shorts
+    (53, 'Regular'), -- Flared Pants
+    (57, 'Regular'), -- Oversied Jeans
+    (58, 'Shorts'), -- Cargo Shorts
+    (59, 'Regular'), -- Military Cargo
+    (63, 'Regular'), -- Chino Pants
+    (65, 'Regular'), -- Cargo Pants
+    (84, 'Regular'), -- Jeans
+    (85, 'Regular'), -- Jeans
+    (86, 'Regular'), -- Jeans
+    (87, 'Regular'), -- Jeans
+    (88, 'Regular'), -- Leggings
+    (89, 'Regular'), -- Leggings
+    (90,'Regular' ), -- Leggings
+    (91, 'Regular'), -- Leggings
+    (92, 'Shorts'), -- Shorts
+    (93, 'Shorts'), -- Shorts
+    (94, 'Regular'), -- Pleated Pants
+    (95, 'Regular'), -- Pleated Pants
+    (96, 'Regular'), -- Jogging
+    (97, 'Regular'), -- Jogging
+    (103, 'Regular'), -- Oversized Jeans
+    (104, 'Regular'), -- Oversized Jeans
+    (108, 'Regular'), -- Denim
+    (109, 'Regular'), -- Denim
+    (110, 'Regular'), -- Denim
+    (120, 'Regular'), -- Military Cargo
+    (121, 'Regular'), -- Military Cargo
+    (122, 'Regular'), -- Military Cargo
+    (123, 'Shorts'), -- Fleece Shorts
+    (124, 'Shorts'), -- Fleece Shorts
+    (125, 'Shorts'), -- Fleece Shorts
+    (129, 'Regular'), -- Flared Pants
+    (130, 'Regular'), -- Flared Pants
+    (131, 'Regular'), -- Flared Pants
+    (132, 'Regular'), -- Flared Pants
 
 -- Insert orders into the Order_record table
 INSERT INTO Order_record (customer_id, total_price, order_date, order_state)
