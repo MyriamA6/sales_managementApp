@@ -113,6 +113,11 @@ public class CentralViewController {
         viewModel.getViewFactory().showCustomerAccountWindow();
     }
 
+    @FXML
+    void onClickGoToAdminLogIn(ActionEvent event) {
+        viewModel.getViewFactory().closeCurrentWindow(event);
+        viewModel.getViewFactory().showAdminLoginWindow();
+    }
 
 
     // Print of the product selected with the necessary information

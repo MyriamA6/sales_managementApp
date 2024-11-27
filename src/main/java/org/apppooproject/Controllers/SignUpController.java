@@ -2,11 +2,12 @@ package org.apppooproject.Controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import org.apppooproject.DataBaseManagers.CustomerManager;
 import org.apppooproject.Model.Customer;
+import org.apppooproject.Views.AlertShowing;
 import org.apppooproject.Views.ViewModel;
 
 
@@ -28,10 +29,7 @@ public class SignUpController {
     private TextField password;
 
     @FXML
-    private Label error_already_exist_label;
-
-    @FXML
-    private TextField login_name;
+    private TextField user_id;
 
     @FXML
     private TextField phone_number;
@@ -41,30 +39,24 @@ public class SignUpController {
 
     private final CustomerManager customerManager = CustomerManager.getInstance();
 
-    private final Customer connectedCustomer = customerManager.getConnectedCustomer();
-
-    @FXML
-    public void initialize() {
-        error_already_exist_label.setVisible(false);
-    }
-
-    //verifier si le client n'est pas déjà dans la base, si ces coordonnées n'y sont pas déjà, mail/identifiant....
+    //Method to create a new customer if it isn't already registered
     @FXML
     void createANewCustomer(ActionEvent event) {
-        if (customerManager.getCustomerByEmail(email.getText()) == null) {
-            Customer c =new Customer(first_name.getText(),last_name.getText(),email.getText(), address.getText(), phone_number.getText(), login_name.getText(), password.getText());
+        if ((customerManager.getCustomerByEmail(email.getText()) == null) && (customerManager.getCustomerByLoginName(user_id.getText()) == null)) {
+            Customer c =new Customer(first_name.getText(),last_name.getText(),email.getText(), address.getText(), phone_number.getText(), user_id.getText(), password.getText());
             customerManager.addAnElement(c);
+            ViewModel.getInstance().getViewFactory().closeCurrentWindow(event);
             ViewModel.getInstance().getViewFactory().showAppViewWindow();
         }
         else{
-            error_already_exist_label.setVisible(true);
-
+            AlertShowing.showAlert("Error", "Email address or ID already used", Alert.AlertType.ERROR);
         }
+    }
 
-
-
-
-
+    @FXML
+    void onClickGoToLoginView(ActionEvent event) {
+        ViewModel.getInstance().getViewFactory().closeCurrentWindow(event);
+        ViewModel.getInstance().getViewFactory().showLoginWindow();
     }
 
 }

@@ -13,6 +13,7 @@ import org.apppooproject.Model.Customer;
 import org.apppooproject.Model.Pants;
 import org.apppooproject.Model.Product;
 import org.apppooproject.Model.Top;
+import org.apppooproject.Views.AlertShowing;
 import org.apppooproject.Views.ViewModel;
 
 import java.util.ArrayList;
@@ -278,31 +279,31 @@ public class AdminProductsController {
                 selectedProduct.setStock(Integer.parseInt(quantity.getText()));
             }
             if (green_button.isSelected()){
-                selectedProduct.setColor("green");
+                selectedProduct.setColor("Green");
             }
             else if (red_button.isSelected()){
-                selectedProduct.setColor("red");
+                selectedProduct.setColor("Red");
             }
             else if (yellow_button.isSelected()){
-                selectedProduct.setColor("yellow");
+                selectedProduct.setColor("Yellow");
             }
             else if (white_button.isSelected()){
-                selectedProduct.setColor("white");
+                selectedProduct.setColor("White");
             }
             else if (orange_button.isSelected()){
-                selectedProduct.setColor("orange");
+                selectedProduct.setColor("Orange");
             }
             else if (grey_button.isSelected()) {
-                selectedProduct.setColor("grey");
+                selectedProduct.setColor("Grey");
             }
             else if (black_button.isSelected()){
-                selectedProduct.setColor("black");
+                selectedProduct.setColor("Black");
             }
             else if (pink_button.isSelected()){
-                selectedProduct.setColor("pink");
+                selectedProduct.setColor("Pink");
             }
             else if(blue_button.isSelected()){
-                selectedProduct.setColor("blue");
+                selectedProduct.setColor("Blue");
             }
 
             if(xs_button.isSelected()){
@@ -321,18 +322,18 @@ public class AdminProductsController {
                 selectedProduct.setSize(42);
             }
             if(male_button.isSelected()){
-                selectedProduct.setGender("male");
+                selectedProduct.setGender("Male");
             }
             else if(female_button.isSelected()){
-                selectedProduct.setGender("female");
+                selectedProduct.setGender("Female");
             }
             else if(unisex_button.isSelected()){
-                selectedProduct.setGender("unisex");
+                selectedProduct.setGender("Unisex");
             }
             pantsSubMenu.setDisable(false);
             topSubMenu.setDisable(false);
             productManager.modifyAnElement(selectedProduct);
-            showAlert("Product modified", "The product has been modified successfully");
+            AlertShowing.showAlert("Product modified", "The product has been modified successfully", Alert.AlertType.INFORMATION);
         }
         else{
             Product newProduct=null;
@@ -364,7 +365,7 @@ public class AdminProductsController {
                 newProduct = new Top(name, priceValue, stockValue, size, color, descriptionText, gender, isTshirt);
             }
             productManager.addAnElement(newProduct);
-            showAlert("Product added", "The product has been added successfully");
+            AlertShowing.showAlert("Product added", "The product has been added successfully", Alert.AlertType.INFORMATION);
 
         }
         updateTable();
@@ -412,14 +413,6 @@ public class AdminProductsController {
         tshirt_button.setSelected(false);
     }
 
-    private void showAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.showAndWait();
-    }
-
 
     @FXML
     void onRowClicked(MouseEvent event) {
@@ -429,15 +422,15 @@ public class AdminProductsController {
     }
 
     private String getColorFromSelection() {
-        if (green_button.isSelected()) return "green";
-        if (red_button.isSelected()) return "red";
-        if (yellow_button.isSelected()) return "yellow";
-        if (white_button.isSelected()) return "white";
-        if (orange_button.isSelected()) return "orange";
-        if (grey_button.isSelected()) return "grey";
-        if (black_button.isSelected()) return "black";
-        if (pink_button.isSelected()) return "pink";
-        if (blue_button.isSelected()) return "blue";
+        if (green_button.isSelected()) return "Green";
+        if (red_button.isSelected()) return "Red";
+        if (yellow_button.isSelected()) return "Yellow";
+        if (white_button.isSelected()) return "White";
+        if (orange_button.isSelected()) return "Orange";
+        if (grey_button.isSelected()) return "Grey";
+        if (black_button.isSelected()) return "Black";
+        if (pink_button.isSelected()) return "Pink";
+        if (blue_button.isSelected()) return "Blue";
         return "";
     }
 
@@ -451,9 +444,9 @@ public class AdminProductsController {
     }
 
     private String getGenderFromSelection() {
-        if (male_button.isSelected()) return "male";
-        if (female_button.isSelected()) return "female";
-        if (unisex_button.isSelected()) return "unisex";
+        if (male_button.isSelected()) return "Male";
+        if (female_button.isSelected()) return "Female";
+        if (unisex_button.isSelected()) return "Unisex";
         return "";
     }
 

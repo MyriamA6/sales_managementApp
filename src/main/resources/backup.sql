@@ -1,18 +1,17 @@
--- Suppress tables if they already exist
+DROP TABLE IF EXISTS Invoice;
 DROP TABLE IF EXISTS Content;
+DROP TABLE IF EXISTS Order_record;
+DROP TABLE IF EXISTS Customer;
 DROP TABLE IF EXISTS Pants;
 DROP TABLE IF EXISTS Top;
 DROP TABLE IF EXISTS Product;
-DROP TABLE IF EXISTS Invoice;
-DROP TABLE IF EXISTS Order_record;
-DROP TABLE IF EXISTS Customer;
 
 -- Create the Customer table
 CREATE TABLE Customer (
                           customer_id BIGINT AUTO_INCREMENT PRIMARY KEY,
                           first_name VARCHAR(50) NOT NULL,
                           last_name VARCHAR(50) NOT NULL,
-                          email VARCHAR(100),
+                          email VARCHAR(100) UNIQUE,
                           address VARCHAR(100) NOT NULL,
                           phone_number VARCHAR(20),
                           login_name VARCHAR(30) NOT NULL,
@@ -44,7 +43,7 @@ CREATE TABLE Invoice (
 -- Create the Product table
 CREATE TABLE Product (
                          product_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-                         name VARCHAR(50) UNIQUE NOT NULL,
+                         name VARCHAR(50) NOT NULL,
                          price INTEGER NOT NULL,
                          stock INTEGER NOT NULL,
                          gender VARCHAR(30) NOT NULL,
@@ -54,12 +53,13 @@ CREATE TABLE Product (
                          CONSTRAINT CK_size
                              CHECK (size IN (32, 34, 36, 38, 40, 42, 44, 46)),
                          CONSTRAINT CK_gender
-                             CHECK (gender IN ('Male', 'Female', 'Unisex'))
+                             CHECK (gender IN ('Male', 'Female', 'Unisex')),
+                        CONSTRAINT CK_Unique UNIQUE (name,size,color,gender)
 );
 
 -- Create the Pants table
 CREATE TABLE Pants (
-                       product_id BIGINT PRIMARY KEY,
+                       product_id BIGINT UNIQUE PRIMARY KEY,
                        length VARCHAR(30) NOT NULL,
                        CONSTRAINT CK_length CHECK (length IN ('Shorts', 'Regular')),
                        FOREIGN KEY (product_id) REFERENCES Product(product_id)
@@ -67,7 +67,7 @@ CREATE TABLE Pants (
 
 -- Create the Top table
 CREATE TABLE Top (
-                     product_id BIGINT PRIMARY KEY,
+                     product_id BIGINT UNIQUE PRIMARY KEY,
                      sleevesType VARCHAR(30) NOT NULL,
                      CONSTRAINT CK_sleevesType CHECK (sleevesType IN ('T-shirt', 'Sweater')),
                      FOREIGN KEY (product_id) REFERENCES Product(product_id)

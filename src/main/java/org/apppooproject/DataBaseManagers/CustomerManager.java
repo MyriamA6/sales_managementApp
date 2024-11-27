@@ -71,6 +71,22 @@ public class CustomerManager implements DataManager<Customer> {
         }
     }
 
+    //Return a customer from the database based on the provided email, if it exists.
+    public Customer getCustomerByLoginName(String loginName) {
+        String sql = "SELECT * FROM Customer WHERE login_name = ?";
+        PreparedStatement stmt = null;
+        try {
+            stmt = co.prepareStatement(sql);
+            stmt.setString(1, loginName);
+            ResultSet res = stmt.executeQuery();
+            Customer customer = createCustomerFromResultSet(res); // Helper method to create a Customer from ResultSet
+            stmt.close();
+            return customer;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     //method to create an instance of Customer using a resultSet obtained with a sql query
     private Customer createCustomerFromResultSet(ResultSet res) throws SQLException {
