@@ -47,7 +47,7 @@ public class ProductDetailsController {
     public void setProduct(Product product) {
         this.productSelected = product;
         productDescription.setText(product.getDescription());
-        String imagePath = "/images/" + product.getName().replaceAll(" ", "_") + ".jpg";
+        String imagePath = "/images/" + product.getName() +" "+product.getColor()+ ".jpg"; //.replaceAll(" ", "_")
         Image image = new Image(getClass().getResourceAsStream(imagePath));
         productImage.setImage(image);
         productName_label.setText(product.getName());

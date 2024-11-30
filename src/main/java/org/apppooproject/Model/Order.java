@@ -1,5 +1,7 @@
 package org.apppooproject.Model;
 
+import org.apppooproject.DataBaseManagers.ProductManager;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +13,7 @@ public class Order {
     private double totalPrice;
     private Date dateOrder;
     private String state;
-    private Map<Product, Integer> content = new HashMap<>();
+    private Map<Long, Integer> content = new HashMap<>();
 
     public Order(long orderId, Customer customer, double totalPrice, Date dateOrder, String state) {
         this.orderId = orderId;
@@ -21,7 +23,14 @@ public class Order {
         this.state = state;
     }
 
-    public void addProductToOrder(Product product, int quantity) {
+    public Order(Customer customer, double totalPrice, Date dateOrder, String state) {
+        this.customer = customer;
+        this.totalPrice = totalPrice;
+        this.dateOrder = dateOrder;
+        this.state = state;
+    }
+
+    public void addProductToOrder(Long product, int quantity) {
         content.put(product, content.getOrDefault(product, 0) + quantity);
     }
 
@@ -31,8 +40,8 @@ public class Order {
 
     public double calculateTotalPrice() {
         totalPrice = 0;
-        for (Map.Entry<Product, Integer> entry : content.entrySet()) {
-            totalPrice += entry.getKey().getPrice() * entry.getValue();
+        for (Map.Entry<Long, Integer> entry : content.entrySet()) {
+            totalPrice += ProductManager.getInstance().getProductById(entry.getKey()).getPrice() * entry.getValue();
         }
         return totalPrice;
     }
@@ -65,12 +74,12 @@ public class Order {
         this.state = state;
     }
 
-    public Map<Product, Integer> getContent() {
+    public Map<Long, Integer> getContent() {
         return content;
     }
 
     // Ajout de la méthode setContent
-    public void setContent(Map<Product, Integer> content) {
+    public void setContent(Map<Long, Integer> content) {
         this.content = content;
     }
 

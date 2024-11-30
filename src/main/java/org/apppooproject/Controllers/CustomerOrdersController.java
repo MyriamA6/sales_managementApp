@@ -12,6 +12,7 @@ import org.apppooproject.DataBaseManagers.OrderManager;
 import org.apppooproject.Model.Customer;
 import org.apppooproject.Model.Invoice;
 import org.apppooproject.Model.Order;
+import org.apppooproject.Views.AlertShowing;
 import org.apppooproject.Views.ViewModel;
 
 import java.util.ArrayList;
@@ -71,6 +72,30 @@ public class CustomerOrdersController {
             alert.setContentText("Wait for the confirmation of the order to generate its invoice.");
             alert.showAndWait(); // Affiche l'alerte et attend que l'utilisateur la ferme
         }
+    }
+    @FXML
+    void onClickDeleteOrder(ActionEvent event) {
+        Order order = orders.getSelectionModel().getSelectedItem();
+        if (order != null && !(order.getState()).equalsIgnoreCase("in progress")) {
+
+        }
+        else{
+            AlertShowing.showAlert("Action impossible","Action impossible", Alert.AlertType.ERROR);
+        }
+    }
+
+    @FXML
+    void onClickPayOrder(ActionEvent event) {
+        Order order = orders.getSelectionModel().getSelectedItem();
+        if (order != null && (order.getState()).equalsIgnoreCase("in progress")) {
+            order.setState("payed");
+            OrderManager.getInstance().modifyAnElement(order);
+            AlertShowing.showAlert("Order successfully payed","Order successfully payed", Alert.AlertType.CONFIRMATION);
+        }
+        else{
+            AlertShowing.showAlert("Action impossible","Order already payed or delivered", Alert.AlertType.INFORMATION);
+        }
+
     }
 
 

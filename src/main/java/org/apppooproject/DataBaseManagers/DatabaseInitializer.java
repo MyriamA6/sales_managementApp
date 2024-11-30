@@ -9,7 +9,7 @@ public class DatabaseInitializer {
     //initialization of the h2 database
 
     public static void initializeDatabase() {
-        String url = "jdbc:h2:~/projectdbTest"; // Base de données H2 (mode fichier)
+        String url = "jdbc:h2:~/projectTest"; // Base de données H2 (mode fichier)
         String user = "sa";
         String password = "";
 
@@ -48,7 +48,7 @@ public class DatabaseInitializer {
     // Method to get the connection from the created dataBase
     public static Connection getH2Connection() {
         try {
-            String url = "jdbc:h2:~/projectdbTest"; //url to the created database
+            String url = "jdbc:h2:~/projectTest"; //url to the created database
             String user = "sa";
             String password = "";
 

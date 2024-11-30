@@ -8,7 +8,6 @@ import org.apppooproject.Model.Top;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class OrderManager implements DataManager<Order> {
     private static OrderManager instance;
@@ -42,8 +41,8 @@ public class OrderManager implements DataManager<Order> {
             }
 
             // Insert products in Content table
-            for (Product product : order.getContent().keySet()) {
-                addContent(order.getOrderId(), product.getProductId(), order.getContent().get(product));
+            for (Long product : order.getContent().keySet()) {
+                addContent(order.getOrderId(), product, order.getContent().get(product));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -71,8 +70,8 @@ public class OrderManager implements DataManager<Order> {
 
             // Mettre à jour les contenus associés
             removeOrderContent(order.getOrderId());
-            for (Product product : order.getContent().keySet()) {
-                addContent(order.getOrderId(), product.getProductId(), order.getContent().get(product));
+            for (Long product : order.getContent().keySet()) {
+                addContent(order.getOrderId(), product, order.getContent().get(product));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -176,47 +175,14 @@ public class OrderManager implements DataManager<Order> {
     }
 
 
-    private HashMap<Product, Integer> getOrderContent(long orderId) {
-        HashMap<Product, Integer> content = new HashMap<>();
-        String sql = "SELECT c.product_id, c.quantity_ordered, p.name, p.price, p.color, p.size, p.description, p.gender, p.stock, " +
-                "pa.length, t.sleevesType " +
-                "FROM Content c " +
-                "JOIN Product p ON c.product_id = p.product_id " +
-                "LEFT JOIN Pants pa ON p.product_id = pa.product_id " +
-                "LEFT JOIN Top t ON p.product_id = t.product_id " +
-                "WHERE c.order_id = ?";
+    private HashMap<Long, Integer> getOrderContent(long orderId) {
+        HashMap<Long, Integer> content = new HashMap<>();
+        String sql = "SELECT product_id from Content WHERE order_id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setLong(1, orderId);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                Product product;
-                if (rs.getString("length") != null) {
-                    product = new Pants(
-                            rs.getLong("product_id"),
-                            rs.getString("name"),
-                            rs.getDouble("price"),
-                            rs.getInt("stock"),
-                            rs.getInt("size"),
-                            rs.getString("color"),
-                            rs.getString("description"),
-                            rs.getString("gender"),
-                            rs.getString("length").equalsIgnoreCase("Shorts")
-                    );
-                } else if (rs.getString("sleevesType") != null) {
-                    product = new Top(
-                            rs.getLong("product_id"),
-                            rs.getString("name"),
-                            rs.getDouble("price"),
-                            rs.getInt("stock"),
-                            rs.getInt("size"),
-                            rs.getString("color"),
-                            rs.getString("description"),
-                            rs.getString("gender"),
-                            rs.getString("sleevesType").equalsIgnoreCase("T-shirt")
-                    );
-                } else {
-                    throw new RuntimeException("Unknown product !");
-                }
+                Long product=rs.getLong("product_id");
                 content.put(product, rs.getInt("quantity_ordered"));
             }
         } catch (SQLException e) {

@@ -102,9 +102,22 @@ public class CartController {
         }
         else{
             connectedCustomer.payCart();
-            AlertShowing.showAlert("Order successful","Thank you for your order !",Alert.AlertType.INFORMATION);
+            AlertShowing.showAlert("Order successful","Thank you for your order !",Alert.AlertType.CONFIRMATION);
             resetCart();
         }
+    }
+
+    @FXML
+    void onClickStoreOrder(ActionEvent event) {
+        if (connectedCustomer.getCart().isEmpty()){
+            AlertShowing.showAlert("Cart is empty","Cart is empty",Alert.AlertType.WARNING);
+        }
+        else{
+            connectedCustomer.storeOrder();
+            AlertShowing.showAlert("Confirmation","Order successfully stored",Alert.AlertType.CONFIRMATION);
+            resetCart();
+        }
+
     }
 
     public void resetCart(){

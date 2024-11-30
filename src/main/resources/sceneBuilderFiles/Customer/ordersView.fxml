@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styleSheetsCss/customerAccount.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.apppooproject.Controllers.CustomerOrdersController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="435.0" prefWidth="627.0" stylesheets="@../styleSheetsCss/customerAccount.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.apppooproject.Controllers.CustomerOrdersController">
    <children>
       <HBox layoutX="30.0" layoutY="26.0" prefHeight="49.0" prefWidth="179.0" spacing="20.0">
          <children>
@@ -16,12 +16,12 @@
             <Button fx:id="account_button" mnemonicParsing="false" onAction="#onClickGoToAccount" text="Account" />
          </children>
       </HBox>
-      <Text fill="#ba2fa9" layoutX="292.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ORDERS" wrappingWidth="93.99997965494794">
+      <Text fill="#ba2fa9" layoutX="268.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ORDERS" wrappingWidth="93.99997965494794">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Text>
-      <TableView fx:id="orders" layoutX="17.0" layoutY="92.0" prefHeight="271.0" prefWidth="565.0">
+      <TableView fx:id="orders" layoutX="31.0" layoutY="91.0" prefHeight="271.0" prefWidth="565.0">
          <columns>
             <TableColumn fx:id="orderID" prefWidth="102.6666259765625" text="orderID" />
             <TableColumn fx:id="orderDate" prefWidth="105.33334350585938" text="Date" />
@@ -29,6 +29,8 @@
             <TableColumn fx:id="orderStatus" prefWidth="164.66668701171875" text="Status" />
          </columns>
       </TableView>
-      <Button layoutX="444.0" layoutY="33.0" mnemonicParsing="false" onAction="#onClickGenerateAssociatedInvoice" text="Generate Invoice" />
+      <Button layoutX="428.0" layoutY="374.0" mnemonicParsing="false" onAction="#onClickGenerateAssociatedInvoice" text="Generate Invoice" />
+      <Button layoutX="268.0" layoutY="374.0" mnemonicParsing="false" onAction="#onClickPayOrder" prefHeight="36.0" prefWidth="94.0" text="Pay Order" />
+      <Button layoutX="73.0" layoutY="374.0" mnemonicParsing="false" onAction="#onClickDeleteOrder" prefHeight="36.0" prefWidth="123.0" text="Delete Order" />
    </children>
 </AnchorPane>

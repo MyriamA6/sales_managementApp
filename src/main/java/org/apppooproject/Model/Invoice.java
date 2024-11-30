@@ -1,6 +1,7 @@
 package org.apppooproject.Model;
 
 import org.apppooproject.DataBaseManagers.OrderManager;
+import org.apppooproject.DataBaseManagers.ProductManager;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -85,8 +86,9 @@ public class Invoice {
             double totalOrder = 0;
 
             // Récupérer les produits et quantités commandées via l'ordre
-            for (Map.Entry<Product, Integer> entry : order.getContent().entrySet()) {
-                Product product = entry.getKey();
+            for (Map.Entry<Long, Integer> entry : order.getContent().entrySet()) {
+                Long productID = entry.getKey();
+                Product product = ProductManager.getInstance().getProductById(productID);
                 int quantity = entry.getValue();
                 double totalForProduct = product.getPrice() * quantity;
 

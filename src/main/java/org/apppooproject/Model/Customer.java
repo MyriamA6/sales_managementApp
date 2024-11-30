@@ -79,29 +79,37 @@ public class Customer {
         cart.clear();
     }
 
-
     public void payCart() {
         ProductManager.getInstance().refreshProductsStock();
+        // Create a new order and set its initial state to "payed"
+        Order order = new Order(
+                this,
+                cartCurrentPrice(),  // Total price calculated from the cart
+                new Date(), // Current date as the order date
+                "payed" // Initial order state
+        );
+        order.setContent(cart);
+        // Use the OrderManager to persist the order and its contents in the database
+        OrderManager orderManager = OrderManager.getInstance();
+        orderManager.addAnElement(order);
+        // Clear the cart after the order is created
+        cart.clear();
+
+    }
+
+    public void storeOrder() {
         // Create a new order and set its initial state to "in progress"
         Order order = new Order(
-                0, // Will be set by the database (auto-incremented)
                 this,
                 cartCurrentPrice(),  // Total price calculated from the cart
                 new Date(), // Current date as the order date
                 "in progress" // Initial order state
         );
 
-        // Add products from the cart to the order
-        ProductManager productManager = ProductManager.getInstance();
-        for (Map.Entry<Long, Integer> entry : cart.entrySet()) {
-            Product product = productManager.getProductById(entry.getKey());
-            order.addProductToOrder(product, entry.getValue());
-        }
-
+        order.setContent(cart);
         // Use the OrderManager to persist the order and its contents in the database
         OrderManager orderManager = OrderManager.getInstance();
         orderManager.addAnElement(order);
-
         // Clear the cart after the order is created
         cart.clear();
 
@@ -119,6 +127,10 @@ public class Customer {
 
     public long getCustomerId() {
         return customerId;
+    }
+
+    public void setCustomerId(long customerId) {
+        this.customerId = customerId;
     }
 
     public String getFirstName() {

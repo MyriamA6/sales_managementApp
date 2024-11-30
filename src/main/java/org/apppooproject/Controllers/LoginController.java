@@ -5,6 +5,7 @@ import javafx.scene.control.*;
 import javafx.event.ActionEvent;
 import org.apppooproject.DataBaseManagers.CustomerManager;
 import org.apppooproject.Model.Customer;
+import org.apppooproject.Service.Password;
 import org.apppooproject.Views.ViewModel;
 
 
@@ -38,7 +39,7 @@ public class LoginController {
     @FXML
     public void connectionToUserAccountAction(ActionEvent event) {
         String username = login_name.getText();
-        String pwd = password.getText();
+        String pwd = Password.hashPassword(password.getText());
         Customer customer = customerManager.getCustomerByLogin(username, pwd);
         if (customer!=null) {
             customerManager.setConnectedCustomer(customer);

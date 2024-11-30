@@ -114,9 +114,9 @@ public class CentralViewController {
     }
 
     @FXML
-    void onClickGoToAdminLogIn(ActionEvent event) {
+    void onClickLogOut(ActionEvent event) {
         viewModel.getViewFactory().closeCurrentWindow(event);
-        viewModel.getViewFactory().showAdminLoginWindow();
+        viewModel.getViewFactory().showLoginWindow();
     }
 
 

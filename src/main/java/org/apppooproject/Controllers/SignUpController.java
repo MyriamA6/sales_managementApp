@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import org.apppooproject.DataBaseManagers.CustomerManager;
 import org.apppooproject.Model.Customer;
+import org.apppooproject.Service.Password;
 import org.apppooproject.Views.AlertShowing;
 import org.apppooproject.Views.ViewModel;
 
@@ -43,7 +44,7 @@ public class SignUpController {
     @FXML
     void createANewCustomer(ActionEvent event) {
         if ((customerManager.getCustomerByEmail(email.getText()) == null) && (customerManager.getCustomerByLoginName(user_id.getText()) == null)) {
-            Customer c =new Customer(first_name.getText(),last_name.getText(),email.getText(), address.getText(), phone_number.getText(), user_id.getText(), password.getText());
+            Customer c =new Customer(first_name.getText(),last_name.getText(),email.getText(), address.getText(), phone_number.getText(), user_id.getText(), Password.hashPassword(password.getText()));
             customerManager.addAnElement(c);
             ViewModel.getInstance().getViewFactory().closeCurrentWindow(event);
             ViewModel.getInstance().getViewFactory().showAppViewWindow();

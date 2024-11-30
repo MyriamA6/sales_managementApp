@@ -1,6 +1,8 @@
 package org.apppooproject.DataBaseManagers;
 
 import org.apppooproject.Model.Customer;
+import org.apppooproject.Service.Password;
+
 import java.sql.*;
 
 public class CustomerManager implements DataManager<Customer> {
@@ -24,7 +26,7 @@ public class CustomerManager implements DataManager<Customer> {
     // Method to find a customer from the database based on the given username and password.
     // Returns the customer if found, otherwise returns null.
     public Customer getCustomerByLogin(String username, String password) {
-        String sql = "SELECT * FROM Customer WHERE login_name = ? AND user_password = ?";
+        String sql = "SELECT * FROM Customer WHERE login_name = ? and user_password= ?";
         try (PreparedStatement stmt = co.prepareStatement(sql)) {
             stmt.setString(1, username);
             stmt.setString(2, password);
