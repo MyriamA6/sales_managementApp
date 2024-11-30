@@ -177,7 +177,7 @@ public class OrderManager implements DataManager<Order> {
 
     private HashMap<Long, Integer> getOrderContent(long orderId) {
         HashMap<Long, Integer> content = new HashMap<>();
-        String sql = "SELECT product_id from Content WHERE order_id = ?";
+        String sql = "SELECT * from Content WHERE order_id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setLong(1, orderId);
             ResultSet rs = stmt.executeQuery();

@@ -51,9 +51,12 @@ public class CustomerOrdersController {
         // Fetch all orders for the connected customer
         ArrayList<Order> customerOrders = orderManager.getOrdersByCustomerId(connectedCustomer.getCustomerId());
 
-        // Display the orders in the TableView
-        orders.getItems().clear();
         orders.getItems().addAll(customerOrders);
+    }
+
+    private void reloadOrders() {
+        orders.getItems().clear();
+        loadCustomerOrders();
     }
 
     @FXML
@@ -66,21 +69,18 @@ public class CustomerOrdersController {
             viewModel.getViewFactory().showInvoiceDisplay();
         }
         else{
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Order not confirmed yet");
-            alert.setHeaderText(null);
-            alert.setContentText("Wait for the confirmation of the order to generate its invoice.");
-            alert.showAndWait(); // Affiche l'alerte et attend que l'utilisateur la ferme
+            AlertShowing.showAlert("Not paid yet","Order not paid yet", Alert.AlertType.WARNING);
         }
     }
     @FXML
     void onClickDeleteOrder(ActionEvent event) {
         Order order = orders.getSelectionModel().getSelectedItem();
         if (order != null && !(order.getState()).equalsIgnoreCase("in progress")) {
-
+            orderManager.deleteAnElement(order);
+            reloadOrders();
         }
         else{
-            AlertShowing.showAlert("Action impossible","Action impossible", Alert.AlertType.ERROR);
+            AlertShowing.showAlert("Order already payed or delivered","Order already payed or delivered", Alert.AlertType.ERROR);
         }
     }
 
@@ -91,9 +91,29 @@ public class CustomerOrdersController {
             order.setState("payed");
             OrderManager.getInstance().modifyAnElement(order);
             AlertShowing.showAlert("Order successfully payed","Order successfully payed", Alert.AlertType.CONFIRMATION);
+            reloadOrders();
         }
         else{
-            AlertShowing.showAlert("Action impossible","Order already payed or delivered", Alert.AlertType.INFORMATION);
+            AlertShowing.showAlert("Order already payed or delivered","Order already payed or delivered", Alert.AlertType.ERROR);
+        }
+
+    }
+
+    @FXML
+    void onClickModifyOrder(ActionEvent event) {
+        Order order = orders.getSelectionModel().getSelectedItem();
+        if (order != null && (order.getState()).equalsIgnoreCase("in progress")) {
+            if(!connectedCustomer.getCart().isEmpty()){
+                connectedCustomer.storeOrder();
+            }
+            connectedCustomer.addAllToCart(order.getProducts());
+            orderManager.deleteAnElement(order);
+            viewModel.getViewFactory().closeCurrentWindow(event);
+            viewModel.getViewFactory().showCartViewWindow();
+            reloadOrders();
+        }
+        else{
+            AlertShowing.showAlert("Order already payed or delivered","Order already payed or delivered", Alert.AlertType.ERROR);
         }
 
     }

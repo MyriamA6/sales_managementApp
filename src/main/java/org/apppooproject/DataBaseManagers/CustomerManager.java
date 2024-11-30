@@ -124,6 +124,12 @@ public class CustomerManager implements DataManager<Customer> {
             String sql = "INSERT INTO Customer(first_name, last_name, email, address, phone_number, login_name, user_password) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = setPreparedStatement(c, sql); // Prepares SQL statement with Customer data
             stmt.executeUpdate();
+            ResultSet generatedKeys = stmt.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                long customerId = generatedKeys.getLong(1);
+                c.setCustomerId(customerId);
+            }
+
             stmt.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());

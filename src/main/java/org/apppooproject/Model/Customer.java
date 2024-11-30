@@ -3,6 +3,7 @@ package org.apppooproject.Model;
 import org.apppooproject.DataBaseManagers.OrderManager;
 import org.apppooproject.DataBaseManagers.ProductManager;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,9 +46,10 @@ public class Customer {
     }
 
     public int addToCart(Product product){
-        if (product.getStock()>0) {
-            cart.put(product.getProductId(), cart.getOrDefault(product.getProductId(), 0) + 1);
-            product.decrementStock();
+        int quantity_in_cart=cart.getOrDefault(product.getProductId(), 0);
+        if ((product.getStock()-quantity_in_cart)>0) {
+            cart.put(product.getProductId(), quantity_in_cart + 1);
+            //product.decrementStock();
             return 1;
         }
         else{
@@ -57,7 +59,7 @@ public class Customer {
 
     //a revoir !!
     public void suppressFromCart(Product product){
-        product.setStock(cart.get(product.getProductId())+product.getStock());
+        //product.setStock(cart.get(product.getProductId())+product.getStock());
         cart.remove(product.getProductId());
     }
 
@@ -68,18 +70,38 @@ public class Customer {
         else{
             cart.put(product.getProductId(), cart.get(product.getProductId()) - 1);
         }
-        product.setStock(product.getStock()+1);
+        /*product.setStock(product.getStock()+1);*/
+    }
+
+    public void addAllToCart(Map<Product,Integer> product){
+        for (Map.Entry<Product, Integer> entry : product.entrySet()) {
+            addSeveralToCart(entry.getKey(), entry.getValue());
+        }
+    }
+
+    public void addSeveralToCart(Product product, int quantity){
+        int cpt =0;
+        while (cpt<quantity) {
+            if(addToCart(product)==0){
+                cpt=quantity;
+            }
+            cpt++;
+        }
     }
 
     public void clearCart(){
-        for (Map.Entry<Long, Integer> entry : cart.entrySet()) {
+        /*for (Map.Entry<Long, Integer> entry : cart.entrySet()) {
             Product product = ProductManager.getInstance().getProductById(entry.getKey());
             product.setStock(product.getStock()+ entry.getValue());
-        }
+        }*/
         cart.clear();
     }
 
     public void payCart() {
+        for (Map.Entry<Long, Integer> entry : cart.entrySet()) {
+            Product product = ProductManager.getInstance().getProductById(entry.getKey());
+            product.setStock(product.getStock()-entry.getValue());
+        }
         ProductManager.getInstance().refreshProductsStock();
         // Create a new order and set its initial state to "payed"
         Order order = new Order(
@@ -190,5 +212,31 @@ public class Customer {
     }
 
     public long getUserId() { return customerId; }
+
+    // Method to check if it's possible to create a customer
+    public static boolean isPossibleToCreateCustomer(String firstName, String lastName, String email, String phoneNumber) {
+
+        // Check if firstName and lastName contain only letters (A-Z or a-z)
+        if (!firstName.matches("[a-zA-Z]+") || !lastName.matches("[a-zA-Z]+")) {
+            return false; // Return false if either firstName or lastName contain non-letter characters
+        }
+
+        // Check if email contains "@" and "." and that they are surrounded by letters
+        // Email pattern: letters before @, letters after @, and letters after the period (.)
+        String emailRegex = "^[a-zA-Z]+@[a-zA-Z]+\\.[a-zA-Z]+$";
+        if (!email.matches(emailRegex)) {
+            return false; // Return false if the email does not follow the correct pattern
+        }
+
+        // Check if phoneNumber contains only digits (no spaces, no symbols)
+        if (!phoneNumber.matches("\\d+")) {
+            return false; // Return false if phoneNumber contains any non-digit characters
+        }
+
+        // If all checks pass, return true (it's possible to create the customer)
+        return true;
+    }
+
+
 
 }

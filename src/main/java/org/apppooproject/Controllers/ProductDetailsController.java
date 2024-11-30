@@ -28,41 +28,44 @@ public class ProductDetailsController {
     private Label productName_label;
 
     @FXML
-    private RadioMenuItem s_button;
-
-    @FXML
-    private MenuButton sizeFilter;
-
-    @FXML
-    private RadioMenuItem xl_button;
-
-    @FXML
-    private RadioMenuItem xs_button;
+    private Label error_label;
 
     @FXML
     private Button add_button;
 
     private Product productSelected;
 
+    public void initialize() {
+        error_label.setVisible(false);
+    }
+
     public void setProduct(Product product) {
         this.productSelected = product;
         productDescription.setText(product.getDescription());
-        String imagePath = "/images/" + product.getName() +" "+product.getColor()+ ".jpg"; //.replaceAll(" ", "_")
-        Image image = new Image(getClass().getResourceAsStream(imagePath));
+        productDescription.setEditable(false);
+
+        String imagePath = "/images/" + product.getName() + " " + product.getColor() + ".jpg";
+
+        Image image;
+        try {
+            image = new Image(getClass().getResourceAsStream(imagePath));
+            if (image.isError()) {
+                throw new Exception("Image not found: " + imagePath);
+            }
+        } catch (Exception e) {
+            image = new Image(getClass().getResourceAsStream("/images/error.jpg"));
+            error_label.setVisible(true);
+            error_label.setText("No image is available");
+        }
+
         productImage.setImage(image);
         productName_label.setText(product.getName());
 
-        /*ToggleGroup sizeGroup = new ToggleGroup();
-        xs_button.setToggleGroup(sizeGroup);
-        xl_button.setToggleGroup(sizeGroup);
-        s_button.setToggleGroup(sizeGroup);
-        l_button.setToggleGroup(sizeGroup);
-        m_button.setToggleGroup(sizeGroup);*/
-
-        if (productSelected.getStock()==0){
+        if (productSelected.getStock() == 0) {
             add_button.setDisable(true);
         }
     }
+
 
     @FXML
     void onClickAddOneToCart(ActionEvent event) {

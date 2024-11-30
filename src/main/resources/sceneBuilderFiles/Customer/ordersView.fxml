@@ -29,8 +29,9 @@
             <TableColumn fx:id="orderStatus" prefWidth="164.66668701171875" text="Status" />
          </columns>
       </TableView>
-      <Button layoutX="428.0" layoutY="374.0" mnemonicParsing="false" onAction="#onClickGenerateAssociatedInvoice" text="Generate Invoice" />
+      <Button layoutX="449.0" layoutY="32.0" mnemonicParsing="false" onAction="#onClickGenerateAssociatedInvoice" text="Generate Invoice" />
       <Button layoutX="268.0" layoutY="374.0" mnemonicParsing="false" onAction="#onClickPayOrder" prefHeight="36.0" prefWidth="94.0" text="Pay Order" />
       <Button layoutX="73.0" layoutY="374.0" mnemonicParsing="false" onAction="#onClickDeleteOrder" prefHeight="36.0" prefWidth="123.0" text="Delete Order" />
+      <Button layoutX="449.0" layoutY="374.0" mnemonicParsing="false" onAction="#onClickModifyOrder" text="Modify Order" />
    </children>
 </AnchorPane>

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class AdminOrdersController {
 
     @FXML
-    private RadioButton confirmed_button;
+    private RadioButton payed_button;
 
     @FXML
     private RadioButton delivered_button;
@@ -48,7 +48,7 @@ public class AdminOrdersController {
         orderStatus.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getState()));
 
         ToggleGroup statusToggleGroup = new ToggleGroup();
-        confirmed_button.setToggleGroup(statusToggleGroup);
+        payed_button.setToggleGroup(statusToggleGroup);
         delivered_button.setToggleGroup(statusToggleGroup);
         inProgress_button.setToggleGroup(statusToggleGroup);
         // Load orders for the connected customer
@@ -78,20 +78,20 @@ public class AdminOrdersController {
     @FXML
     void onRowClicked(MouseEvent event) {
         inProgress_button.setDisable(false);
-        confirmed_button.setDisable(false);
+        payed_button.setDisable(false);
         delivered_button.setDisable(false);
         Order order = ordersTable.getSelectionModel().getSelectedItem();
         if (order != null) {
             if (order.getState().equalsIgnoreCase("in progress")){
                 inProgress_button.setSelected(true);
             }
-            else if (order.getState().equalsIgnoreCase("confirmed")){
-                confirmed_button.setSelected(true);
+            else if (order.getState().equalsIgnoreCase("payed")){
+                payed_button.setSelected(true);
                 inProgress_button.setDisable(true);
             }
             else if (order.getState().equalsIgnoreCase("delivered")){
                 delivered_button.setSelected(true);
-                confirmed_button.setDisable(true);
+                payed_button.setDisable(true);
                 inProgress_button.setDisable(true);
             }
         }
@@ -100,8 +100,8 @@ public class AdminOrdersController {
     @FXML
     void onClickChangeOrderStatus(ActionEvent event) {
         Order order = ordersTable.getSelectionModel().getSelectedItem();
-        if (confirmed_button.isSelected()) {
-            order.setState("confirmed");
+        if (payed_button.isSelected()) {
+            order.setState("payed");
             orderManager.modifyAnElement(order);
             InvoiceManager.getInstance().createInvoice(order);
         }

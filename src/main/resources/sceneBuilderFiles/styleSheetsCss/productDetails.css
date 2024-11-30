@@ -1,0 +1,42 @@
+/* Style général pour le fond de l'application */
+.root {
+    -fx-background-color: #f8f0f6; /* Couleur de fond douce */
+}
+
+/* Styles pour les ImageView */
+.image-view {
+    -fx-effect: dropshadow(gaussian, rgba(170, 47, 166, 0.5), 10, 0.3, 0, 2); /* Ombre subtile */
+    -fx-padding: 10;
+}
+
+/* Styles pour les TextArea */
+.text-area {
+    -fx-background-color: white; /* Fond blanc pour la description */
+    -fx-border-color: #aa2fa6; /* Bordure violette douce */
+    -fx-border-radius: 5; /* Coins arrondis */
+    -fx-font-size: 10; /* Taille de police */
+    -fx-padding: 5; /* Espacement interne */
+    -fx-text-fill: #4b2c4b; /* Texte violet sombre */
+}
+
+/* Styles pour les boutons */
+.button {
+    -fx-background-color: #d39bd4; /* Couleur de fond des boutons */
+    -fx-text-fill: white; /* Couleur du texte */
+    -fx-padding: 5 8; /* Espacement interne réduit */
+    -fx-font-size: 10; /* Taille de police */
+    -fx-border-radius: 5; /* Coins arrondis */
+    -fx-cursor: hand; /* Curseur en forme de main pour indiquer qu'il est cliquable */
+}
+
+.button:hover {
+    -fx-background-color: #aa2fa6; /* Changement de couleur au survol */
+}
+
+/* Styles pour les labels */
+.label {
+    -fx-text-fill: #6a2c6a; /* Texte violet foncé */
+    -fx-font-size: 14; /* Taille de police légèrement plus grande pour les noms de produit */
+    -fx-font-weight: bold; /* Texte en gras */
+    -fx-alignment: center; /* Centré */
+}

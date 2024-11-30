@@ -65,7 +65,7 @@ public class Invoice {
 
     public boolean generateInvoice() {
         Order order = OrderManager.getInstance().getElementById(orderId);
-        if(order.getState().equalsIgnoreCase("confirmed") ||
+        if(order.getState().equalsIgnoreCase("payed") ||
             order.getState().equalsIgnoreCase("delivered")) {
             // Création de la première partie de la facture avec les informations générales
             StringBuilder invoiceText = new StringBuilder();

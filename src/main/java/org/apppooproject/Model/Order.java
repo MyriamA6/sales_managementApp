@@ -1,5 +1,6 @@
 package org.apppooproject.Model;
 
+import org.apppooproject.DataBaseManagers.InvoiceManager;
 import org.apppooproject.DataBaseManagers.ProductManager;
 
 import java.util.Date;
@@ -71,11 +72,23 @@ public class Order {
     }
 
     public void setState(String state) {
+        if(state.equalsIgnoreCase("payed")){
+            System.out.println("hereeeeeee");
+            InvoiceManager.getInstance().createInvoice(this);
+        }
         this.state = state;
     }
 
     public Map<Long, Integer> getContent() {
         return content;
+    }
+
+    public Map<Product, Integer> getProducts() {
+        Map<Product, Integer> products = new HashMap<>();
+        for (Map.Entry<Long, Integer> entry : content.entrySet()) {
+            products.put(ProductManager.getInstance().getProductById(entry.getKey()), entry.getValue());
+        }
+        return products;
     }
 
     // Ajout de la méthode setContent
