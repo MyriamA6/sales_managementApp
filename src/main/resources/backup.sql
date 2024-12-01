@@ -96,6 +96,9 @@ VALUES
     ('Louis', 'Jean', 'louis.jean@gmail.com', '30 Avenue du Marais, Paris', '0974663790', 'Louis', '777cadc280bb23ebea268ded98338c39'),
     ('Marie', 'Dupont', 'marie.dupont@gmail.com', '15 Rue de Lyon, Lyon', '0647896541', 'Marie', '4a7d1ed414474e4033ac29ccb8653d9b'),
     ('Pierre', 'Martin', 'pierre.martin@gmail.com', '10 Rue de Lille, Lille', '0623987654', 'Pm', '93f725a07423fe1c889f448b33d21f46');
+    ('Sophie', 'Dubois', 'sophie.dubois@email.com', '25 Rue de la Paix, Paris', '0612345678', 'Sophie_D', MD5('motdepasse123')), 
+    ('Thomas', 'Leroy', 'thomas.leroy@email.com', '7 Rue de la Liberté, Nice', '0698765432', 'TomL', MD5('securite456')), 
+    ('Emma', 'Petit', 'emma.petit@email.com', '5 Place de la Bastille, Paris', '0623456789', 'Emma_P', MD5('confidentiel789')); 
 
 -- Insertion des produits
 INSERT INTO Product (name, price, stock, gender, color, size, description)
