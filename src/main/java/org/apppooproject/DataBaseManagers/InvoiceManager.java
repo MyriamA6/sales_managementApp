@@ -33,6 +33,7 @@ public class InvoiceManager implements DataManager<Invoice> {
             statement.setLong(1, invoice.getOrderId());
             statement.setDate(2, new java.sql.Date(invoice.getInvoiceDate().getTime()));
             statement.executeUpdate();
+            System.out.println("Invoice added successfully");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -100,12 +101,12 @@ public class InvoiceManager implements DataManager<Invoice> {
 
     // Méthode pour créer une facture à partir d'une commande
     public Invoice createInvoice(Order order) {
-        if (order.getState().equalsIgnoreCase("confirmed")) {
+        if (order.getState().equalsIgnoreCase("payed")) {
             Invoice invoice = new Invoice(order.getOrderId(), order.getDateOrder());
             addAnElement(invoice); // Ajoute la facture à la base de données
             return invoice;
         } else {
-            throw new IllegalStateException("La commande n'est pas complétée, la facture ne peut pas être créée.");
+            throw new IllegalStateException("Invoice cannot be created, order is incomplete.");
         }
     }
 

@@ -413,6 +413,11 @@ public class AdminProductsController {
         tshirt_button.setSelected(false);
     }
 
+    @FXML
+    void onClickAdminLogOut(ActionEvent event){
+        ViewModel.getInstance().getViewFactory().closeCurrentWindow(event);
+        ViewModel.getInstance().getViewFactory().showLoginWindow();
+    }
 
     @FXML
     void onRowClicked(MouseEvent event) {

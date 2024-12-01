@@ -38,6 +38,9 @@ public class OrderManager implements DataManager<Order> {
             ResultSet generatedKeys = stmt.getGeneratedKeys();
             if (generatedKeys.next()) {
                 order.setOrderId(generatedKeys.getLong(1));
+                if( order.getState().equalsIgnoreCase("payed")){
+                    InvoiceManager.getInstance().createInvoice(order);
+                }
             }
 
             // Insert products in Content table

@@ -115,6 +115,9 @@ public class CentralViewController {
 
     @FXML
     void onClickLogOut(ActionEvent event) {
+        if(!(connectedCustomer.getCart().isEmpty())){
+            connectedCustomer.storeOrder();
+        }
         viewModel.getViewFactory().closeCurrentWindow(event);
         viewModel.getViewFactory().showLoginWindow();
     }

@@ -28,11 +28,11 @@ public class InvoiceDisplayController {
         StringBuilder invoiceContent=new StringBuilder();
         BufferedReader reader= null;
         try {
-            reader = new BufferedReader(new FileReader(new File("src/main/resources/invoices/"+order.getCustomerId()+"/invoice_"+invoice.getInvoiceId()+".txt")));
+            reader = new BufferedReader(new FileReader(new File("src/main/resources/invoices/"+order.getCustomerId()+"/invoice_"+order.getOrderId()+".txt")));
             String line=reader.readLine();
             while(line!=null){
-                line=reader.readLine();
                 invoiceContent.append(line).append("\n");
+                line=reader.readLine();
             }
             reader.close();
         } catch (FileNotFoundException e) {

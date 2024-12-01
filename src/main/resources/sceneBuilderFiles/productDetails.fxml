@@ -9,11 +9,13 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="347.0" prefWidth="600.0" stylesheets="@styleSheetsCss/productDetails.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.apppooproject.Controllers.ProductDetailsController">
    <children>
       <ImageView fx:id="productImage" fitHeight="222.0" fitWidth="238.0" layoutX="48.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true" />
-      <TextArea fx:id="productDescription" layoutX="341.0" layoutY="127.0" prefHeight="115.0" prefWidth="238.0" />
+      <TextArea fx:id="productDescription" layoutX="341.0" layoutY="116.0" prefHeight="115.0" prefWidth="238.0" />
       <Button fx:id="add_button" layoutX="417.0" layoutY="270.0" mnemonicParsing="false" onAction="#onClickAddOneToCart" text="Add one to cart" />
       <Label fx:id="productName_label" layoutX="254.0" layoutY="17.0" text="product name" />
       <Button layoutX="23.0" layoutY="14.0" mnemonicParsing="false" onAction="#onClickGoToShoppingView" text="Continue shopping" />
-      <Label fx:id="productName_label1" layoutX="395.0" layoutY="74.0" text="Product's description" />
+      <Label fx:id="productName_label1" layoutX="390.0" layoutY="74.0" text="Product's description" />
       <Label fx:id="error_label" layoutX="78.0" layoutY="306.0" text="Sorry, no visual is available" />
+      <Label fx:id="noStock_label" layoutX="419.0" layoutY="306.0" text="Out of stock" />
+      <Label fx:id="size_label" layoutX="433.0" layoutY="238.0" text="Size : 34" />
    </children>
 </AnchorPane>

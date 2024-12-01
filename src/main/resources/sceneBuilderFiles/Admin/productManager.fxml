@@ -107,5 +107,6 @@
       </MenuButton>
       <Accordion />
       <Button layoutX="540.0" layoutY="26.0" mnemonicParsing="false" onAction="#onClickGoToOrdersManager" prefHeight="29.0" prefWidth="108.0" text="Orders Manager" />
+      <Button layoutX="25.0" layoutY="13.0" mnemonicParsing="false" onAction="#onClickAdminLogOut" prefHeight="27.0" prefWidth="51.0" text="Log out" />
    </children>
 </AnchorPane>

@@ -100,7 +100,7 @@ VALUES
 -- Insertion des produits
 INSERT INTO Product (name, price, stock, gender, color, size, description)
 VALUES
-    ('Sweatshirt', 40, 20, 'Unisex', 'Grey', 38, 'A comfortable sweatshirt'),
+    ('Sweatshirt', 40, 2, 'Unisex', 'Grey', 38, 'A comfortable sweatshirt'),
     ('Chino Pants', 60, 15, 'Male', 'Beige', 34, 'Elegant chino pants'),
     ('Blouse', 35, 25, 'Female', 'White', 36, 'Light cotton blouse'),
     ('Cargo Pants', 55, 10, 'Unisex', 'Black', 38, 'Practical cargo pants'),
@@ -133,7 +133,6 @@ VALUES
 INSERT INTO Invoice (order_id, invoice_date)
 VALUES
     (1, DATE '2024-10-16'),
-    (2, DATE '2024-10-17'),
     (3, DATE '2024-10-15'),
     (4, DATE '2024-10-13');
 

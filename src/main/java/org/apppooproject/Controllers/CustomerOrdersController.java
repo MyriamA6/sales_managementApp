@@ -65,6 +65,10 @@ public class CustomerOrdersController {
         if (order != null && !(order.getState()).equalsIgnoreCase("in progress")) {
             Invoice invoice = InvoiceManager.getInstance().getInvoiceByOrderId(order.getOrderId());
             InvoiceManager.getInstance().setSelectedInvoice(invoice);
+            if(invoice==null){
+                System.out.println("Invoice is null");
+                return;
+            }
             invoice.generateInvoice();
             viewModel.getViewFactory().showInvoiceDisplay();
         }
@@ -107,6 +111,7 @@ public class CustomerOrdersController {
                 connectedCustomer.storeOrder();
             }
             connectedCustomer.addAllToCart(order.getProducts());
+            AlertShowing.showAlert("Warning","Some products may not be available anymore.", Alert.AlertType.WARNING);
             orderManager.deleteAnElement(order);
             viewModel.getViewFactory().closeCurrentWindow(event);
             viewModel.getViewFactory().showCartViewWindow();

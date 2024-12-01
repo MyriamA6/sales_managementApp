@@ -13,12 +13,6 @@ import org.apppooproject.Views.ViewModel;
 public class ProductDetailsController {
 
     @FXML
-    private RadioMenuItem l_button;
-
-    @FXML
-    private RadioMenuItem m_button;
-
-    @FXML
     private TextArea productDescription;
 
     @FXML
@@ -31,12 +25,21 @@ public class ProductDetailsController {
     private Label error_label;
 
     @FXML
+    private Label size_label;
+
+    @FXML
+    private Label noStock_label;
+
+
+
+    @FXML
     private Button add_button;
 
     private Product productSelected;
 
     public void initialize() {
         error_label.setVisible(false);
+        noStock_label.setVisible(false);
     }
 
     public void setProduct(Product product) {
@@ -60,9 +63,11 @@ public class ProductDetailsController {
 
         productImage.setImage(image);
         productName_label.setText(product.getName());
-
-        if (productSelected.getStock() == 0) {
+        size_label.setText("Size : " + String.valueOf(product.getSize()));
+        int quantity_in_cart = CustomerManager.getInstance().getConnectedCustomer().getCart().getOrDefault(product.getProductId(),0);
+        if (product.getStock()-quantity_in_cart==0) {
             add_button.setDisable(true);
+            noStock_label.setVisible(true);
         }
     }
 
@@ -76,7 +81,7 @@ public class ProductDetailsController {
             }
             else{
                 add_button.setDisable(true);
-                AlertShowing.showAlert("Product added","Product successfully added to cart !", Alert.AlertType.INFORMATION);
+                AlertShowing.showAlert("Product is now out of stock","Product is now out of stock", Alert.AlertType.INFORMATION);
             }
         }
     }

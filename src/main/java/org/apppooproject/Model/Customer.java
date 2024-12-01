@@ -1,5 +1,6 @@
 package org.apppooproject.Model;
 
+import org.apppooproject.DataBaseManagers.InvoiceManager;
 import org.apppooproject.DataBaseManagers.OrderManager;
 import org.apppooproject.DataBaseManagers.ProductManager;
 
@@ -50,6 +51,9 @@ public class Customer {
         if ((product.getStock()-quantity_in_cart)>0) {
             cart.put(product.getProductId(), quantity_in_cart + 1);
             //product.decrementStock();
+            if((product.getStock()-quantity_in_cart-1)==0) {
+                return 0;
+            }
             return 1;
         }
         else{
@@ -110,6 +114,7 @@ public class Customer {
                 new Date(), // Current date as the order date
                 "payed" // Initial order state
         );
+
         order.setContent(cart);
         // Use the OrderManager to persist the order and its contents in the database
         OrderManager orderManager = OrderManager.getInstance();

@@ -29,6 +29,7 @@ public class Order {
         this.totalPrice = totalPrice;
         this.dateOrder = dateOrder;
         this.state = state;
+
     }
 
     public void addProductToOrder(Long product, int quantity) {
@@ -72,11 +73,11 @@ public class Order {
     }
 
     public void setState(String state) {
-        if(state.equalsIgnoreCase("payed")){
-            System.out.println("hereeeeeee");
+        this.state = state;
+        if(state.equalsIgnoreCase("payed")) {
+            System.out.println("hereeee");
             InvoiceManager.getInstance().createInvoice(this);
         }
-        this.state = state;
     }
 
     public Map<Long, Integer> getContent() {
