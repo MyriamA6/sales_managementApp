@@ -278,7 +278,7 @@ VALUES
     (118, 'Shorts'), -- Fleece Shorts    
     (122, 'Regular'), -- Flared Pants
     (123, 'Regular'), -- Flared Pants
-    (124, 'Regular'), -- Flared Pants
+    (124, 'Regular'); -- Flared Pants
 
 
 -- Insertion des hauts
@@ -356,7 +356,7 @@ VALUES
     (114, 'Sweater'), -- Zip Sweatshirt
     (119, 'T-shirt'), -- Turtle Neck
     (120, 'T-shirt'), -- Turtle Neck
-    (121, 'T-shirt'), -- Turtle Neck
+    (121, 'T-shirt'); -- Turtle Neck
 
 -- Insertion des commandes
 INSERT INTO Order_record (customer_id, total_price, order_date, order_state)
