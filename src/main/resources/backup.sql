@@ -125,7 +125,7 @@ VALUES
     ('Polo Shirt', 40, 28, 'Male', 'Pink', 40, 'Comfortable polo shirt with short sleeves'),
     ('Sweater', 55, 18, 'Male', 'Grey', 40, 'Warm knitted sweater for winter'),
     ('Blouse', 38, 20, 'Female', 'Yellow', 36, 'Elegant blouse with subtle patterns'),
-    ('Jeans', 75, 35, 'Unisex', 'Blue', 38, 'Skinny fit denim jeans'),
+    ('Skinny Jeans', 75, 35, 'Unisex', 'Blue', 38, 'Skinny fit denim jeans'),
     ('Chino Pants', 65, 25, 'Male', 'Green', 34, 'Slim-fit chino pants for a casual look'),
     ('Leggings', 28, 40, 'Female', 'Pink', 36, 'Comfortable and flexible leggings'),
     ('Shorts', 30, 30, 'Male', 'Grey', 34, 'Relaxed-fit shorts for outdoor activities'),
