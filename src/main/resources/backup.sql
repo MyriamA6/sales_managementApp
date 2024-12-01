@@ -180,7 +180,6 @@ VALUES
     ('Sweater', 50, 22, 'Male', 'Yellow', 34, 'Warm and cozy sweater'),
     ('Sweater', 50, 22, 'Male', 'Yellow', 36, 'Warm and cozy sweater'),
     ('Sweater', 50, 22, 'Male', 'Yellow', 38, 'Warm and cozy sweater'),
-    ('Sweater', 50, 22, 'Male', 'Yellow', 40, 'Warm and cozy sweater'),
     ('Sweater', 50, 22, 'Male', 'Yellow', 42, 'Warm and cozy sweater'),
     ('Jeans', 70, 30, 'Unisex', 'Blue', 34, 'Classic denim jeans'),
     ('Jeans', 70, 30, 'Unisex', 'Blue', 36, 'Classic denim jeans'),
@@ -255,31 +254,31 @@ VALUES
     (59, 'Regular'), -- Military Cargo
     (63, 'Regular'), -- Chino Pants
     (65, 'Regular'), -- Cargo Pants
+    (82, 'Regular'), -- Jeans
     (83, 'Regular'), -- Jeans
     (84, 'Regular'), -- Jeans
     (85, 'Regular'), -- Jeans
-    (86, 'Regular'), -- Jeans
+    (86, 'Regular'), -- Leggings
     (87, 'Regular'), -- Leggings
-    (88, 'Regular'), -- Leggings
-    (89,'Regular' ), -- Leggings
-    (90, 'Regular'), -- Leggings
+    (88,'Regular' ), -- Leggings
+    (89, 'Regular'), -- Leggings
+    (90, 'Shorts'), -- Shorts
     (91, 'Shorts'), -- Shorts
-    (92, 'Shorts'), -- Shorts
+    (92, 'Regular'), -- Pleated Pants
     (93, 'Regular'), -- Pleated Pants
-    (94, 'Regular'), -- Pleated Pants
+    (94, 'Regular'), -- Jogging
     (95, 'Regular'), -- Jogging
-    (96, 'Regular'), -- Jogging
+    (101, 'Regular'), -- Oversized Jeans
     (102, 'Regular'), -- Oversized Jeans
-    (103, 'Regular'), -- Oversized Jeans
-    (107, 'Regular'), -- Denim    
-    (108, 'Regular'), -- Denim
+    (106, 'Regular'), -- Denim    
+    (107, 'Regular'), -- Denim
+    (115, 'Regular'), -- Military Cargo
     (116, 'Regular'), -- Military Cargo
-    (117, 'Regular'), -- Military Cargo
-    (118, 'Shorts'), -- Fleece Shorts
-    (119, 'Shorts'), -- Fleece Shorts    
+    (117, 'Shorts'), -- Fleece Shorts
+    (118, 'Shorts'), -- Fleece Shorts    
+    (122, 'Regular'), -- Flared Pants
     (123, 'Regular'), -- Flared Pants
     (124, 'Regular'), -- Flared Pants
-    (125, 'Regular'), -- Flared Pants
 
 
 -- Insertion des hauts
@@ -340,25 +339,24 @@ VALUES
     (79, 'Sweater'), --  Sweater
     (80, 'Sweater'), --  Sweater
     (81, 'Sweater'), --  Sweater
-    (82, 'Sweater'), --  Sweater
+    (96, 'Sweater'), -- Hoodie
     (97, 'Sweater'), -- Hoodie
-    (98, 'Sweater'), -- Hoodie
+    (98, 'T-shirt'), -- Tank Top
     (99, 'T-shirt'), -- Tank Top
     (100, 'T-shirt'), -- Tank Top
-    (101, 'T-shirt'), -- Tank Top
+    (103, 'T-shirt'), -- Oversied T-Shirt
     (104, 'T-shirt'), -- Oversied T-Shirt
     (105, 'T-shirt'), -- Oversied T-Shirt
-    (106, 'T-shirt'), -- Oversied T-Shirt
+    (108, 'T-shirt'), -- T-Shirt
     (109, 'T-shirt'), -- T-Shirt
-    (110, 'T-shirt'), -- T-Shirt
-    (111, 'T-shirt'), -- T-Shirt    
+    (110, 'T-shirt'), -- T-Shirt    
+    (111, 'T-shirt'), -- Tunic
     (112, 'T-shirt'), -- Tunic
-    (113, 'T-shirt'), -- Tunic
-    (114, 'Sweater'), -- Zip Sweatshirt    
-    (115, 'Sweater'), -- Zip Sweatshirt
+    (113, 'Sweater'), -- Zip Sweatshirt    
+    (114, 'Sweater'), -- Zip Sweatshirt
+    (119, 'T-shirt'), -- Turtle Neck
     (120, 'T-shirt'), -- Turtle Neck
     (121, 'T-shirt'), -- Turtle Neck
-    (122, 'T-shirt'), -- Turtle Neck
 
 -- Insertion des commandes
 INSERT INTO Order_record (customer_id, total_price, order_date, order_state)
