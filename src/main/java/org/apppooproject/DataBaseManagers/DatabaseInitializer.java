@@ -9,10 +9,17 @@ public class DatabaseInitializer {
     //initialization of the h2 database
 
     public static void initializeDatabase() {
+        String dbPath = System.getProperty("user.home") + "/projectTest.mv.db"; // Chemin du fichier de la base de données
         String url = "jdbc:h2:~/projectTest"; // Base de données H2 (mode fichier)
         String user = "sa";
         String password = "";
 
+        // Vérification si le fichier existe déjà
+        File dbFile = new File(dbPath);
+        if (dbFile.exists()) {
+            System.out.println("Database file already exists");
+            return; // Arrêt si la base de données existe déjà
+        }
         try (Connection connection = DriverManager.getConnection(url, user, password);
              Statement statement = connection.createStatement();
              InputStream inputStream = DatabaseInitializer.class.getClassLoader().getResourceAsStream("backup.sql")) {

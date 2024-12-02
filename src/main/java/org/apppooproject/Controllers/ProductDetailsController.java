@@ -81,7 +81,8 @@ public class ProductDetailsController {
             }
             else{
                 add_button.setDisable(true);
-                AlertShowing.showAlert("Product is now out of stock","Product is now out of stock", Alert.AlertType.INFORMATION);
+                noStock_label.setVisible(true);
+                AlertShowing.showAlert("Product is now out of stock","It was the last product available", Alert.AlertType.INFORMATION);
             }
         }
     }

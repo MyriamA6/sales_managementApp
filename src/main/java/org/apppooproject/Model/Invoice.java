@@ -34,17 +34,10 @@ public class Invoice {
         return invoiceId;
     }
 
-    public void setInvoiceId(long invoiceId) {
-        this.invoiceId = invoiceId;
-    }
-
     public long getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(long orderId) {
-        this.orderId = orderId;
-    }
 
     public Date getInvoiceDate() {
         return invoiceDate;

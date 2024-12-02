@@ -459,8 +459,11 @@ public class AdminProductsController {
 
     @FXML
     void onClickDeleteSelectedItem(ActionEvent event) {
-        Product selectedProduct =products.getSelectionModel().getSelectedItem();
+        Product selectedProduct = products.getSelectionModel().getSelectedItem();
         if(selectedProduct != null){
+            if (selectedProduct.getStock()==0){
+                AlertShowing.showAlert("Redundant query","Product is already not available for customers", Alert.AlertType.INFORMATION);
+            }
             productManager.deleteAnElement(selectedProduct);
         }
         updateTable();

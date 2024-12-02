@@ -414,21 +414,12 @@ public class ProductManager implements DataManager<Product> {
                     stmtTop.setString(2, sleevesType);
                     stmtTop.executeUpdate();
                 }
+                products.add(product);
             }
         } catch (SQLException e) {
             System.out.println("Error adding product: " + e.getMessage());
         }
     }
-
-    /*// Mettre à jour le stock d'un produit
-    public void updateStock(long productId, int quantityToAdd) throws SQLException {
-        String query = "UPDATE Product SET stock = stock + ? WHERE product_id = ?";
-        try (PreparedStatement stmt = co.prepareStatement(query)) {
-            stmt.setInt(1, quantityToAdd);
-            stmt.setLong(2, productId);
-            stmt.executeUpdate();
-        }
-    }*/
 
 
     @Override
@@ -500,7 +491,9 @@ public class ProductManager implements DataManager<Product> {
             refresh();
 
         } catch (SQLException e) {
-            System.out.println("Error deleting product: " + e.getMessage());
+            System.out.println("Setting the stock of the product to 0");
+            product.setStock(0);
+            modifyAnElement(product);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
