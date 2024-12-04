@@ -74,7 +74,7 @@ public class Order {
 
     public void setState(String state) {
         this.state = state;
-        if(state.equalsIgnoreCase("payed")) {
+        if(state.equalsIgnoreCase("paid")) {
             System.out.println("hereeee");
             InvoiceManager.getInstance().createInvoice(this);
         }

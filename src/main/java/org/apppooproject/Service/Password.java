@@ -2,6 +2,7 @@ package org.apppooproject.Service;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+//Class to encrypt a given password using the cryptographic hash function MD5
 public class Password {
 
     public static String hashPassword(String password) {
@@ -19,11 +20,6 @@ public class Password {
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public static boolean verifyPassword(String password, String hashedPassword) {
-        String hashedInput = hashPassword(password);
-        return hashedInput.equals(hashedPassword);
     }
 
 }

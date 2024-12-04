@@ -1,14 +1,13 @@
 package org.apppooproject.Model;
 
-import org.apppooproject.DataBaseManagers.InvoiceManager;
 import org.apppooproject.DataBaseManagers.OrderManager;
 import org.apppooproject.DataBaseManagers.ProductManager;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+//Customer class that models an instance of the Customer table of the database
 public class Customer {
     private long customerId;
     private String firstName;
@@ -18,9 +17,12 @@ public class Customer {
     private String phoneNumber;
     private String loginName;
     private String userPassword;
-    private Map<Long, Integer> cart = new HashMap<Long,Integer>();
+    private Map<Long, Integer> cart = new HashMap<Long,Integer>(); //variable corresponding to the current cart of the customer
+    //The keys of the map are the id of the products in the cart
+    //The values corresponds to the quantity of the corresponding object contained in the cart
 
 
+    //Constructor for a Customer object without its id
     public Customer(String firstName, String lastName, String email, String address, String phoneNumber, String loginName, String userPassword) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -46,11 +48,12 @@ public class Customer {
         return cart;
     }
 
+    //method to add a product to a cart
+    //return 0 if the stock of the product is null and 1 otherwise
     public int addToCart(Product product){
         int quantity_in_cart=cart.getOrDefault(product.getProductId(), 0);
         if ((product.getStock()-quantity_in_cart)>0) {
             cart.put(product.getProductId(), quantity_in_cart + 1);
-            //product.decrementStock();
             if((product.getStock()-quantity_in_cart-1)==0) {
                 return 0;
             }
@@ -61,12 +64,12 @@ public class Customer {
         }
     }
 
-    //a revoir !!
+    //method to completely delete a product from the cart
     public void suppressFromCart(Product product){
-        //product.setStock(cart.get(product.getProductId())+product.getStock());
         cart.remove(product.getProductId());
     }
 
+    //method to reduce the quantity of the product choosen by one
     public void suppressOneUnitFromCart(Product product){
         if((cart.get(product.getProductId())-1)==0){
             cart.remove(product.getProductId());
@@ -74,15 +77,17 @@ public class Customer {
         else{
             cart.put(product.getProductId(), cart.get(product.getProductId()) - 1);
         }
-        /*product.setStock(product.getStock()+1);*/
     }
 
+    //method to add a map of products to the cart
+    //used to add a map of products from an order to the cart
     public void addAllToCart(Map<Product,Integer> product){
         for (Map.Entry<Product, Integer> entry : product.entrySet()) {
             addSeveralToCart(entry.getKey(), entry.getValue());
         }
     }
 
+    //method to add several unit of a same product to the cart
     public void addSeveralToCart(Product product, int quantity){
         int cpt =0;
         while (cpt<quantity) {
@@ -93,26 +98,26 @@ public class Customer {
         }
     }
 
+
+    //method to empty the cart
     public void clearCart(){
-        /*for (Map.Entry<Long, Integer> entry : cart.entrySet()) {
-            Product product = ProductManager.getInstance().getProductById(entry.getKey());
-            product.setStock(product.getStock()+ entry.getValue());
-        }*/
         cart.clear();
     }
 
+    //method to allow the customer to pay its cart
+    //Will create a corresponding order with the "paid" status and add it to the database
     public void payCart() {
         for (Map.Entry<Long, Integer> entry : cart.entrySet()) {
             Product product = ProductManager.getInstance().getProductById(entry.getKey());
             product.setStock(product.getStock()-entry.getValue());
         }
         ProductManager.getInstance().refreshProductsStock();
-        // Create a new order and set its initial state to "payed"
+        // Create a new order and set its initial state to "paid"
         Order order = new Order(
                 this,
                 cartCurrentPrice(),  // Total price calculated from the cart
                 new Date(), // Current date as the order date
-                "payed" // Initial order state
+                "paid" // Initial order state
         );
 
         order.setContent(cart);
@@ -124,6 +129,7 @@ public class Customer {
 
     }
 
+    //method to store the cart of the customer as an "in progress" order to allow it to change it later
     public void storeOrder() {
         // Create a new order and set its initial state to "in progress"
         Order order = new Order(
@@ -142,6 +148,7 @@ public class Customer {
 
     }
 
+    //method to compute the current total price value of the cart
     public double cartCurrentPrice() {
         double totalPrice = 0;
         ProductManager productManager = ProductManager.getInstance();
@@ -218,7 +225,7 @@ public class Customer {
 
     public long getUserId() { return customerId; }
 
-    // Method to check if it's possible to create a customer
+    // Method to check if it's possible to create a customer with the given parameters
     public static boolean isPossibleToCreateCustomer(String firstName, String lastName, String email, String phoneNumber) {
 
         // Check if firstName and lastName contain only letters (A-Z or a-z)
@@ -227,14 +234,13 @@ public class Customer {
         }
 
         // Check if email contains "@" and "." and that they are surrounded by letters
-        // Email pattern: letters before @, letters after @, and letters after the period (.)
         String emailRegex = "^[a-zA-Z]+@[a-zA-Z]+\\.[a-zA-Z]+$";
         if (!email.matches(emailRegex)) {
             return false; // Return false if the email does not follow the correct pattern
         }
 
-        // Check if phoneNumber contains only digits (no spaces, no symbols)
-        if (!phoneNumber.matches("\\d+")) {
+        // Check if phoneNumber contains only digits (no spaces, no symbols), starts with a 0 and have a total of 9 digits
+        if (!phoneNumber.matches("0[0-9]{9}")) {
             return false; // Return false if phoneNumber contains any non-digit characters
         }
 

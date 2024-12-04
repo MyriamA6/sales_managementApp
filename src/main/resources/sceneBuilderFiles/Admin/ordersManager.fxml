@@ -26,12 +26,12 @@
             <TableColumn fx:id="orderID" prefWidth="102.6666259765625" text="orderID" />
             <TableColumn fx:id="orderDate" prefWidth="105.33334350585938" text="Date" />
             <TableColumn fx:id="orderTotalPrice" prefWidth="191.33331298828125" text="Total Price" />
-            <TableColumn fx:id="orderStatus" prefWidth="164.66668701171875" text="Status" />
+            <TableColumn fx:id="orderStatus" prefWidth="164.66668701171875" text="State" />
          </columns>
       </TableView>
       <RadioButton fx:id="inProgress_button" layoutX="30.0" layoutY="82.0" mnemonicParsing="false" text="IN PROGRESS" />
-      <RadioButton fx:id="payed_button" layoutX="206.0" layoutY="82.0" mnemonicParsing="false" text="PAYED" />
-      <RadioButton fx:id="delivered_button" layoutX="327.0" layoutY="82.0" mnemonicParsing="false" text="DELIVERED" />
-      <Button fx:id="change_status" layoutX="460.0" layoutY="77.0" mnemonicParsing="false" onAction="#onClickChangeOrderStatus" prefHeight="30.0" prefWidth="125.0" text="Change status" />
+      <RadioButton fx:id="payed_button" layoutX="206.0" layoutY="82.0" mnemonicParsing="false" text="PAID" />
+      <RadioButton fx:id="delivered_button" layoutX="316.0" layoutY="82.0" mnemonicParsing="false" text="DELIVERED" />
+      <Button fx:id="change_status" layoutX="460.0" layoutY="77.0" mnemonicParsing="false" onAction="#onClickChangeOrderStatus" prefHeight="30.0" prefWidth="125.0" text="Change state" />
    </children>
 </AnchorPane>

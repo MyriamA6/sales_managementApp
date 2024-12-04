@@ -84,8 +84,10 @@ public class AdminOrdersController {
         if (order != null) {
             if (order.getState().equalsIgnoreCase("in progress")){
                 inProgress_button.setSelected(true);
+                payed_button.setDisable(true);
+                delivered_button.setDisable(true);
             }
-            else if (order.getState().equalsIgnoreCase("payed")){
+            else if (order.getState().equalsIgnoreCase("paid")){
                 payed_button.setSelected(true);
                 inProgress_button.setDisable(true);
             }
@@ -101,7 +103,7 @@ public class AdminOrdersController {
     void onClickChangeOrderStatus(ActionEvent event) {
         Order order = ordersTable.getSelectionModel().getSelectedItem();
         if (payed_button.isSelected()) {
-            order.setState("payed");
+            order.setState("paid");
             orderManager.modifyAnElement(order);
             InvoiceManager.getInstance().createInvoice(order);
         }

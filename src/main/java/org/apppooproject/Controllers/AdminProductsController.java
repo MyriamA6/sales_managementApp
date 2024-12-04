@@ -13,6 +13,7 @@ import org.apppooproject.Model.Customer;
 import org.apppooproject.Model.Pants;
 import org.apppooproject.Model.Product;
 import org.apppooproject.Model.Top;
+import org.apppooproject.MyExceptions.InfoNotCompleteException;
 import org.apppooproject.Views.AlertShowing;
 import org.apppooproject.Views.ViewModel;
 
@@ -268,6 +269,14 @@ public class AdminProductsController {
 
     @FXML
     void onClickApplyChanges(ActionEvent event) {
+        try{
+            isAFieldNull();
+        }
+        catch (InfoNotCompleteException e) {
+            AlertShowing.showAlert("Error", "The product cannot be changed or created", Alert.AlertType.ERROR);
+            return;
+        }
+
         if(modification_button.isSelected()){
             Product selectedProduct = products.getSelectionModel().getSelectedItem();
             selectedProduct.setName(productNameField.getText());
@@ -337,6 +346,7 @@ public class AdminProductsController {
         }
         else{
             Product newProduct=null;
+
             // Creating a new product
             if (shorts_button.isSelected() || regular_button.isSelected()) {
                 // Creating a new Pants product
@@ -364,6 +374,7 @@ public class AdminProductsController {
 
                 newProduct = new Top(name, priceValue, stockValue, size, color, descriptionText, gender, isTshirt);
             }
+            assert newProduct != null;
             productManager.addAnElement(newProduct);
             AlertShowing.showAlert("Product added", "The product has been added successfully", Alert.AlertType.INFORMATION);
 
@@ -473,6 +484,17 @@ public class AdminProductsController {
         products.getItems().clear();
         setupTable();
         products.refresh();
+    }
+
+    public void isAFieldNull() throws InfoNotCompleteException {
+        if(productNameField.getText().equalsIgnoreCase("") || !(sweater_button.isSelected() || shorts_button.isSelected() || regular_button.isSelected()) || !(male_button.isSelected() || female_button.isSelected() || unisex_button.isSelected())){
+            throw new InfoNotCompleteException();
+        }
+        if(!(quantity.getText().matches("[0-9]+")) || !(price.getText().matches("[1-9]+[0-9]*.?[0-9]*")) || !(yellow_button.isSelected() || orange_button.isSelected() || grey_button.isSelected()
+        || green_button.isSelected() || pink_button.isSelected() || red_button.isSelected() || white_button.isSelected() || black_button.isSelected()
+        )|| !(xs_button.isSelected() || s_button.isSelected() || xl_button.isSelected() || m_button.isSelected() || l_button.isSelected())){
+            throw new InfoNotCompleteException();
+        }
     }
 
 }

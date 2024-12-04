@@ -101,7 +101,7 @@ public class InvoiceManager implements DataManager<Invoice> {
 
     // Méthode pour créer une facture à partir d'une commande
     public Invoice createInvoice(Order order) {
-        if (order.getState().equalsIgnoreCase("payed")) {
+        if (order.getState().equalsIgnoreCase("paid")) {
             Invoice invoice = new Invoice(order.getOrderId(), order.getDateOrder());
             addAnElement(invoice); // Ajoute la facture à la base de données
             return invoice;

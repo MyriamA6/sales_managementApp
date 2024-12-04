@@ -56,29 +56,30 @@ public class Invoice {
                 '}';
     }
 
+    //method to generate the text file associated to an invoice
     public boolean generateInvoice() {
         Order order = OrderManager.getInstance().getElementById(orderId);
-        if(order.getState().equalsIgnoreCase("payed") ||
+        if(order.getState().equalsIgnoreCase("paid") ||
             order.getState().equalsIgnoreCase("delivered")) {
-            // Création de la première partie de la facture avec les informations générales
+            // Creation of the header oh the invoice
             StringBuilder invoiceText = new StringBuilder();
             invoiceText.append("Invoice ").append(invoiceId).append("\n");
             invoiceText.append("Order Number: ").append(order.getOrderId()).append("\n");
             invoiceText.append("Date: ").append(order.getDateOrder()).append("\n\n");
 
-            // Récupérer les informations du client
+            // Add of the customer's information
             Customer customer = order.getCustomer();
             invoiceText.append("Customer: ").append(customer.getFirstName()).append(" ").append(customer.getLastName()).append("\n");
             invoiceText.append("Address: ").append(customer.getAddress()).append("\n");
             invoiceText.append("Email: ").append(customer.getEmail()).append("\n");
             invoiceText.append("Phone: ").append(customer.getPhoneNumber()).append("\n\n");
 
-            // Tableau des produits commandés
+            // Table view with the content of the order
             invoiceText.append(String.format("%-20s %-10s %-5s %-10s\n", "Description", "Price", "Qty", "Total"));
 
             double totalOrder = 0;
 
-            // Récupérer les produits et quantités commandées via l'ordre
+            // Filling of the table with the products
             for (Map.Entry<Long, Integer> entry : order.getContent().entrySet()) {
                 Long productID = entry.getKey();
                 Product product = ProductManager.getInstance().getProductById(productID);
@@ -87,19 +88,19 @@ public class Invoice {
 
                 invoiceText.append(String.format("%-20s %-10.2f %-5d %-10.2f\n", product.getName(), product.getPrice(), quantity, totalForProduct));
 
-                // Additionner le total de la commande
+                // Computation of the total price of the order
                 totalOrder += totalForProduct;
             }
 
-            // Ajouter le total de la commande
+            // Add of the total of the order to the invoice
             invoiceText.append("\nTotal Order: ").append(totalOrder).append("€\n");
 
-            // Récupérer le dossier du client où enregistrer la facture
+            // Locating the invoice folder in the project
             File customerFolder = new File("src/main/resources/invoices/" + customer.getCustomerId());
 
-            // Si le dossier n'existe pas, le créer
+            //
             if (!customerFolder.exists()) {
-                boolean created = customerFolder.mkdirs();  // Création du dossier pour le client
+                boolean created = customerFolder.mkdirs();  // Creation of the folder associated to the connected custoemr
                 if (created) {
                     System.out.println("Folder created for customer: " + customer.getFirstName() + " " + customer.getLastName());
                 } else {
@@ -107,10 +108,9 @@ public class Invoice {
                 }
             }
 
-            // Nom du fichier de la facture
             File invoiceFile = new File(customerFolder, "invoice_" + order.getOrderId() + ".txt");
 
-            // Générer le fichier texte pour la facture
+            // Generates a text file containing the invoice associated to the order with id orderId
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(invoiceFile))) {
                 writer.write(invoiceText.toString());
                 System.out.println("Invoice generated successfully for order " + order.getOrderId());

@@ -16,8 +16,8 @@
     -fx-background-color: #d39bd4; /* Couleur de fond des boutons */
     -fx-text-fill: white; /* Couleur du texte */
     -fx-padding: 2 5; /* Espacement interne réduit pour les boutons */
-    -fx-font-size: 10;
-    -fx-border-radius: 3;
+    -fx-font-size: 10; /* Taille de police réduite pour un effet plus compact */
+    -fx-border-radius: 3; /* Coins arrondis plus petits */
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 3, 0.0, 0, 1); /* Ombre portée pour les boutons */
 }
 
@@ -48,26 +48,16 @@
     -fx-background-color: #b559a8; /* Changement de couleur au survol */
 }
 
-/* Styles pour les labels */
 .label {
-    -fx-text-fill: #4b2c4b; /* Couleur du texte plus foncée */
-    -fx-font-size: 12; /* Taille de police pour les labels */
+    -fx-text-fill: #4b2c4b;
+    -fx-font-size: 12;
 }
 
-/* Styles pour le texte de bienvenue */
-#welcomeText {
-    -fx-text-fill: #b559a8; /* Couleur spécifique pour le texte de bienvenue */
-    -fx-font-size: 16; /* Taille de police pour le texte de bienvenue */
-    -fx-font-weight: bold; /* Texte en gras */
-}
-
-/* Styles pour le tableau */
 .table-view {
-    -fx-border-color: #b559a8; /* Bordure autour du tableau */
-    -fx-background-color: white; /* Fond blanc pour le tableau */
+    -fx-border-color: #b559a8;
+    -fx-background-color: white;
 }
 
-/* Styles pour les colonnes de table */
 .table-column {
-    -fx-text-fill: #4b2c4b; /* Couleur de texte pour les colonnes */
+    -fx-text-fill: #4b2c4b;
 }

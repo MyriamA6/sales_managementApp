@@ -3,23 +3,18 @@ package org.apppooproject.Controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import org.apppooproject.DataBaseManagers.CustomerManager;
 import org.apppooproject.Model.Customer;
+import org.apppooproject.Views.AlertShowing;
 import org.apppooproject.Views.ViewModel;
 
+//Class Controller to control the javaFX UI of the customer's account's interface
 public class CustomerController {
 
     @FXML
     private TextField address;
-
-    @FXML
-    private Button applyChanges_button;
-
-    @FXML
-    private Button deleteProfile_button;
 
     @FXML
     private TextField email;
@@ -28,19 +23,10 @@ public class CustomerController {
     private TextField first_name;
 
     @FXML
-    private Button invoice_button;
-
-    @FXML
     private TextField last_name;
 
     @FXML
-    private Button menu_button;
-
-    @FXML
     private PasswordField new_password;
-
-    @FXML
-    private Button orders_button;
 
     @FXML
     private TextField phone_number;
@@ -54,6 +40,7 @@ public class CustomerController {
 
     private final ViewModel viewModel = ViewModel.getInstance();
 
+    //Initialization of the field the customer's information
     @FXML
     public void initialize() {
         first_name.setText(connectedCustomer.getFirstName());
@@ -64,6 +51,7 @@ public class CustomerController {
         login_name.setText(connectedCustomer.getLoginName());
     }
 
+    //method that is activated when a customer
     @FXML
     void applyChanges(ActionEvent event) {
         connectedCustomer.setFirstName(first_name.getText());
@@ -74,16 +62,13 @@ public class CustomerController {
         connectedCustomer.setLoginName(login_name.getText());
         connectedCustomer.setUserPassword(new_password.getText());
         customerManager.modifyAnElement(connectedCustomer);
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Account successfully updated");
-        alert.setHeaderText(null); // Pas de texte dans l'en-tête
-        alert.setContentText("Account has been updated");
-        alert.showAndWait(); // Affiche l'alerte et attend que l'utilisateur la ferme
+        AlertShowing.showAlert("Account successfully updated","Account has been updated", Alert.AlertType.INFORMATION);
     }
 
     @FXML
     void deleteTheAccount(ActionEvent event) {
         customerManager.deleteAnElement(connectedCustomer);
+
 
     }
 

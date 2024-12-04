@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -8,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styleSheetsCss/customerAccount.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.apppooproject.Controllers.CartController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.apppooproject.Controllers.CartController">
    <children>
       <HBox layoutX="30.0" layoutY="26.0" prefHeight="49.0" prefWidth="179.0" spacing="20.0">
          <children>
@@ -16,34 +17,38 @@
             <Button fx:id="delete_button" mnemonicParsing="false" onAction="#onClickGoToUserAccount" text="Account" />
          </children>
       </HBox>
-      <Text fill="#ba2fa9" layoutX="217.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CART" wrappingWidth="61.999979654947936">
+      <Text fill="#ba2fa9" layoutX="217.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CART" wrappingWidth="61.999979654947936">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Text>
       <TableView fx:id="products" layoutX="17.0" layoutY="83.0" prefHeight="224.0" prefWidth="565.0">
          <columns>
-            <TableColumn fx:id="productName" prefWidth="75.0" text="Product" />
-            <TableColumn fx:id="productType" prefWidth="75.0" text="Type" />
-            <TableColumn fx:id="productQuantity" prefWidth="104.0" text="Quantity" />
-            <TableColumn fx:id="productPrice" prefWidth="103.33331298828125" text="Price" />
-            <TableColumn fx:id="productSize" prefWidth="85.33331298828125" text="Size" />
-            <TableColumn fx:id="productColor" prefWidth="122.00006103515625" text="Color" />
+            <TableColumn fx:id="productName" prefWidth="158.6666259765625" text="Product" />
+            <TableColumn fx:id="productType" prefWidth="69.33334350585938" text="Type" />
+            <TableColumn fx:id="productQuantity" prefWidth="95.33331298828125" text="Quantity" />
+            <TableColumn fx:id="productPrice" prefWidth="83.33331298828125" text="Price" />
+            <TableColumn fx:id="productSize" prefWidth="76.0" text="Size" />
+            <TableColumn fx:id="productColor" prefWidth="84.6666259765625" text="Color" />
          </columns>
       </TableView>
       <HBox layoutX="36.0" layoutY="348.0" prefHeight="43.0" prefWidth="527.0" spacing="40.0">
          <children>
             <Button mnemonicParsing="false" onAction="#onClickAddOneToCart" prefHeight="36.0" prefWidth="141.0" text="Add an item" />
-            <Button mnemonicParsing="false" onAction="#onClickRemoveOneFromCart" text="Remove an item" />
+            <Button mnemonicParsing="false" onAction="#onClickRemoveOneFromCart" prefHeight="37.0" prefWidth="145.0" text="Remove an item" />
             <Button mnemonicParsing="false" onAction="#onClickSuppressFromCart" prefHeight="36.0" prefWidth="166.0" text="Suppress from cart" />
          </children>
       </HBox>
       <Button fx:id="payCart_button" layoutX="493.0" layoutY="28.0" mnemonicParsing="false" onAction="#onClickPayCart" text="Pay cart" />
-      <Text fx:id="cart_price" fill="#ba2fa9" layoutX="360.0" layoutY="329.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Price : " wrappingWidth="133.33333333333337">
+      <Text fx:id="cart_price" fill="#ba2fa9" layoutX="359.0" layoutY="329.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Price : " wrappingWidth="133.33333333333337">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Text>
       <Button layoutX="310.0" layoutY="28.0" mnemonicParsing="false" onAction="#onClickStoreOrder" text="Keep order for later" />
    </children>
+   <stylesheets>
+      <URL value="@../styleSheetsCss/customerAccount.css" />
+      <URL value="@../styleSheetsCss/cartView.css" />
+   </stylesheets>
 </AnchorPane>

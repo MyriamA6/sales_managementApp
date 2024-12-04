@@ -84,7 +84,7 @@ public class CustomerOrdersController {
             reloadOrders();
         }
         else{
-            AlertShowing.showAlert("Order already payed or delivered","Order already payed or delivered", Alert.AlertType.ERROR);
+            AlertShowing.showAlert("Order already paid or delivered","Order already paid or delivered", Alert.AlertType.ERROR);
         }
     }
 
@@ -92,13 +92,13 @@ public class CustomerOrdersController {
     void onClickPayOrder(ActionEvent event) {
         Order order = orders.getSelectionModel().getSelectedItem();
         if (order != null && (order.getState()).equalsIgnoreCase("in progress")) {
-            order.setState("payed");
+            order.setState("paid");
             OrderManager.getInstance().modifyAnElement(order);
-            AlertShowing.showAlert("Order successfully payed","Order successfully payed", Alert.AlertType.CONFIRMATION);
+            AlertShowing.showAlert("Order successfully paid","Order successfully paid", Alert.AlertType.CONFIRMATION);
             reloadOrders();
         }
         else{
-            AlertShowing.showAlert("Order already payed or delivered","Order already payed or delivered", Alert.AlertType.ERROR);
+            AlertShowing.showAlert("Order already paid or delivered","Order already paid or delivered", Alert.AlertType.ERROR);
         }
 
     }
@@ -118,7 +118,7 @@ public class CustomerOrdersController {
             reloadOrders();
         }
         else{
-            AlertShowing.showAlert("Order already payed or delivered","Order already payed or delivered", Alert.AlertType.ERROR);
+            AlertShowing.showAlert("Order already paid or delivered","Order already paid or delivered", Alert.AlertType.ERROR);
         }
 
     }

@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+//Class to launch the application using javaFx
 public class MainApp extends Application {
 
     @Override

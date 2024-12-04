@@ -88,14 +88,6 @@ public class CentralViewController {
         setupTable();
     }
 
-    /*@FXML
-    void addSelectedProductToCart(ActionEvent event) {
-        Product selectedProduct = products.getSelectionModel().getSelectedItem();
-        if (selectedProduct != null) {
-            int productAdded= connectedCustomer.addToCart(selectedProduct);
-            updateTable();
-        }
-    }*/
 
     private void setupTable(){
         products.getItems().addAll(productManager.getProductsInStock());
