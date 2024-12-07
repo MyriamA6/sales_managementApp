@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import org.apppooproject.DataBaseManagers.CustomerManager;
 import org.apppooproject.DataBaseManagers.InvoiceManager;
 import org.apppooproject.DataBaseManagers.OrderManager;
+import org.apppooproject.DataBaseManagers.ProductManager;
 import org.apppooproject.Model.Customer;
 import org.apppooproject.Model.Invoice;
 import org.apppooproject.Model.Order;
@@ -91,9 +92,17 @@ public class CustomerOrdersController {
     void onClickPayOrder(ActionEvent event) {
         Order order = orders.getSelectionModel().getSelectedItem();
         if (order != null && (order.getState()).equals(OrderState.IN_PROGRESS)) {
-            order.setState(OrderState.PAID);
-            OrderManager.getInstance().modifyAnElement(order);
-            AlertShowing.showAlert("Order successfully paid","Order successfully paid", Alert.AlertType.CONFIRMATION);
+            OrderManager.getInstance().updateOrderContent(order);
+            if (order.getContent().isEmpty()){
+                OrderManager.getInstance().deleteAnElement(order);
+                AlertShowing.showAlert("Order empty", "Products no longer available", Alert.AlertType.WARNING);
+            }
+            else {
+                AlertShowing.showAlert("Warning", "Some products may not be available anymore.", Alert.AlertType.WARNING);
+                order.setState(OrderState.PAID);
+                OrderManager.getInstance().modifyAnElement(order);
+            }
+            ProductManager.getInstance().refreshProductsStock();
             reloadOrders();
         }
         else{

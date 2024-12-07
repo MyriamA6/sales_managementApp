@@ -104,6 +104,22 @@ public class ProductManager implements DataManager<Product> {
         return null; // Returns null if no matching product is found
     }
 
+    // Returns a list of products that are in stock (stock > 0).
+    public int getStockOfProduct(long productId) {
+        try{
+            String sql = "SELECT * FROM Product where product_id = " + productId;
+            Statement stmt = co.createStatement();
+            ResultSet res = stmt.executeQuery(sql);
+            if (res.next()) {
+                return res.getInt("stock");
+            }
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return 0;
+    }
+
     // Update the product list by reloading all products from the database.
     public void refresh() {
         products.clear(); //we first clear the list of products

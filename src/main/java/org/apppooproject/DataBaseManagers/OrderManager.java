@@ -9,6 +9,7 @@ import org.apppooproject.Service.OrderState;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class OrderManager implements DataManager<Order> {
     private static OrderManager instance;
@@ -210,6 +211,21 @@ public class OrderManager implements DataManager<Order> {
             e.printStackTrace();
         }
         return orders;
+    }
+
+    public void updateOrderContent(Order order){
+        Map<Product,Integer> products =order.getProducts();
+        for(Map.Entry<Product,Integer> entry : products.entrySet()){
+            Product product = entry.getKey();
+            int productStock=ProductManager.getInstance().getStockOfProduct(product.getProductId());
+            if (productStock==0){
+                order.getContent().remove(product.getProductId());
+            }
+            else if(entry.getValue()>productStock){
+                order.getContent().put(product.getProductId(),productStock);
+            }
+        }
+        order.calculateTotalPrice();
     }
 
 

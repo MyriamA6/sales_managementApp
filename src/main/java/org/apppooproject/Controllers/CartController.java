@@ -101,7 +101,7 @@ public class CartController {
         }
         else{
             connectedCustomer.payCart();
-            AlertShowing.showAlert("Order successful","Thank you for your order !",Alert.AlertType.CONFIRMATION);
+            AlertShowing.showAlert("Order successful","Thank you for your order !",Alert.AlertType.INFORMATION);
             resetCart();
         }
     }
