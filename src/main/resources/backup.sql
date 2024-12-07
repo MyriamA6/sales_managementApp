@@ -1,4 +1,3 @@
--- Suppression des tables si elles existent déjà
 DROP TABLE IF EXISTS Content;
 DROP TABLE IF EXISTS Pants;
 DROP TABLE IF EXISTS Top;
@@ -7,7 +6,6 @@ DROP TABLE IF EXISTS Invoice;
 DROP TABLE IF EXISTS Order_record;
 DROP TABLE IF EXISTS Customer;
 
--- Création de la table Customer
 CREATE TABLE Customer (
                           customer_id BIGINT AUTO_INCREMENT PRIMARY KEY,
                           first_name VARCHAR(50) NOT NULL,
@@ -19,7 +17,6 @@ CREATE TABLE Customer (
                           user_password VARCHAR(256) NOT NULL
 );
 
--- Création de la table Order_record
 CREATE TABLE Order_record (
                               order_id BIGINT AUTO_INCREMENT PRIMARY KEY,
                               customer_id BIGINT NOT NULL,
@@ -32,7 +29,6 @@ CREATE TABLE Order_record (
                                   CHECK (order_state IN ('in progress', 'paid', 'delivered'))
 );
 
--- Création de la table Invoice
 CREATE TABLE Invoice (
                          invoice_id BIGINT AUTO_INCREMENT PRIMARY KEY,
                          order_id BIGINT UNIQUE NOT NULL,
@@ -41,7 +37,6 @@ CREATE TABLE Invoice (
                              FOREIGN KEY (order_id) REFERENCES Order_record(order_id)
 );
 
--- Création de la table Product
 CREATE TABLE Product (
                          product_id BIGINT AUTO_INCREMENT PRIMARY KEY,
                          name VARCHAR(50) NOT NULL,
@@ -58,7 +53,6 @@ CREATE TABLE Product (
                          CONSTRAINT CK_Unique UNIQUE (name, size, color, gender)
 );
 
--- Création de la table Pants
 CREATE TABLE Pants (
                        product_id BIGINT UNIQUE PRIMARY KEY,
                        length VARCHAR(30) NOT NULL,
@@ -66,7 +60,6 @@ CREATE TABLE Pants (
                        CONSTRAINT FK_Pants_Product FOREIGN KEY (product_id) REFERENCES Product(product_id)
 );
 
--- Création de la table Top
 CREATE TABLE Top (
                      product_id BIGINT UNIQUE PRIMARY KEY,
                      sleevesType VARCHAR(30) NOT NULL,
@@ -74,7 +67,6 @@ CREATE TABLE Top (
                      CONSTRAINT FK_Top_Product FOREIGN KEY (product_id) REFERENCES Product(product_id)
 );
 
--- Création de la table Content
 CREATE TABLE Content (
                          product_id BIGINT NOT NULL,
                          order_id BIGINT NOT NULL,

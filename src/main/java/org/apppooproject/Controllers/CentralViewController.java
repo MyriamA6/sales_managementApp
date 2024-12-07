@@ -16,7 +16,7 @@ import org.apppooproject.DataBaseManagers.ProductManager;
 import org.apppooproject.Model.Customer;
 import org.apppooproject.Model.Product;
 import org.apppooproject.Model.Top;
-import org.apppooproject.Views.ViewModel;
+import org.apppooproject.Service.ViewFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,25 +25,23 @@ import java.util.Arrays;
 public class CentralViewController {
 
     // Declare UI components
-    @FXML private Button accountButton, cartButton, searchButton, addOneButton;
-    @FXML private MenuButton colorFilter, priceFilter, sizeFilter;
-    @FXML private SplitMenuButton pantsButton, topsButton;
     @FXML private TableView<Product> products;
     @FXML private TableColumn<Product, String> productColor, productDescription, productName, productType;
     @FXML private TableColumn<Product, Double> productPrice;
     @FXML private TableColumn<Product, Integer> productSize;
+    @FXML private TableColumn<Product, String> productGender;
     @FXML private CheckMenuItem isRegular_button, isShorts_button, isSweater_button, isTshirt_button;
     @FXML private CheckMenuItem white_button, yellow_button, blue_button, green_button, black_button;
     @FXML private CheckMenuItem red_button, pink_button, orange_button, grey_button;
     @FXML private CheckMenuItem xs_button, s_button, m_button, l_button, xl_button;
     @FXML private RadioMenuItem less25_button, btw25_50_button, btw50_100_button, more100_button;
+    @FXML private CheckMenuItem female_button, male_button,unisex_button;
     @FXML private Text welcomeText;
     @FXML private TextField searchField;
 
     // Declare manager instances
     private final CustomerManager customerManager = CustomerManager.getInstance();
     private final ProductManager productManager = ProductManager.getInstance();
-    private final ViewModel viewModel = ViewModel.getInstance();
 
     private final Customer connectedCustomer = customerManager.getConnectedCustomer();
 
@@ -57,7 +55,7 @@ public class CentralViewController {
                 white_button, yellow_button, blue_button, green_button, black_button,
                 red_button, pink_button, orange_button, grey_button,
                 xs_button, s_button, m_button, l_button, xl_button,
-                isShorts_button, isRegular_button, isTshirt_button, isSweater_button
+                isShorts_button, isRegular_button, isTshirt_button, isSweater_button,female_button,male_button,unisex_button
         ));
 
         // Personalisation of the welcoming text
@@ -84,7 +82,7 @@ public class CentralViewController {
         productSize.setCellValueFactory(cellData-> new SimpleIntegerProperty(cellData.getValue().getSize()).asObject());
         productColor.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getColor()));
         productDescription.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDescription()));
-
+        productGender.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getGender()));
         setupTable();
     }
 
@@ -95,14 +93,14 @@ public class CentralViewController {
 
     @FXML
     void onClickGoToCart(ActionEvent event) {
-        viewModel.getViewFactory().closeCurrentWindow(event);
-        viewModel.getViewFactory().showCartViewWindow();
+        ViewFactory.closeCurrentWindow(event);
+        ViewFactory.showCartViewWindow();
     }
 
     @FXML
     void onClickGoToUserAccount(ActionEvent event) {
-        viewModel.getViewFactory().closeCurrentWindow(event);
-        viewModel.getViewFactory().showCustomerAccountWindow();
+        ViewFactory.closeCurrentWindow(event);
+        ViewFactory.showCustomerAccountWindow();
     }
 
     @FXML
@@ -110,8 +108,8 @@ public class CentralViewController {
         if(!(connectedCustomer.getCart().isEmpty())){
             connectedCustomer.storeOrder();
         }
-        viewModel.getViewFactory().closeCurrentWindow(event);
-        viewModel.getViewFactory().showLoginWindow();
+        ViewFactory.closeCurrentWindow(event);
+        ViewFactory.showLoginWindow();
     }
 
 
@@ -162,14 +160,14 @@ public class CentralViewController {
         if(!(isTshirt_button.isSelected() || isSweater_button.isSelected() || isRegular_button.isSelected() || isShorts_button.isSelected())) {
             selectedProductsByType.addAll(productManager.getProductsInStock());
         }
-        products.getItems().addAll(showByPrice(showBySize(showByColor(selectedProductsByType))));
+        products.getItems().addAll(showByGender(showByPrice(showBySize(showByColor(selectedProductsByType)))));
         products.refresh();
     }
 
     public ArrayList<Product> showByColor(ArrayList<Product> productsToFilter) {
         ArrayList<Product> filteredProducts = new ArrayList<>();
 
-        // Vérifiez quelle couleur est sélectionnée et affichez les produits correspondants
+        // Keep only the products whose color has been selected
         if (white_button.isSelected()) {
             filteredProducts.addAll(productManager.showProductByColor(productsToFilter,"WHITE"));
         }
@@ -197,7 +195,7 @@ public class CentralViewController {
         if (grey_button.isSelected()){
             filteredProducts.addAll(productManager.showProductByColor(productsToFilter,"GREY"));
         }
-        if(!(orange_button.isSelected() || pink_button.isSelected() || yellow_button.isSelected() || blue_button.isSelected() || green_button.isSelected() || black_button.isSelected() || red_button.isSelected() || grey_button.isSelected())) {
+        if(!(orange_button.isSelected() || pink_button.isSelected() || yellow_button.isSelected() || blue_button.isSelected() || green_button.isSelected() || black_button.isSelected() || red_button.isSelected() || grey_button.isSelected() || white_button.isSelected())) {
             filteredProducts.addAll(productsToFilter);
         }
         return filteredProducts;
@@ -241,6 +239,23 @@ public class CentralViewController {
             filteredProducts.addAll(productManager.showBetweenGivenPrice(productsToFilter,50,100));
         }
         else{
+            filteredProducts.addAll(productsToFilter);
+        }
+        return filteredProducts;
+    }
+
+    public ArrayList<Product> showByGender(ArrayList<Product> productsToFilter){
+        ArrayList<Product> filteredProducts = new ArrayList<>();
+        if(male_button.isSelected()){
+            filteredProducts.addAll(productManager.showProductByGender(productsToFilter,"male"));
+        }
+        if(female_button.isSelected()){
+            filteredProducts.addAll(productManager.showProductByGender(productsToFilter,"female"));
+        }
+        if(unisex_button.isSelected()){
+            filteredProducts.addAll(productManager.showProductByGender(productsToFilter,"unisex"));
+        }
+        if(!(unisex_button.isSelected() || male_button.isSelected() || female_button.isSelected())){
             filteredProducts.addAll(productsToFilter);
         }
         return filteredProducts;

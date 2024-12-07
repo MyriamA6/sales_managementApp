@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="460.0" prefWidth="600.0" stylesheets="@styleSheetsCss/appCentralView.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.apppooproject.Controllers.CentralViewController">
+<AnchorPane prefHeight="569.0" prefWidth="727.0" stylesheets="@styleSheetsCss/appCentralView.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.apppooproject.Controllers.CentralViewController">
     <children>
         <!-- Welcome Text -->
         <Text fx:id="welcomeText" fill="#b559a8" layoutX="183.0" layoutY="47.0" text="Welcome, [Client Name]">
@@ -28,15 +28,15 @@
 
         <!-- Filter Section -->
         <VBox layoutX="30.0" layoutY="100.0" spacing="15.0" />
-         <Button fx:id="cartButton" layoutX="526.0" layoutY="31.0" onAction="#onClickGoToCart" prefHeight="21.0" prefWidth="59.0" text="My Cart" />
-         <Button fx:id="accountButton" layoutX="433.0" layoutY="31.0" onAction="#onClickGoToUserAccount" prefHeight="21.0" prefWidth="73.0" text="My Account">
+         <Button fx:id="cartButton" layoutX="626.0" layoutY="27.0" onAction="#onClickGoToCart" prefHeight="25.0" prefWidth="69.0" text="My Cart" />
+         <Button fx:id="accountButton" layoutX="515.0" layoutY="27.0" onAction="#onClickGoToUserAccount" prefHeight="21.0" prefWidth="85.0" text="My Account">
          <font>
             <Font size="13.0" />
          </font></Button>
 
          <!-- Product Type Selection -->
          <Label layoutX="29.0" layoutY="124.0" text="Product Type:" />
-         <HBox layoutX="291.0" layoutY="151.0" prefHeight="37.0" prefWidth="283.0" spacing="30.0">
+         <HBox layoutX="316.0" layoutY="155.0" prefHeight="29.0" prefWidth="390.0" spacing="30.0">
          <children>
             <MenuButton fx:id="priceFilter" mnemonicParsing="false" prefHeight="29.0" prefWidth="69.0" text="Price">
                <items>
@@ -68,23 +68,31 @@
                   <CheckMenuItem mnemonicParsing="false" text="XL 42" fx:id="xl_button" />
                </items>
             </MenuButton>
+            <MenuButton fx:id="genderFilter" mnemonicParsing="false" prefHeight="29.0" prefWidth="85.0" text="Gender">
+               <items>
+                  <CheckMenuItem fx:id="male_button" mnemonicParsing="false" text="Male" />
+                  <CheckMenuItem fx:id="female_button" mnemonicParsing="false" text="Female" />
+                  <CheckMenuItem fx:id="unisex_button" mnemonicParsing="false" text="Unisex" />
+               </items>
+            </MenuButton>
          </children>
          </HBox>
-         <Label layoutX="291.0" layoutY="124.0" text="Filter Products" />
-      <TableView fx:id="products" layoutX="17.0" layoutY="201.0" onMouseClicked="#onProductClicked" prefHeight="187.0" prefWidth="565.0">
+         <Label layoutX="316.0" layoutY="124.0" text="Filters :" />
+      <TableView fx:id="products" layoutX="17.0" layoutY="201.0" onMouseClicked="#onProductClicked" prefHeight="296.0" prefWidth="689.0">
         <columns>
-          <TableColumn fx:id="productName" prefWidth="75.0" text="Product" />
-          <TableColumn fx:id="productType" prefWidth="75.0" text="Type" />
-            <TableColumn fx:id="productPrice" prefWidth="72.0" text="Price" />
-            <TableColumn fx:id="productSize" prefWidth="46.66668701171875" text="Size" />
-            <TableColumn fx:id="productColor" prefWidth="99.33331298828125" text="Color" />
-            <TableColumn fx:id="productDescription" prefWidth="195.3333740234375" text="Description" />
+          <TableColumn fx:id="productName" prefWidth="129.33333778381348" text="Product" />
+          <TableColumn fx:id="productType" prefWidth="60.0" text="Type" />
+            <TableColumn fx:id="productPrice" prefWidth="93.33335876464844" text="Price" />
+            <TableColumn fx:id="productSize" prefWidth="74.0" text="Size" />
+            <TableColumn fx:id="productColor" prefWidth="68.0" text="Color" />
+            <TableColumn fx:id="productGender" prefWidth="95.99996948242188" text="Gender" />
+            <TableColumn fx:id="productDescription" prefWidth="165.33333333333337" text="Description" />
         </columns>
       </TableView>
       <SplitMenuButton fx:id="topsButton" layoutX="129.0" layoutY="155.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="89.0" text="Tops">
         <items>
             <CheckMenuItem fx:id="isTshirt_button" mnemonicParsing="false" text="T-shirt" />
-            <CheckMenuItem fx:id="isSweater_button" mnemonicParsing="false" text="Sweater" />
+            <CheckMenuItem fx:id="isSweater_button" mnemonicParsing="false" text="Sweatershirt" />
         </items>
       </SplitMenuButton>
       <SplitMenuButton fx:id="pantsButton" layoutX="28.0" layoutY="155.0" mnemonicParsing="false" text="Pants">
@@ -93,15 +101,15 @@
             <CheckMenuItem fx:id="isRegular_button" mnemonicParsing="false" text="Regular" />
          </items>
       </SplitMenuButton>
-      <Button layoutX="122.0" layoutY="405.0" mnemonicParsing="false" onAction="#applySelectedFilters" prefHeight="25.0" prefWidth="103.0" text="Apply Filters" />
-      <Button layoutX="381.0" layoutY="405.0" mnemonicParsing="false" onAction="#resetFilters" prefHeight="25.0" prefWidth="103.0" text="Reset Filters" />
+      <Button layoutX="122.0" layoutY="520.0" mnemonicParsing="false" onAction="#applySelectedFilters" prefHeight="25.0" prefWidth="139.0" text="Apply Filters" />
+      <Button layoutX="474.0" layoutY="520.0" mnemonicParsing="false" onAction="#resetFilters" prefHeight="25.0" prefWidth="103.0" text="Reset Filters" />
       <Button layoutX="29.0" layoutY="30.0" onAction="#onClickLogOut" prefHeight="21.0" prefWidth="73.0" text="Log out ">
          <font>
             <Font size="13.0" />
          </font>
       </Button>
          <TextField fx:id="searchField" layoutX="24.0" layoutY="85.0" prefWidth="300.0" />
-         <Button fx:id="searchButton" layoutX="356.0" layoutY="87.0" onAction="#giveProductsByKeywords" prefHeight="25.0" prefWidth="50.0" text="Search">
+         <Button fx:id="searchButton" layoutX="351.0" layoutY="87.0" onAction="#giveProductsByKeywords" prefHeight="25.0" prefWidth="69.0" text="Search">
             </Button>
     </children>
 </AnchorPane>

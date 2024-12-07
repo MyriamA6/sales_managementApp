@@ -1,5 +1,6 @@
 package org.apppooproject.Model;
 
+//Class modeling the table Pants of the database
 public class Pants extends Product {
     private boolean isShorts;
 

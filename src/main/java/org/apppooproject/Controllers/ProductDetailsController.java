@@ -7,8 +7,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.apppooproject.DataBaseManagers.CustomerManager;
 import org.apppooproject.Model.Product;
-import org.apppooproject.Views.AlertShowing;
-import org.apppooproject.Views.ViewModel;
+import org.apppooproject.Service.AlertShowing;
+import org.apppooproject.Service.ViewFactory;
 
 public class ProductDetailsController {
 
@@ -89,7 +89,7 @@ public class ProductDetailsController {
 
     @FXML
     void onClickGoToShoppingView(ActionEvent event){
-        ViewModel.getInstance().getViewFactory().closeCurrentWindow(event);
-        ViewModel.getInstance().getViewFactory().showAppViewWindow();
+        ViewFactory.closeCurrentWindow(event);
+        ViewFactory.showAppViewWindow();
     }
 }

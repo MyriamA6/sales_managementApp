@@ -7,8 +7,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import org.apppooproject.DataBaseManagers.CustomerManager;
 import org.apppooproject.Model.Customer;
-import org.apppooproject.Views.AlertShowing;
-import org.apppooproject.Views.ViewModel;
+import org.apppooproject.Service.AlertShowing;
+import org.apppooproject.Service.ViewFactory;
 
 //Class Controller to control the javaFX UI of the customer's account's interface
 public class CustomerController {
@@ -38,8 +38,6 @@ public class CustomerController {
 
     private final Customer connectedCustomer = customerManager.getConnectedCustomer();
 
-    private final ViewModel viewModel = ViewModel.getInstance();
-
     //Initialization of the field the customer's information
     @FXML
     public void initialize() {
@@ -68,20 +66,20 @@ public class CustomerController {
     @FXML
     void deleteTheAccount(ActionEvent event) {
         customerManager.deleteAnElement(connectedCustomer);
-
-
+        ViewFactory.closeCurrentWindow(event);
+        ViewFactory.showLoginWindow();
     }
 
     @FXML
     void goToCentralView(ActionEvent event) {
-        viewModel.getViewFactory().closeCurrentWindow(event);
-        viewModel.getViewFactory().showAppViewWindow();
+        ViewFactory.closeCurrentWindow(event);
+        ViewFactory.showAppViewWindow();
     }
 
     @FXML
     void goToOrderView(ActionEvent event) {
-        viewModel.getViewFactory().closeCurrentWindow(event);
-        viewModel.getViewFactory().showOrdersWindow();
+        ViewFactory.closeCurrentWindow(event);
+        ViewFactory.showOrdersWindow();
     }
 
 }

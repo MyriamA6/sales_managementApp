@@ -7,9 +7,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import org.apppooproject.DataBaseManagers.CustomerManager;
 import org.apppooproject.Model.Customer;
+import org.apppooproject.Service.HelperMethod;
 import org.apppooproject.Service.Password;
-import org.apppooproject.Views.AlertShowing;
-import org.apppooproject.Views.ViewModel;
+import org.apppooproject.Service.AlertShowing;
+import org.apppooproject.Service.ViewFactory;
 
 //Controller class associated to the Sign Up page
 public class SignUpController {
@@ -47,39 +48,53 @@ public class SignUpController {
     }
 
 
-    //Method to create a new customer if it isn't already registered
     @FXML
     void createANewCustomer(ActionEvent event) {
-        //First we check if the field are filled and valid
-        if(nothingIsNull(first_name,last_name,email,phone_number,address,user_id,password) &&
-                Customer.isPossibleToCreateCustomer(first_name.getText(),last_name.getText(),email.getText(), phone_number.getText())) {
-            //Then we check if no other customer has an account with the same email or id
-            if ((customerManager.getCustomerByEmail(email.getText()) == null) && (customerManager.getCustomerByLoginName(user_id.getText()) == null)) {
-                Customer c = new Customer(first_name.getText(), last_name.getText(), email.getText(), address.getText(), phone_number.getText(), user_id.getText(), Password.hashPassword(password.getText()));
-                //Then we create and add the customer to the dataBase
+        String firstNameText = first_name.getText();
+        String lastNameText = last_name.getText();
+        String emailText = email.getText();
+        String phoneNumberText = phone_number.getText();
+        String addressText = address.getText();
+        String userIdText = user_id.getText();
+        String passwordText = password.getText();
+
+        // First we check if the fields are filled and valid
+        if (nothingIsNullOrEmpty(firstNameText, lastNameText, emailText, phoneNumberText, addressText, userIdText, passwordText) &&
+                Customer.isPossibleToCreateCustomer(firstNameText, lastNameText, emailText, phoneNumberText)) {
+
+            // Then we check if no other customer has an account with the same email or id
+            if ((customerManager.getCustomerByEmail(emailText) == null) && (customerManager.getCustomerByLoginName(userIdText) == null)) {
+                Customer c = new Customer(firstNameText, lastNameText, emailText, addressText, phoneNumberText, userIdText, Password.hashPassword(passwordText));
+                // Then we create and add the customer to the database
                 customerManager.addAnElement(c);
-                AlertShowing.showAlert("Creation successful", "New account created ! ", Alert.AlertType.INFORMATION);
-                ViewModel.getInstance().getViewFactory().closeCurrentWindow(event);
-                ViewModel.getInstance().getViewFactory().showAppViewWindow();
+                AlertShowing.showAlert("Creation successful", "New account created!", Alert.AlertType.INFORMATION);
+                ViewFactory.closeCurrentWindow(event);
+                ViewFactory.showAppViewWindow();
             } else {
                 AlertShowing.showAlert("Error", "Email address or ID already used", Alert.AlertType.ERROR);
             }
-        }
-        else{
-            //otherwise we indicate to the customer that some fields are not valid
+        } else {
+            // Otherwise we indicate to the customer that some fields are not valid
             error_label.setVisible(true);
         }
     }
 
+
     //method activated when a customer try to log out of its session
     @FXML
     void onClickGoToLoginView(ActionEvent event) {
-        ViewModel.getInstance().getViewFactory().closeCurrentWindow(event);
-        ViewModel.getInstance().getViewFactory().showLoginWindow();
+        ViewFactory.closeCurrentWindow(event);
+        ViewFactory.showLoginWindow();
     }
 
     //method to check if the given arguments are null
-    public boolean nothingIsNull(Object firstName, Object lastName, Object email, Object phoneNumber, Object userId, Object password, Object address) {
-        return firstName != null && lastName != null && email != null && phoneNumber != null && userId != null && password != null && address != null;
+    public boolean nothingIsNullOrEmpty(String ... strings) {
+        for (String s : strings) {
+            if (s == null) return false;
+            else{
+                if(HelperMethod.removeExtraSpaces(s).isEmpty()) return false;
+            }
+        }
+        return true;
     }
 }

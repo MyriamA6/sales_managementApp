@@ -4,6 +4,7 @@ import org.apppooproject.Model.Order;
 import org.apppooproject.Model.Product;
 import org.apppooproject.Model.Pants;
 import org.apppooproject.Model.Top;
+import org.apppooproject.Service.OrderState;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -31,14 +32,14 @@ public class OrderManager implements DataManager<Order> {
             stmt.setLong(1, order.getCustomerId());
             stmt.setDouble(2, order.getTotalPrice());
             stmt.setDate(3, new java.sql.Date(order.getDateOrder().getTime()));
-            stmt.setString(4, order.getState());
+            stmt.setString(4, order.getState().getState());
             stmt.executeUpdate();
 
             // Retrieve generated order ID
             ResultSet generatedKeys = stmt.getGeneratedKeys();
             if (generatedKeys.next()) {
                 order.setOrderId(generatedKeys.getLong(1));
-                if( order.getState().equalsIgnoreCase("paid")){
+                if( order.getState().equalState("paid")){
                     InvoiceManager.getInstance().createInvoice(order);
                 }
             }
@@ -67,7 +68,7 @@ public class OrderManager implements DataManager<Order> {
         String sql = "UPDATE Order_record SET total_price = ?, order_state = ? WHERE order_id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setDouble(1, order.getTotalPrice());
-            stmt.setString(2, order.getState());
+            stmt.setString(2, order.getState().getState());
             stmt.setLong(3, order.getOrderId());
             stmt.executeUpdate();
 
@@ -114,7 +115,7 @@ public class OrderManager implements DataManager<Order> {
                         CustomerManager.getInstance().getCustomerById(rs.getLong("customer_id")),
                         rs.getDouble("total_price"),
                         rs.getDate("order_date"),
-                        rs.getString("order_state")
+                        OrderState.giveCorrespondingState(rs.getString("order_state"))
                 );
                 order.setContent(getOrderContent(order.getOrderId()));
                 orders.add(order);
@@ -124,6 +125,7 @@ public class OrderManager implements DataManager<Order> {
         }
         return orders;
     }
+
 
 
     public Order getElementById(long id) {
@@ -137,7 +139,7 @@ public class OrderManager implements DataManager<Order> {
                         CustomerManager.getInstance().getCustomerById(rs.getLong("customer_id")),
                         rs.getDouble("total_price"),
                         rs.getDate("order_date"),
-                        rs.getString("order_state")
+                        OrderState.giveCorrespondingState(rs.getString("order_state"))
                 );
                 order.setContent(getOrderContent(order.getOrderId()));
                 return order;
@@ -163,7 +165,7 @@ public class OrderManager implements DataManager<Order> {
                         CustomerManager.getInstance().getCustomerById(rs.getLong("customer_id")), // Récupérer le client
                         rs.getDouble("total_price"),
                         rs.getDate("order_date"),
-                        rs.getString("order_state")
+                        OrderState.giveCorrespondingState(rs.getString("order_state"))
                 );
                 // Ajouter le contenu des commandes à l'objet Order
                 order.setContent(getOrderContent(order.getOrderId()));
@@ -174,6 +176,39 @@ public class OrderManager implements DataManager<Order> {
             e.printStackTrace();
         }
 
+        return orders;
+    }
+
+    public ArrayList<Order> getOrdersByCustomerUsername(String username) {
+        ArrayList<Order> orders = new ArrayList<>();
+        String sql = "SELECT * FROM Order_record o Join customer c on o.customer_id=c.customer_id where c.login_name = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                if (rs.getString("login_name").equals(username)) {
+                    System.out.println(rs.getString("login_name"));
+                    System.out.println(username);
+
+                    // Créer un objet Order à partir des données de la commande
+                    Order order = new Order(
+                            rs.getLong("order_id"),
+                            CustomerManager.getInstance().getCustomerById(rs.getLong("customer_id")), // Récupérer le client
+                            rs.getDouble("total_price"),
+                            rs.getDate("order_date"),
+                            OrderState.giveCorrespondingState(rs.getString("order_state"))
+                    );
+                    // Ajouter le contenu des commandes à l'objet Order
+                    order.setContent(getOrderContent(order.getOrderId()));
+                    // Ajouter la commande à la liste des commandes
+                    orders.add(order);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return orders;
     }
 

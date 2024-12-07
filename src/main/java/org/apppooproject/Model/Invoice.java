@@ -2,6 +2,7 @@ package org.apppooproject.Model;
 
 import org.apppooproject.DataBaseManagers.OrderManager;
 import org.apppooproject.DataBaseManagers.ProductManager;
+import org.apppooproject.Service.OrderState;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -59,8 +60,8 @@ public class Invoice {
     //method to generate the text file associated to an invoice
     public boolean generateInvoice() {
         Order order = OrderManager.getInstance().getElementById(orderId);
-        if(order.getState().equalsIgnoreCase("paid") ||
-            order.getState().equalsIgnoreCase("delivered")) {
+        if(order.getState().equals(OrderState.PAID) ||
+            order.getState().equals(OrderState.DELIVERED)) {
             // Creation of the header oh the invoice
             StringBuilder invoiceText = new StringBuilder();
             invoiceText.append("Invoice ").append(invoiceId).append("\n");

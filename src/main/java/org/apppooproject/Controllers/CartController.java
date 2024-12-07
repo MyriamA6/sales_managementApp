@@ -13,11 +13,10 @@ import javafx.scene.text.Text;
 import org.apppooproject.DataBaseManagers.CustomerManager;
 import org.apppooproject.DataBaseManagers.ProductManager;
 import org.apppooproject.Model.Customer;
-import org.apppooproject.Model.Order;
 import org.apppooproject.Model.Product;
 import org.apppooproject.Model.Top;
-import org.apppooproject.Views.AlertShowing;
-import org.apppooproject.Views.ViewModel;
+import org.apppooproject.Service.AlertShowing;
+import org.apppooproject.Service.ViewFactory;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -114,7 +113,7 @@ public class CartController {
         }
         else{
             connectedCustomer.storeOrder();
-            AlertShowing.showAlert("Confirmation","Order successfully stored",Alert.AlertType.CONFIRMATION);
+            AlertShowing.showAlert("Confirmation","Order successfully stored",Alert.AlertType.INFORMATION);
             resetCart();
         }
 
@@ -166,14 +165,14 @@ public class CartController {
 
     @FXML
     void onClickGoToCentralView(ActionEvent event) {
-        ViewModel.getInstance().getViewFactory().closeCurrentWindow(event);
-        ViewModel.getInstance().getViewFactory().showAppViewWindow();
+        ViewFactory.closeCurrentWindow(event);
+        ViewFactory.showAppViewWindow();
     }
 
     @FXML
     void onClickGoToUserAccount(ActionEvent event) {
-        ViewModel.getInstance().getViewFactory().closeCurrentWindow(event);
-        ViewModel.getInstance().getViewFactory().showCustomerAccountWindow();
+        ViewFactory.closeCurrentWindow(event);
+        ViewFactory.showCustomerAccountWindow();
     }
 
 

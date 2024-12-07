@@ -14,14 +14,14 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="447.0" prefWidth="673.0" stylesheets="@../styleSheetsCss/appCentralView.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.apppooproject.Controllers.AdminProductsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="555.0" prefWidth="673.0" stylesheets="@../styleSheetsCss/appCentralView.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.apppooproject.Controllers.AdminProductsController">
    <children>
       <Text fill="#ba2fa9" layoutX="229.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Product Management" wrappingWidth="216.66666666666669">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Text>
-      <TableView fx:id="products" layoutX="25.0" layoutY="217.0" onMouseClicked="#onRowClicked" prefHeight="163.0" prefWidth="624.0">
+      <TableView fx:id="products" layoutX="28.0" layoutY="134.0" onMouseClicked="#onRowClicked" prefHeight="175.0" prefWidth="624.0">
          <columns>
             <TableColumn fx:id="productName" prefWidth="89.99996757507324" text="Product" />
             <TableColumn fx:id="productType" prefWidth="79.3333511352539" text="Type" />
@@ -33,7 +33,7 @@
             <TableColumn fx:id="productDescription" prefWidth="140.66665649414062" text="Description" />
          </columns>
       </TableView>
-      <HBox layoutX="79.0" layoutY="130.0" prefHeight="39.0" prefWidth="535.0" spacing="30.0">
+      <HBox layoutX="79.0" layoutY="440.0" prefHeight="39.0" prefWidth="535.0" spacing="30.0">
          <children>
             <MenuButton mnemonicParsing="false" prefHeight="29.0" prefWidth="66.0" text="Size">
                <items>
@@ -67,7 +67,7 @@
             <TextArea fx:id="description" prefHeight="200.0" prefWidth="200.0" promptText="Description" />
          </children>
       </HBox>
-      <HBox layoutX="79.0" layoutY="87.0" prefHeight="36.0" prefWidth="515.0" spacing="30.0">
+      <HBox layoutX="78.0" layoutY="385.0" prefHeight="36.0" prefWidth="515.0" spacing="30.0">
          <children>
             <TextField fx:id="productNameField" promptText="Name for the product" />
             <MenuButton fx:id="type_button" mnemonicParsing="false" prefHeight="29.0" prefWidth="90.0" text="Type">
@@ -97,9 +97,9 @@
             <TextField fx:id="price" prefHeight="29.0" prefWidth="91.0" promptText="Price" />
          </children>
       </HBox>
-      <Button layoutX="581.0" layoutY="177.0" mnemonicParsing="false" onAction="#onClickApplyChanges" prefHeight="29.0" prefWidth="57.0" text="Apply" />
-      <Button layoutX="254.0" layoutY="397.0" mnemonicParsing="false" onAction="#onClickDeleteSelectedItem" prefHeight="36.0" prefWidth="166.0" text="Delete the selected item" />
-      <MenuButton layoutX="25.0" layoutY="48.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="155.0" text="Choosen mode">
+      <Button layoutX="594.0" layoutY="497.0" mnemonicParsing="false" onAction="#onClickApplyChanges" prefHeight="29.0" prefWidth="57.0" text="Apply" />
+      <Button layoutX="410.0" layoutY="497.0" mnemonicParsing="false" onAction="#onClickDeleteSelectedItem" prefHeight="29.0" prefWidth="166.0" text="Delete the selected item" />
+      <MenuButton layoutX="28.0" layoutY="332.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="189.0" text="Creation or modification ?">
          <items>
             <RadioMenuItem fx:id="creation_button" mnemonicParsing="false" text="Creation mode" />
             <RadioMenuItem fx:id="modification_button" mnemonicParsing="false" text="Modification mode" />
@@ -107,6 +107,8 @@
       </MenuButton>
       <Accordion />
       <Button layoutX="540.0" layoutY="26.0" mnemonicParsing="false" onAction="#onClickGoToOrdersManager" prefHeight="29.0" prefWidth="108.0" text="Orders Manager" />
-      <Button layoutX="25.0" layoutY="13.0" mnemonicParsing="false" onAction="#onClickAdminLogOut" prefHeight="27.0" prefWidth="51.0" text="Log out" />
+      <Button layoutX="25.0" layoutY="13.0" mnemonicParsing="false" onAction="#onClickAdminLogOut" prefHeight="27.0" prefWidth="74.0" text="Log out" />
+      <TextField fx:id="searchField" layoutX="33.0" layoutY="82.0" prefWidth="300.0" />
+      <Button fx:id="searchButton" layoutX="361.0" layoutY="84.0" onAction="#giveProductsByKeywords" prefHeight="25.0" prefWidth="69.0" text="Search" />
    </children>
 </AnchorPane>

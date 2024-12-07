@@ -12,15 +12,15 @@ import org.apppooproject.DataBaseManagers.OrderManager;
 import org.apppooproject.Model.Customer;
 import org.apppooproject.Model.Invoice;
 import org.apppooproject.Model.Order;
-import org.apppooproject.Views.AlertShowing;
-import org.apppooproject.Views.ViewModel;
+import org.apppooproject.Service.AlertShowing;
+import org.apppooproject.Service.OrderState;
+import org.apppooproject.Service.ViewFactory;
 
 import java.util.ArrayList;
 
 public class CustomerOrdersController {
 
     // Declare UI components
-    @FXML private Button account_button, menu_button;
     @FXML private TableView<Order> orders;
     @FXML private TableColumn<Order, Long> orderID;
     @FXML private TableColumn<Order, String> orderDate;
@@ -29,7 +29,6 @@ public class CustomerOrdersController {
 
     // Declare manager instances
     private final OrderManager orderManager = OrderManager.getInstance();
-    private final ViewModel viewModel = ViewModel.getInstance();
 
     private Customer connectedCustomer;
 
@@ -41,7 +40,7 @@ public class CustomerOrdersController {
         orderID.setCellValueFactory(cellData -> new SimpleLongProperty(cellData.getValue().getOrderId()).asObject());
         orderDate.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDateOrder().toString()));
         orderTotalPrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getTotalPrice()).asObject());
-        orderStatus.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getState()));
+        orderStatus.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getState().getState()));
 
         // Load orders for the connected customer
         loadCustomerOrders();
@@ -62,7 +61,7 @@ public class CustomerOrdersController {
     @FXML
     void onClickGenerateAssociatedInvoice(ActionEvent event) {
         Order order = orders.getSelectionModel().getSelectedItem();
-        if (order != null && !(order.getState()).equalsIgnoreCase("in progress")) {
+        if (order != null && !(order.getState()).equals(OrderState.IN_PROGRESS)) {
             Invoice invoice = InvoiceManager.getInstance().getInvoiceByOrderId(order.getOrderId());
             InvoiceManager.getInstance().setSelectedInvoice(invoice);
             if(invoice==null){
@@ -70,7 +69,7 @@ public class CustomerOrdersController {
                 return;
             }
             invoice.generateInvoice();
-            viewModel.getViewFactory().showInvoiceDisplay();
+            ViewFactory.showInvoiceDisplay();
         }
         else{
             AlertShowing.showAlert("Not paid yet","Order not paid yet", Alert.AlertType.WARNING);
@@ -79,7 +78,7 @@ public class CustomerOrdersController {
     @FXML
     void onClickDeleteOrder(ActionEvent event) {
         Order order = orders.getSelectionModel().getSelectedItem();
-        if (order != null && !(order.getState()).equalsIgnoreCase("in progress")) {
+        if (order != null && (order.getState()).equals(OrderState.IN_PROGRESS)) {
             orderManager.deleteAnElement(order);
             reloadOrders();
         }
@@ -91,8 +90,8 @@ public class CustomerOrdersController {
     @FXML
     void onClickPayOrder(ActionEvent event) {
         Order order = orders.getSelectionModel().getSelectedItem();
-        if (order != null && (order.getState()).equalsIgnoreCase("in progress")) {
-            order.setState("paid");
+        if (order != null && (order.getState()).equals(OrderState.IN_PROGRESS)) {
+            order.setState(OrderState.PAID);
             OrderManager.getInstance().modifyAnElement(order);
             AlertShowing.showAlert("Order successfully paid","Order successfully paid", Alert.AlertType.CONFIRMATION);
             reloadOrders();
@@ -106,15 +105,15 @@ public class CustomerOrdersController {
     @FXML
     void onClickModifyOrder(ActionEvent event) {
         Order order = orders.getSelectionModel().getSelectedItem();
-        if (order != null && (order.getState()).equalsIgnoreCase("in progress")) {
+        if (order != null && (order.getState()).equals(OrderState.IN_PROGRESS)) {
             if(!connectedCustomer.getCart().isEmpty()){
                 connectedCustomer.storeOrder();
             }
             connectedCustomer.addAllToCart(order.getProducts());
             AlertShowing.showAlert("Warning","Some products may not be available anymore.", Alert.AlertType.WARNING);
             orderManager.deleteAnElement(order);
-            viewModel.getViewFactory().closeCurrentWindow(event);
-            viewModel.getViewFactory().showCartViewWindow();
+            ViewFactory.closeCurrentWindow(event);
+            ViewFactory.showCartViewWindow();
             reloadOrders();
         }
         else{
@@ -126,13 +125,13 @@ public class CustomerOrdersController {
 
     @FXML
     void onClickGoToAccount(ActionEvent event) {
-        viewModel.getViewFactory().closeCurrentWindow(event);
-        viewModel.getViewFactory().showCustomerAccountWindow();
+        ViewFactory.closeCurrentWindow(event);
+        ViewFactory.showCustomerAccountWindow();
     }
 
     @FXML
     void onClickGoToMenu(ActionEvent event) {
-        viewModel.getViewFactory().closeCurrentWindow(event);
-        viewModel.getViewFactory().showAppViewWindow();
+        ViewFactory.closeCurrentWindow(event);
+        ViewFactory.showAppViewWindow();
     }
 }

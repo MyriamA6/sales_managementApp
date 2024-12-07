@@ -6,7 +6,7 @@ import javafx.event.ActionEvent;
 import org.apppooproject.DataBaseManagers.CustomerManager;
 import org.apppooproject.Model.Customer;
 import org.apppooproject.Service.Password;
-import org.apppooproject.Views.ViewModel;
+import org.apppooproject.Service.ViewFactory;
 
 
 public class LoginController {
@@ -43,8 +43,8 @@ public class LoginController {
         Customer customer = customerManager.getCustomerByLogin(username, pwd);
         if (customer!=null) {
             customerManager.setConnectedCustomer(customer);
-            ViewModel.getInstance().getViewFactory().closeCurrentWindow(event);
-            ViewModel.getInstance().getViewFactory().showAppViewWindow();
+            ViewFactory.closeCurrentWindow(event);
+            ViewFactory.showAppViewWindow();
         } else {
             // Si l'utilisateur n'existe pas, afficher le label d'erreur
             error_label.setVisible(true);
@@ -55,15 +55,15 @@ public class LoginController {
     // Action liée au clic sur l'hyperlien pour la création de compte
     @FXML
     public void handleHyperlinkAdminConnection(ActionEvent event) {
-        ViewModel.getInstance().getViewFactory().closeCurrentWindow(event);
-        ViewModel.getInstance().getViewFactory().showAdminLoginWindow();
+        ViewFactory.closeCurrentWindow(event);
+        ViewFactory.showAdminLoginWindow();
     }
 
     // Action liée au clic sur l'hyperlien pour la création de compte
     @FXML
     public void handleHyperlinkAccountCreation(ActionEvent event) {
-        ViewModel.getInstance().getViewFactory().closeCurrentWindow(event);
-        ViewModel.getInstance().getViewFactory().showSignUpWindow();
+        ViewFactory.closeCurrentWindow(event);
+        ViewFactory.showSignUpWindow();
     }
 
 

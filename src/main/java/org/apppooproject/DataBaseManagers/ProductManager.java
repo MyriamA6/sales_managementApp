@@ -1,8 +1,11 @@
 package org.apppooproject.DataBaseManagers;
 
+import javafx.scene.control.Alert;
 import org.apppooproject.Model.Pants;
 import org.apppooproject.Model.Product;
 import org.apppooproject.Model.Top;
+import org.apppooproject.Service.AlertShowing;
+import org.apppooproject.Service.HelperMethod;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -133,37 +136,29 @@ public class ProductManager implements DataManager<Product> {
         return null;
     }
 
-    /*public ArrayList<Product> getProductsByName() {
-        ArrayList<String> productsNames = new ArrayList<>();
-        ArrayList<Product> productsByName = new ArrayList<>();
-        for (Product p : products) {
-            if (!(productsByName.contains(p.getName()))) {
-                productsByName.add(p);
-            }
-        }
-        return productsByName;
-    }*/
 
-    //method that returns the products that contains all the given keywords
+
+    //method that returns the products containing all the given keywords
     //if it contains logical operators then the method return the list of products
     // respecting the logical query with searchWithLogicalOperator
     public ArrayList<Product> searchByKeyWords(String searchDemand) {
         //if the searchDemand is empty we return all the products
-        if (removeExtraSpaces(searchDemand).isEmpty()) {
+        if (HelperMethod.removeExtraSpaces(searchDemand).isEmpty()) {
             return getProductsInStock();
         }
-
 
         if (searchDemand.toLowerCase().contains("and") || searchDemand.toLowerCase().contains("or")) {
             return searchWithLogicalOperators(searchDemand);
         }
 
+
         ArrayList<Product> keyWordsCorrespondingProducts = new ArrayList<>();
         String[] separatedWords = searchDemand.split(" ");
         ArrayList<String> keyWords = new ArrayList<>();
 
+        //For each keyword only the alphanumerical character are kept (we remove the extra spaces)
         for (String s : separatedWords) {
-            String cleanedWord = removeExtraSpaces(s);
+            String cleanedWord = HelperMethod.removeExtraSpaces(s);
             if (!cleanedWord.isEmpty()) { // Check if the word is not empty
                 keyWords.add(cleanedWord.toLowerCase());
             }
@@ -195,17 +190,21 @@ public class ProductManager implements DataManager<Product> {
         String[] andSeparatedWords = searchDemand.toLowerCase().split("and");
         ArrayList<Product> productInStock = getProductsInStock();
 
+        //For each product we check if it contains all the given keywords
+        // in the name or description of the product
         for (Product p : productInStock) {
             boolean matchesAllAndConditions = true;
 
             for (String andCondition : andSeparatedWords) {
-                String cleanedAndCondition = removeExtraSpaces(andCondition);
+                String cleanedAndCondition = HelperMethod.removeExtraSpaces(andCondition);
                 boolean matchesOrCondition = false;
 
+                //if there is any "or" we check if one of the keywords is contained in the description
+                //or the name of the product
                 if (cleanedAndCondition.contains("or")) {
                     String[] orSeparatedWords = cleanedAndCondition.split("or");
                     for (String orCondition : orSeparatedWords) {
-                        String cleanedOrCondition = removeExtraSpaces(orCondition);
+                        String cleanedOrCondition = HelperMethod.removeExtraSpaces(orCondition);
                         if (p.getDescription().toLowerCase().contains(cleanedOrCondition) ||
                                 p.getName().toLowerCase().contains(cleanedOrCondition)) {
                             matchesOrCondition = true;
@@ -220,6 +219,7 @@ public class ProductManager implements DataManager<Product> {
                     }
                 }
 
+                // if one of the "or" conditions is not respected we set the whole conditions to false
                 if (!matchesOrCondition) {
                     matchesAllAndConditions = false;
                     break;
@@ -234,14 +234,6 @@ public class ProductManager implements DataManager<Product> {
         return resultingProducts;
     }
 
-
-    //helper method to remove extra spaces from a string
-    public String removeExtraSpaces(String input) {
-        if (input == null) {
-            return "";
-        }
-        return input.trim().replaceAll("\\s+", " ");
-    }
 
     // Filters products to return only Pants based on a given criterion.
     public ArrayList<Product> showOnlyPants(int criteria) {
@@ -352,6 +344,17 @@ public class ProductManager implements DataManager<Product> {
         return productsOfGivenPrice;
     }
 
+    // Filters a list of products to return only those of the specified gender.
+    public ArrayList<Product> showProductByGender(ArrayList<Product> productsToFilter, String gender) {
+        ArrayList<Product> productsOfGivenGender = new ArrayList<>();
+        for (Product p : productsToFilter) {
+            if (p.getGender().equalsIgnoreCase(gender)) {
+                productsOfGivenGender.add(p);
+            }
+        }
+        return productsOfGivenGender;
+    }
+
 
     // Updates the stock of each product in the products list in the database.
     public void refreshProductsStock() {
@@ -418,6 +421,7 @@ public class ProductManager implements DataManager<Product> {
             }
         } catch (SQLException e) {
             System.out.println("Error adding product: " + e.getMessage());
+            AlertShowing.showAlert("Error","Error the product is already referenced in the database", Alert.AlertType.ERROR);
         }
     }
 

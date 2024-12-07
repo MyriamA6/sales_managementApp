@@ -16,6 +16,7 @@ public class MainApp extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("/sceneBuilderFiles/login.fxml"));
         primaryStage.setTitle("Central View");
         primaryStage.setScene(new Scene(root, 600, 400));
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 

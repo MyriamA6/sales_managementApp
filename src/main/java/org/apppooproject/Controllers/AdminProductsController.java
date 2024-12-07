@@ -14,8 +14,8 @@ import org.apppooproject.Model.Pants;
 import org.apppooproject.Model.Product;
 import org.apppooproject.Model.Top;
 import org.apppooproject.MyExceptions.InfoNotCompleteException;
-import org.apppooproject.Views.AlertShowing;
-import org.apppooproject.Views.ViewModel;
+import org.apppooproject.Service.AlertShowing;
+import org.apppooproject.Service.ViewFactory;
 
 import java.util.ArrayList;
 
@@ -115,6 +115,9 @@ public class AdminProductsController {
     @FXML
     private RadioMenuItem unisex_button;
 
+    @FXML
+    private TextField searchField;
+
     private final CustomerManager customerManager = CustomerManager.getInstance();
     private final Customer connectedCustomer = customerManager.getConnectedCustomer();
     private final ProductManager productManager = ProductManager.getInstance();
@@ -180,6 +183,13 @@ public class AdminProductsController {
 
     public void setupTable(){
         products.getItems().addAll(productManager.getAllProducts());
+    }
+
+    @FXML
+    void giveProductsByKeywords(ActionEvent event) {
+        products.getItems().clear();
+        products.getItems().addAll(productManager.searchByKeyWords(searchField.getText()));
+        products.refresh();
     }
 
     public void modificationChoosen(){
@@ -387,8 +397,8 @@ public class AdminProductsController {
 
     @FXML
     void onClickGoToOrdersManager(ActionEvent event) {
-        ViewModel.getInstance().getViewFactory().closeCurrentWindow(event);
-        ViewModel.getInstance().getViewFactory().showAdminOrdersManager();
+        ViewFactory.closeCurrentWindow(event);
+        ViewFactory.showAdminOrdersManager();
     }
 
 
@@ -426,8 +436,8 @@ public class AdminProductsController {
 
     @FXML
     void onClickAdminLogOut(ActionEvent event){
-        ViewModel.getInstance().getViewFactory().closeCurrentWindow(event);
-        ViewModel.getInstance().getViewFactory().showLoginWindow();
+        ViewFactory.closeCurrentWindow(event);
+        ViewFactory.showLoginWindow();
     }
 
     @FXML
@@ -487,7 +497,7 @@ public class AdminProductsController {
     }
 
     public void isAFieldNull() throws InfoNotCompleteException {
-        if(productNameField.getText().equalsIgnoreCase("") || !(sweater_button.isSelected() || shorts_button.isSelected() || regular_button.isSelected()) || !(male_button.isSelected() || female_button.isSelected() || unisex_button.isSelected())){
+        if(productNameField.getText().equalsIgnoreCase("") || !(sweater_button.isSelected() || shorts_button.isSelected() || regular_button.isSelected() || tshirt_button.isSelected()) || !(male_button.isSelected() || female_button.isSelected() || unisex_button.isSelected())){
             throw new InfoNotCompleteException();
         }
         if(!(quantity.getText().matches("[0-9]+")) || !(price.getText().matches("[1-9]+[0-9]*.?[0-9]*")) || !(yellow_button.isSelected() || orange_button.isSelected() || grey_button.isSelected()

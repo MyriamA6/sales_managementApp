@@ -9,26 +9,28 @@ public class DatabaseInitializer {
     //initialization of the h2 database
 
     public static void initializeDatabase() {
-        String dbPath = System.getProperty("user.home") + "/projetTest2.mv.db"; // Chemin du fichier de la base de données
-        String url = "jdbc:h2:~/projetTest2"; // Base de données H2 (mode fichier)
+        String dbPath = System.getProperty("user.home") + "/projetTest2.mv.db"; // Path to the created dataBase
+        String url = "jdbc:h2:~/projetTest2";
         String user = "sa";
         String password = "";
 
-        // Vérification si le fichier existe déjà
+        // Checking if the database already exist to not recreate it
         File dbFile = new File(dbPath);
         if (dbFile.exists()) {
             System.out.println("Database file already exists");
-            return; // Arrêt si la base de données existe déjà
+            return;
         }
+
+        // Connection to the database and initialization using a h2 script
         try (Connection connection = DriverManager.getConnection(url, user, password);
              Statement statement = connection.createStatement();
              InputStream inputStream = DatabaseInitializer.class.getClassLoader().getResourceAsStream("backup.sql")) {
 
             if (inputStream == null) {
-                throw new FileNotFoundException("Le fichier backup.sql est introuvable dans le classpath.");
+                throw new FileNotFoundException("The script file does not exist");
             }
 
-            //we get the sql script from backup.sql
+            //We get the sql script from backup.sql
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
             StringBuilder sqlScript = new StringBuilder();
             String line;
@@ -61,7 +63,6 @@ public class DatabaseInitializer {
 
             //connection to the database
             return DriverManager.getConnection(url, user, password);
-            // "sa" is the default user for h2 and the password is empty by default
         } catch (SQLException e) {
             System.out.println("Error when trying to connect to the database" + e.getMessage());
             throw new RuntimeException(e);

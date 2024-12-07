@@ -2,6 +2,7 @@ package org.apppooproject.Model;
 
 import org.apppooproject.DataBaseManagers.OrderManager;
 import org.apppooproject.DataBaseManagers.ProductManager;
+import org.apppooproject.Service.OrderState;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -117,11 +118,11 @@ public class Customer {
                 this,
                 cartCurrentPrice(),  // Total price calculated from the cart
                 new Date(), // Current date as the order date
-                "paid" // Initial order state
+                OrderState.PAID // Initializes order state
         );
 
         order.setContent(cart);
-        // Use the OrderManager to persist the order and its contents in the database
+        // Use the OrderManager to store the order and its contents in the database and marked as "paid"
         OrderManager orderManager = OrderManager.getInstance();
         orderManager.addAnElement(order);
         // Clear the cart after the order is created
@@ -136,11 +137,11 @@ public class Customer {
                 this,
                 cartCurrentPrice(),  // Total price calculated from the cart
                 new Date(), // Current date as the order date
-                "in progress" // Initial order state
+                OrderState.IN_PROGRESS // Initializes order state
         );
 
         order.setContent(cart);
-        // Use the OrderManager to persist the order and its contents in the database
+        // Use the OrderManager to store the order and its contents in the database and mark it as "in progress"
         OrderManager orderManager = OrderManager.getInstance();
         orderManager.addAnElement(order);
         // Clear the cart after the order is created
@@ -159,6 +160,7 @@ public class Customer {
         return totalPrice;
     }
 
+    //getters and setters
     public long getCustomerId() {
         return customerId;
     }
@@ -225,7 +227,7 @@ public class Customer {
 
     public long getUserId() { return customerId; }
 
-    // Method to check if it's possible to create a customer with the given parameters
+    // Method to check if it is possible to create a customer with the given parameters
     public static boolean isPossibleToCreateCustomer(String firstName, String lastName, String email, String phoneNumber) {
 
         // Check if firstName and lastName contain only letters (A-Z or a-z)

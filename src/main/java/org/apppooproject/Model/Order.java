@@ -2,6 +2,7 @@ package org.apppooproject.Model;
 
 import org.apppooproject.DataBaseManagers.InvoiceManager;
 import org.apppooproject.DataBaseManagers.ProductManager;
+import org.apppooproject.Service.OrderState;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -13,10 +14,10 @@ public class Order {
     private Customer customer;
     private double totalPrice;
     private Date dateOrder;
-    private String state;
+    private OrderState state;
     private Map<Long, Integer> content = new HashMap<>();
 
-    public Order(long orderId, Customer customer, double totalPrice, Date dateOrder, String state) {
+    public Order(long orderId, Customer customer, double totalPrice, Date dateOrder, OrderState state) {
         this.orderId = orderId;
         this.customer = customer;
         this.totalPrice = totalPrice;
@@ -24,7 +25,7 @@ public class Order {
         this.state = state;
     }
 
-    public Order(Customer customer, double totalPrice, Date dateOrder, String state) {
+    public Order(Customer customer, double totalPrice, Date dateOrder, OrderState state) {
         this.customer = customer;
         this.totalPrice = totalPrice;
         this.dateOrder = dateOrder;
@@ -68,14 +69,13 @@ public class Order {
         return dateOrder;
     }
 
-    public String getState() {
+    public OrderState getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(OrderState state) {
         this.state = state;
-        if(state.equalsIgnoreCase("paid")) {
-            System.out.println("hereeee");
+        if(state.equalState("paid")) {
             InvoiceManager.getInstance().createInvoice(this);
         }
     }
@@ -100,6 +100,5 @@ public class Order {
     public void setOrderId(long orderId) {
         this.orderId = orderId;
     }
-
 
 }

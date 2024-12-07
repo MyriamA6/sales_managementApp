@@ -10,7 +10,10 @@ import javafx.scene.input.MouseEvent;
 import org.apppooproject.DataBaseManagers.InvoiceManager;
 import org.apppooproject.DataBaseManagers.OrderManager;
 import org.apppooproject.Model.Order;
-import org.apppooproject.Views.ViewModel;
+import org.apppooproject.Service.AlertShowing;
+import org.apppooproject.Service.HelperMethod;
+import org.apppooproject.Service.OrderState;
+import org.apppooproject.Service.ViewFactory;
 
 import java.util.ArrayList;
 
@@ -30,13 +33,12 @@ public class AdminOrdersController {
     @FXML private TableColumn<Order, String> orderDate;
     @FXML private TableColumn<Order, Double> orderTotalPrice;
     @FXML private TableColumn<Order, String> orderStatus;
+    @FXML private TableColumn<Order, String> orderUsername;
+    @FXML private TextField searchField;
 
-    @FXML
-    private Button productManager_button;
 
     // Declare manager instances
     private final OrderManager orderManager = OrderManager.getInstance();
-    private final ViewModel viewModel = ViewModel.getInstance();
 
 
     @FXML
@@ -45,8 +47,10 @@ public class AdminOrdersController {
         orderID.setCellValueFactory(cellData -> new SimpleLongProperty(cellData.getValue().getOrderId()).asObject());
         orderDate.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDateOrder().toString()));
         orderTotalPrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getTotalPrice()).asObject());
-        orderStatus.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getState()));
-
+        orderStatus.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getState().getState()));
+        orderUsername.setCellValueFactory(cellData -> new SimpleStringProperty(
+               cellData.getValue().getCustomer().getLoginName()
+        ));
         ToggleGroup statusToggleGroup = new ToggleGroup();
         payed_button.setToggleGroup(statusToggleGroup);
         delivered_button.setToggleGroup(statusToggleGroup);
@@ -55,13 +59,17 @@ public class AdminOrdersController {
         loadOrders();
     }
 
+    // Method to load the orders associated to a customer
     private void loadOrders() {
-        // Fetch all orders for the connected customer
-        ArrayList<Order> orders = orderManager.getAllElements();
-
-        // Display the orders in the TableView
-        ordersTable.getItems().clear();
-        ordersTable.getItems().addAll(orders);
+        try {
+            ArrayList<Order> orders = orderManager.getAllElements();
+            ordersTable.getItems().clear();
+            if (orders != null) {
+                ordersTable.getItems().addAll(orders);
+            }
+        } catch (Exception e) {
+            AlertShowing.showAlert("Error", "Failed to load orders: " + e.getMessage(), Alert.AlertType.ERROR);
+        }
     }
 
     private void updateTable(){
@@ -71,8 +79,20 @@ public class AdminOrdersController {
 
     @FXML
     void onClickGoToProductManager(ActionEvent event) {
-        viewModel.getViewFactory().closeCurrentWindow(event);
-        viewModel.getViewFactory().showAdminProductManager();
+        ViewFactory.closeCurrentWindow(event);
+        ViewFactory.showAdminProductManager();
+    }
+
+    @FXML
+    void giveOrdersByUsername(ActionEvent event) {
+        if (!(HelperMethod.removeExtraSpaces(searchField.getText()).isEmpty())){
+            ordersTable.getItems().clear();
+            ordersTable.getItems().addAll(orderManager.getOrdersByCustomerUsername(searchField.getText()));
+            ordersTable.refresh();
+        }
+        else{
+            updateTable();
+        }
     }
 
     @FXML
@@ -82,16 +102,16 @@ public class AdminOrdersController {
         delivered_button.setDisable(false);
         Order order = ordersTable.getSelectionModel().getSelectedItem();
         if (order != null) {
-            if (order.getState().equalsIgnoreCase("in progress")){
+            if (order.getState().equals(OrderState.IN_PROGRESS)){
                 inProgress_button.setSelected(true);
                 payed_button.setDisable(true);
                 delivered_button.setDisable(true);
             }
-            else if (order.getState().equalsIgnoreCase("paid")){
+            else if (order.getState().equals(OrderState.PAID)){
                 payed_button.setSelected(true);
                 inProgress_button.setDisable(true);
             }
-            else if (order.getState().equalsIgnoreCase("delivered")){
+            else if (order.getState().equals(OrderState.DELIVERED)){
                 delivered_button.setSelected(true);
                 payed_button.setDisable(true);
                 inProgress_button.setDisable(true);
@@ -103,17 +123,34 @@ public class AdminOrdersController {
     void onClickChangeOrderStatus(ActionEvent event) {
         Order order = ordersTable.getSelectionModel().getSelectedItem();
         if (payed_button.isSelected()) {
-            order.setState("paid");
+            order.setState(OrderState.PAID);
             orderManager.modifyAnElement(order);
             InvoiceManager.getInstance().createInvoice(order);
         }
         else
             if(delivered_button.isSelected()){
-            order.setState("delivered");
+            order.setState(OrderState.DELIVERED);
             orderManager.modifyAnElement(order);}
         updateTable();
         inProgress_button.setDisable(false);
         delivered_button.setDisable(false);
+    }
+
+    @FXML
+    void onClickDeleteOrder(ActionEvent event) {
+        Order order = ordersTable.getSelectionModel().getSelectedItem();
+        if (order != null) {
+            if(!order.getState().equals(OrderState.IN_PROGRESS)){
+                AlertShowing.showAlert("Impossible","Order already paid or delivered", Alert.AlertType.ERROR);
+            }
+            else{
+                orderManager.deleteAnElement(order);
+                AlertShowing.showAlert("Success","Order successfully deleted", Alert.AlertType.INFORMATION);
+                updateTable();
+            }
+        }
+
+
     }
 
 }

@@ -1,5 +1,7 @@
 package org.apppooproject.Model;
 
+
+//Class method that models the Product table from the DataBase
 public abstract class Product {
     private long productId;
     private String name;
@@ -10,6 +12,7 @@ public abstract class Product {
     private String gender;
     private int size;
 
+    //Product constructor used when
     public Product(long productId, String name, double price, int stock, String color,int size, String description, String gender) {
         this.productId = productId;
         this.name = name;

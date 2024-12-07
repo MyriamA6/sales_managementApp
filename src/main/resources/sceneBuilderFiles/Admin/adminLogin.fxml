@@ -26,5 +26,6 @@
             <Label fx:id="error_label" text="Error : incorrect ID or password" />
          </children>
       </VBox>
+      <Button layoutX="29.0" layoutY="22.0" mnemonicParsing="false" onAction="#onClickGoToLoginView" prefHeight="25.0" prefWidth="119.0" text="Log out" />
    </children>
 </AnchorPane>

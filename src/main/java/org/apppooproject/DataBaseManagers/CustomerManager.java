@@ -1,7 +1,6 @@
 package org.apppooproject.DataBaseManagers;
 
 import org.apppooproject.Model.Customer;
-import org.apppooproject.Service.Password;
 
 import java.sql.*;
 
@@ -35,7 +34,7 @@ public class CustomerManager implements DataManager<Customer> {
             stmt.close();
             return connectedCustomer;
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
         return null;
     }
@@ -44,7 +43,7 @@ public class CustomerManager implements DataManager<Customer> {
     //method to get a customer from the database using its ID
     public Customer getCustomerById(long id) {
         String sql = "SELECT * FROM Customer WHERE customer_id = ?";
-        PreparedStatement stmt = null;
+        PreparedStatement stmt;
         try {
             stmt = co.prepareStatement(sql);
             stmt.setLong(1, id);
@@ -60,7 +59,7 @@ public class CustomerManager implements DataManager<Customer> {
     // Return a customer from the database based on the provided email, if it exists.
     public Customer getCustomerByEmail(String email) {
         String sql = "SELECT * FROM Customer WHERE email = ?";
-        PreparedStatement stmt = null;
+        PreparedStatement stmt;
         try {
             stmt = co.prepareStatement(sql);
             stmt.setString(1, email);
@@ -76,7 +75,7 @@ public class CustomerManager implements DataManager<Customer> {
     //Return a customer from the database based on the provided email, if it exists.
     public Customer getCustomerByLoginName(String loginName) {
         String sql = "SELECT * FROM Customer WHERE login_name = ?";
-        PreparedStatement stmt = null;
+        PreparedStatement stmt;
         try {
             stmt = co.prepareStatement(sql);
             stmt.setString(1, loginName);
@@ -173,11 +172,28 @@ public class CustomerManager implements DataManager<Customer> {
     public void deleteAnElement(Customer c) {
         try {
             connectedCustomer = c;
-            String sql = "DELETE FROM Customer WHERE customer_id = ?";
-            PreparedStatement stmt = co.prepareStatement(sql);
-            stmt.setLong(1, c.getCustomerId());
-            stmt.executeUpdate();
-            stmt.close();
+            String sqlHasAlreadyOrdered ="SELECT * FROM Order_record where customer_id = ?";
+            PreparedStatement stmtCheck = co.prepareStatement(sqlHasAlreadyOrdered);
+            stmtCheck.setLong(1, c.getCustomerId());
+            ResultSet res = stmtCheck.executeQuery();
+            if (res.next()) {
+                c.setFirstName("Anonymous");
+                c.setLastName("Anonymous");
+                c.setEmail("N/A");
+                c.setAddress("N/A");
+                c.setPhoneNumber("N/A");
+                c.setLoginName("N/A");
+                c.setUserPassword("N/A");
+                stmtCheck.close();
+                modifyAnElement(c);
+            }
+            else {
+                String sql = "DELETE FROM Customer WHERE customer_id = ?";
+                PreparedStatement stmt = co.prepareStatement(sql);
+                stmt.setLong(1, c.getCustomerId());
+                stmt.executeUpdate();
+                stmt.close();
+            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } catch (Exception e) {
