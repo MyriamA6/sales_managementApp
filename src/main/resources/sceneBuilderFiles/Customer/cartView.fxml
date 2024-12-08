@@ -36,7 +36,7 @@
          <children>
             <Button mnemonicParsing="false" onAction="#onClickAddOneToCart" prefHeight="36.0" prefWidth="141.0" text="Add an item" />
             <Button mnemonicParsing="false" onAction="#onClickRemoveOneFromCart" prefHeight="37.0" prefWidth="145.0" text="Remove an item" />
-            <Button mnemonicParsing="false" onAction="#onClickSuppressFromCart" prefHeight="36.0" prefWidth="166.0" text="Suppress from cart" />
+            <Button mnemonicParsing="false" onAction="#onClickSuppressFromCart" prefHeight="36.0" prefWidth="166.0" text="Remove from cart" />
          </children>
       </HBox>
       <Button fx:id="payCart_button" layoutX="493.0" layoutY="28.0" mnemonicParsing="false" onAction="#onClickPayCart" text="Pay cart" />

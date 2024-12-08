@@ -6,7 +6,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.text.Text;
@@ -23,11 +22,6 @@ import java.util.Map;
 
 public class CartController {
 
-    @FXML
-    private Button delete_button;
-
-    @FXML
-    private Button menu_button;
 
     @FXML
     private TableColumn<Product, String> productColor;
@@ -57,16 +51,15 @@ public class CartController {
     private final Customer connectedCustomer = customerManager.getConnectedCustomer();
     private final ProductManager productManager = ProductManager.getInstance();
 
+    // Initialize the table and set up the product display
     @FXML
     public void initialize() {
-        // Configurer la colonne productType pour afficher "Top" ou "Pants" selon le type d'objet
         productType.setCellValueFactory(cellData -> {
             Product product = cellData.getValue();
             String type = (product instanceof Top) ? "Top" : "Pants";
             return new SimpleStringProperty(type);
         });
 
-        // Configurer les autres colonnes
         productName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
         productPrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getPrice()).asObject());
         productColor.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getColor()));
@@ -80,8 +73,8 @@ public class CartController {
 
     }
 
+    // Fill the cart table with the content in the cart of the connected customer
     public void setupTable() {
-        // Ajouter les produits du panier du client connecté
         ArrayList<Product> cartProduct=new ArrayList<>();
         Map<Long,Integer> cart= connectedCustomer.getCart();
         for (Long productId : cart.keySet()){
@@ -94,6 +87,7 @@ public class CartController {
         products.getItems().addAll(cartProduct);
     }
 
+    // Handle the "Pay Cart" action when the user clicks on the pay button
     @FXML
     void onClickPayCart(ActionEvent event) {
         if (connectedCustomer.getCart().isEmpty()){
@@ -106,6 +100,7 @@ public class CartController {
         }
     }
 
+    // Handle the "Store Cart" action when the user clicks on the keep order for later button
     @FXML
     void onClickStoreOrder(ActionEvent event) {
         if (connectedCustomer.getCart().isEmpty()){
@@ -119,6 +114,7 @@ public class CartController {
 
     }
 
+    // Empty the content of the cart table
     public void resetCart(){
         connectedCustomer.clearCart();
         products.getItems().clear();
@@ -126,6 +122,7 @@ public class CartController {
         cart_price.setText("Total : "+connectedCustomer.cartCurrentPrice()+" €");
     }
 
+    // Update the cart table in case of any changes
     public void updateCart(){
         products.getItems().clear();
         setupTable();
@@ -133,6 +130,7 @@ public class CartController {
         cart_price.setText("Total : "+connectedCustomer.cartCurrentPrice()+" €");
     }
 
+    // Adds one unit of the selected product to the cart
     @FXML
     void onClickAddOneToCart(ActionEvent event) {
         Product selectedProduct = products.getSelectionModel().getSelectedItem();
@@ -145,6 +143,7 @@ public class CartController {
         updateCart();
     }
 
+    // Remove one unit of the selected product from the cart
     @FXML
     void onClickRemoveOneFromCart(ActionEvent event) {
         Product selectedProduct = products.getSelectionModel().getSelectedItem();
@@ -154,6 +153,7 @@ public class CartController {
         updateCart();
     }
 
+    // Remove the selected product from the cart
     @FXML
     void onClickSuppressFromCart(ActionEvent event) {
         Product selectedProduct = products.getSelectionModel().getSelectedItem();

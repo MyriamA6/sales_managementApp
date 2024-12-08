@@ -17,8 +17,7 @@ import org.apppooproject.MyExceptions.InfoNotCompleteException;
 import org.apppooproject.Service.AlertShowing;
 import org.apppooproject.Service.ViewFactory;
 
-import java.util.ArrayList;
-
+//Controller class managing the product manager interface of the admin
 public class AdminProductsController {
 
 
@@ -122,10 +121,9 @@ public class AdminProductsController {
     private final Customer connectedCustomer = customerManager.getConnectedCustomer();
     private final ProductManager productManager = ProductManager.getInstance();
 
-    // Declare filter buttons and products list
-    private ArrayList<CheckMenuItem> buttons;
 
 
+    // Initialize the product table and set up the UI elements
     @FXML
     public void initialize() {
 
@@ -135,7 +133,7 @@ public class AdminProductsController {
             return new SimpleStringProperty(type);
         });
 
-        // Configurer les autres colonnes
+        //set up of the table view
         productName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
         productPrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getPrice()).asObject());
         productSize.setCellValueFactory(cellData-> new SimpleIntegerProperty(cellData.getValue().getSize()).asObject());
@@ -181,10 +179,12 @@ public class AdminProductsController {
         tshirt_button.setToggleGroup(typeProductGroup);
     }
 
+    // Set up the table with all products from the product table of the database.
     public void setupTable(){
         products.getItems().addAll(productManager.getAllProducts());
     }
 
+    // Search for products based on keywords or logical demand written in the search field
     @FXML
     void giveProductsByKeywords(ActionEvent event) {
         products.getItems().clear();
@@ -192,7 +192,9 @@ public class AdminProductsController {
         products.refresh();
     }
 
-    public void modificationChoosen(){
+    // If the modification mode is chosen, this function fills all the fields of the interface with
+    // the characteristics of the selected product
+    public void modificationChosen(){
         Product selectedProduct = products.getSelectionModel().getSelectedItem();
         if (modification_button.isSelected() && selectedProduct != null){
             productNameField.setText(selectedProduct.getName());
@@ -277,6 +279,7 @@ public class AdminProductsController {
         }
     }
 
+    // Apply the changes to the selected product or add a new product to the database
     @FXML
     void onClickApplyChanges(ActionEvent event) {
         try{
@@ -402,19 +405,17 @@ public class AdminProductsController {
     }
 
 
+    // Helper method to reset all input fields in the form
     private void resetFields() {
-        // Réinitialisation des champs du formulaire
         productNameField.clear();
         price.clear();
         quantity.clear();
         description.clear();
-        // Réinitialiser la sélection des boutons radio
         xs_button.setSelected(false);
         s_button.setSelected(false);
         m_button.setSelected(false);
         l_button.setSelected(false);
         xl_button.setSelected(false);
-        // Réinitialisation des boutons de couleur
         black_button.setSelected(false);
         blue_button.setSelected(false);
         green_button.setSelected(false);
@@ -423,11 +424,9 @@ public class AdminProductsController {
         red_button.setSelected(false);
         white_button.setSelected(false);
         yellow_button.setSelected(false);
-        // Réinitialiser le genre
         male_button.setSelected(false);
         female_button.setSelected(false);
         unisex_button.setSelected(false);
-        // Réinitialiser le type de produit
         shorts_button.setSelected(false);
         regular_button.setSelected(false);
         sweater_button.setSelected(false);
@@ -443,7 +442,7 @@ public class AdminProductsController {
     @FXML
     void onRowClicked(MouseEvent event) {
         if(modification_button.isSelected()){
-            modificationChoosen();
+            modificationChosen();
         }
     }
 
@@ -496,6 +495,7 @@ public class AdminProductsController {
         products.refresh();
     }
 
+    // Check if any required fields are empty or invalid
     public void isAFieldNull() throws InfoNotCompleteException {
         if(productNameField.getText().equalsIgnoreCase("") || !(sweater_button.isSelected() || shorts_button.isSelected() || regular_button.isSelected() || tshirt_button.isSelected()) || !(male_button.isSelected() || female_button.isSelected() || unisex_button.isSelected())){
             throw new InfoNotCompleteException();

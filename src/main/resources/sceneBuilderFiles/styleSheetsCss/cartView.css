@@ -1,7 +1,7 @@
 /* appCentralView.css */
 
 .root {
-    -fx-background-color: #f8f0f6; /* background color*/
+    -fx-background-color: #f8f0f6;
 }
 
 .text-field {
@@ -13,39 +13,36 @@
 }
 
 .button {
-    -fx-background-color: #d39bd4; /* Couleur de fond des boutons */
-    -fx-text-fill: white; /* Couleur du texte */
-    -fx-padding: 2 5; /* Espacement interne réduit pour les boutons */
-    -fx-font-size: 10; /* Taille de police réduite pour un effet plus compact */
-    -fx-border-radius: 3; /* Coins arrondis plus petits */
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 3, 0.0, 0, 1); /* Ombre portée pour les boutons */
+    -fx-background-color: #d39bd4;
+    -fx-text-fill: white;
+    -fx-padding: 2 5;
+    -fx-font-size: 10;
+    -fx-border-radius: 3;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 3, 0.0, 0, 1);
 }
 
-
-/* Styles pour les SplitMenuButtons */
 .split-menu-button {
-    -fx-background-color: #d39bd4; /* Couleur de fond des SplitMenuButtons */
-    -fx-text-fill: white; /* Couleur du texte */
-    -fx-padding: 2 5; /* Espacement interne réduit pour les SplitMenuButtons */
-    -fx-font-size: 10; /* Taille de police réduite pour un effet plus compact */
-    -fx-border-radius: 3; /* Coins arrondis plus petits */
+    -fx-background-color: #d39bd4;
+    -fx-text-fill: white;
+    -fx-padding: 2 5;
+    -fx-font-size: 10;
+    -fx-border-radius: 3;
 }
 
 .split-menu-button:hover {
-    -fx-background-color: #b559a8; /* Changement de couleur au survol */
+    -fx-background-color: #b559a8;
 }
 
-/* Styles pour les MenuButtons */
 .menu-button {
-    -fx-background-color: #d39bd4; /* Couleur de fond des MenuButtons */
-    -fx-text-fill: white; /* Couleur du texte */
-    -fx-padding: 2 5; /* Espacement interne réduit pour les MenuButtons */
-    -fx-font-size: 10; /* Taille de police réduite pour un effet plus compact */
-    -fx-border-radius: 3; /* Coins arrondis plus petits */
+    -fx-background-color: #d39bd4;
+    -fx-text-fill: white;
+    -fx-padding: 2 5;
+    -fx-font-size: 10;
+    -fx-border-radius: 3;
 }
 
 .menu-button:hover {
-    -fx-background-color: #b559a8; /* Changement de couleur au survol */
+    -fx-background-color: #b559a8;
 }
 
 .label {

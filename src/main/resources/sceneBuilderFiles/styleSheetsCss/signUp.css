@@ -1,49 +1,39 @@
-/* signUpPage.css */
-
-/* Style général pour le fond de l'application */
 .root {
-    -fx-background-color: #f8f0f6; /* Couleur de fond douce */
+    -fx-background-color: #f8f0f6;
 }
 
-/* Styles pour le texte de la page d'inscription */
 .text {
-    -fx-fill: #aa2fa6; /* Couleur du texte pour les titres */
-    -fx-font-size: 18; /* Taille de police pour le titre "Sign Up" */
+    -fx-fill: #aa2fa6;
+    -fx-font-size: 18;
 }
 
-/* Styles pour les TextField */
 .text-field {
-    -fx-background-color: white; /* Couleur de fond blanche pour les champs */
-    -fx-border-color: #aa2fa6; /* Couleur de bordure plus sombre */
-    -fx-border-radius: 5; /* Coins arrondis */
-    -fx-padding: 4; /* Espacement interne réduit */
-    -fx-font-size: 10; /* Taille de police pour le texte dans les champs */
+    -fx-background-color: white;
+    -fx-border-color: #aa2fa6;
+    -fx-border-radius: 5;
+    -fx-padding: 4;
+    -fx-font-size: 10;
 }
 
-/* Styles pour les boutons */
 .button {
-    -fx-background-color: #d39bd4; /* Couleur de fond des boutons */
-    -fx-text-fill: white; /* Couleur du texte */
-    -fx-padding: 5 8; /* Espacement interne réduit */
-    -fx-font-size: 10; /* Taille de police pour un effet plus compact */
-    -fx-border-radius: 5; /* Coins arrondis */
+    -fx-background-color: #d39bd4;
+    -fx-text-fill: white;
+    -fx-padding: 5 8;
+    -fx-font-size: 10;
+    -fx-border-radius: 5;
 }
 
 .button:hover {
-    -fx-background-color: #aa2fa6; /* Changement de couleur au survol */
+    -fx-background-color: #aa2fa6;
 }
 
-/* Styles pour les labels d'erreur */
 #error_label {
-    -fx-text-fill: red; /* Couleur du texte d'erreur */
-    -fx-font-size: 8; /* Taille de police pour le texte d'erreur */
-    -fx-font-weight: bold; /* Texte en gras */
+    -fx-text-fill: red;
+    -fx-font-size: 8;
+    -fx-font-weight: bold;
 }
 
-/* Styles pour le texte d'entrée de champ (étiquettes) */
 .label {
-    -fx-text-fill: #4b2c4b; /* Couleur du texte plus foncée pour les étiquettes */
-    -fx-font-size: 10; /* Taille de police pour les étiquettes */
+    -fx-text-fill: #4b2c4b;
+    -fx-font-size: 10;
 }
-
-

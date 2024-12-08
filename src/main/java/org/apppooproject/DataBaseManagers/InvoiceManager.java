@@ -37,8 +37,10 @@ public class InvoiceManager implements DataManager<Invoice> {
             statement.setDate(2, new java.sql.Date(invoice.getInvoiceDate().getTime()));
             statement.executeUpdate();
             System.out.println("Invoice added successfully");
+        } catch (SQLException e) {
+            System.out.println("Error while adding invoice: " + e.getMessage());
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Unexpected error: " + e.getMessage());
         }
     }
 
@@ -50,8 +52,10 @@ public class InvoiceManager implements DataManager<Invoice> {
             statement.setDate(1, new java.sql.Date(invoice.getInvoiceDate().getTime()));
             statement.setLong(2, invoice.getInvoiceId());
             statement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error while modifying invoice: " + e.getMessage());
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Unexpected error: " + e.getMessage());
         }
     }
 
@@ -63,8 +67,10 @@ public class InvoiceManager implements DataManager<Invoice> {
             long invoiceId = invoice.getInvoiceId();
             statement.setLong(1, invoiceId);
             statement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("Error while deleting an invoice: " + e.getMessage());
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Unexpected error: " + e.getMessage());
         }
     }
 
@@ -119,7 +125,6 @@ public class InvoiceManager implements DataManager<Invoice> {
         String query = "SELECT * FROM invoice WHERE order_id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, orderId);
-            System.out.println("here");
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 long invoiceId = resultSet.getLong("invoice_id");

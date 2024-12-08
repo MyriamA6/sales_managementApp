@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 import org.apppooproject.Model.Admin;
 import org.apppooproject.Service.ViewFactory;
 
+// Class controller in charge of the admin log in interface
 public class AdminLoginController {
 
 

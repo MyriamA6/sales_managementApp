@@ -9,12 +9,13 @@ public class CustomerManager implements DataManager<Customer> {
     private final Connection co;               // Connection to the dataBase
     private Customer connectedCustomer;        // The connected client
 
-    //implementation of the singleton design pattern
+    //implementation of the singleton design pattern to prevent several instantiation of CustomerManager objects
     private CustomerManager() {
         this.co = DatabaseInitializer.getH2Connection();
     }
 
 
+    // Returns the singleton instance of CustomerManager
     public static CustomerManager getInstance() {
         if (instance == null) {
             instance = new CustomerManager();  // Creation of the instance of CustomerManager
@@ -40,7 +41,7 @@ public class CustomerManager implements DataManager<Customer> {
     }
 
 
-    //method to get a customer from the database using its ID
+    //Returns a customer from the database using its ID
     public Customer getCustomerById(long id) {
         String sql = "SELECT * FROM Customer WHERE customer_id = ?";
         PreparedStatement stmt;
@@ -56,7 +57,7 @@ public class CustomerManager implements DataManager<Customer> {
         }
     }
 
-    // Return a customer from the database based on the provided email, if it exists.
+    // Returns a customer from the database based on the provided email, if it exists.
     public Customer getCustomerByEmail(String email) {
         String sql = "SELECT * FROM Customer WHERE email = ?";
         PreparedStatement stmt;
@@ -72,7 +73,7 @@ public class CustomerManager implements DataManager<Customer> {
         }
     }
 
-    //Return a customer from the database based on the provided email, if it exists.
+    //Returns a customer from the database based on the provided email, if it exists.
     public Customer getCustomerByLoginName(String loginName) {
         String sql = "SELECT * FROM Customer WHERE login_name = ?";
         PreparedStatement stmt;
@@ -89,7 +90,7 @@ public class CustomerManager implements DataManager<Customer> {
     }
 
 
-    //method to create an instance of Customer using a resultSet obtained with a sql query
+    //Creates an instance of Customer using a resultSet obtained with a sql query
     private Customer createCustomerFromResultSet(ResultSet res) throws SQLException {
         if (res.next()) {
             long customerId = res.getLong("customer_id");
@@ -176,7 +177,7 @@ public class CustomerManager implements DataManager<Customer> {
             PreparedStatement stmtCheck = co.prepareStatement(sqlHasAlreadyOrdered);
             stmtCheck.setLong(1, c.getCustomerId());
             ResultSet res = stmtCheck.executeQuery();
-            if (res.next()) {
+            if (res.next()) { //if the Customer has already passed an order in the past it is just set as Anonymous
                 c.setFirstName("Anonymous");
                 c.setLastName("Anonymous");
                 c.setEmail("N/A");

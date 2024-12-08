@@ -2,7 +2,7 @@
   <artifact type="jar" name="appPOOProject:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/appPOOProject_jar</output-path>
     <root id="archive" name="appPOOProject.jar">
-      <element id="module-output" name="appPOOProject" />
+      <element id="module-output" name="Achour_Suresh" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/de/jensd/fontawesomefx-commons/9.1.2/fontawesomefx-commons-9.1.2.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/openjfx/javafx-base/17.0.6/javafx-base-17.0.6-win.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/openjfx/javafx-fxml/17.0.6/javafx-fxml-17.0.6.jar" path-in-jar="/" />

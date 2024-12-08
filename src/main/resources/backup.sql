@@ -93,7 +93,7 @@ VALUES
 INSERT INTO Product (name, price, stock, gender, color, size, description)
 VALUES
     ('Sweatshirt', 40, 20, 'Unisex', 'Grey', 38, 'A comfortable sweatshirt'),
-    ('Chino Pants', 60, 15, 'Male', 'Beige', 34, 'Elegant chino pants'),
+    ('Chino Pants', 60, 15, 'Male', 'Yellow', 34, 'Elegant chino pants'),
     ('Blouse', 35, 25, 'Female', 'White', 36, 'Light cotton blouse'),
     ('Cargo Pants', 55, 10, 'Unisex', 'Black', 38, 'Practical cargo pants'),
     ('Hoodie', 45, 30, 'Unisex', 'Blue', 40, 'Warm and cozy hoodie'),
@@ -154,7 +154,7 @@ VALUES
     ('Blouse', 40, 22, 'Female', 'Pink', 36, 'Chic blouse with a flattering fit'),
     ('Turtle Neck', 48, 18, 'Male', 'Grey', 40, 'Cozy turtle neck sweater for cooler weather'),
     ('Sweatshirt', 40, 20, 'Unisex', 'Grey', 34, 'A comfortable sweatshirt'),
-    ('Chino Pants', 60, 15, 'Male', 'Beige', 36, 'Elegant chino pants'),
+    ('Chino Pants', 60, 15, 'Male', 'Yellow', 36, 'Elegant chino pants'),
     ('Blouse', 35, 25, 'Female', 'White', 34, 'Light cotton blouse'),
     ('Cargo Pants', 55, 10, 'Unisex', 'Black', 40, 'Practical cargo pants'),
     ('Hoodie', 45, 30, 'Unisex', 'Blue', 42, 'Warm and cozy hoodie'),
@@ -353,17 +353,14 @@ VALUES
 -- Insertion des commandes
 INSERT INTO Order_record (customer_id, total_price, order_date, order_state)
 VALUES
-    (1, 1350, DATE '2024-10-15', 'paid'),
-    (2, 1000, DATE '2024-10-16', 'in progress'),
-    (3, 800, DATE '2024-10-14', 'delivered'),
-    (4, 1500, DATE '2024-10-12', 'delivered');
-
+    (1, 95, DATE '2024-10-15', 'paid'),
+    (2, 60, DATE '2024-10-16', 'in progress'),
+    (3, 35, DATE '2024-10-14', 'delivered');
 -- Insertion des factures
 INSERT INTO Invoice (order_id, invoice_date)
 VALUES
     (1, DATE '2024-10-16'),
-    (3, DATE '2024-10-15'),
-    (4, DATE '2024-10-13');
+    (3, DATE '2024-10-15');
 
 -- Insertion des contenus des commandes
 INSERT INTO Content (product_id, order_id, quantity_ordered)

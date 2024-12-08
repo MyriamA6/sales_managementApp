@@ -391,6 +391,9 @@ public class ProductManager implements DataManager<Product> {
         }
     }
 
+    //Adds an element to the database
+    //if it is an object of type Pants, its corresponding entity is added to the table Pants
+    //a similar action is applied for Tops objects
     @Override
     public void addAnElement(Product product) {
         try {
@@ -442,6 +445,8 @@ public class ProductManager implements DataManager<Product> {
     }
 
 
+    //Modifies an existing element from the database
+    // Also modifies the corresponding entity in the table Pants or Tops
     @Override
     public void modifyAnElement(Product product) {
         try {
@@ -483,7 +488,8 @@ public class ProductManager implements DataManager<Product> {
     }
 
 
-    // Deletes a product from the database by product ID.
+    // Deletes a product from the database.
+    // And its corresponding entities in the tables Pants or Tops.
     @Override
     public void deleteAnElement(Product product) {
         try {
@@ -511,7 +517,8 @@ public class ProductManager implements DataManager<Product> {
             refresh();
 
         } catch (SQLException e) {
-            System.out.println("Setting the stock of the product to 0");
+            //If it isn't possible to delete the product, we set its stock to 0.
+            AlertShowing.showAlert("Complete deletion impossible", "Setting the stock of the product to 0", Alert.AlertType.WARNING);
             product.setStock(0);
             modifyAnElement(product);
         } catch (Exception e) {

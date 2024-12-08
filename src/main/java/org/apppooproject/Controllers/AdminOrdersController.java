@@ -17,6 +17,7 @@ import org.apppooproject.Service.ViewFactory;
 
 import java.util.ArrayList;
 
+// Controller class in charge of the order manager interface of the Admin
 public class AdminOrdersController {
 
     @FXML
@@ -28,19 +29,21 @@ public class AdminOrdersController {
     @FXML
     private RadioButton inProgress_button;
 
+    //Table displaying the orders of the database
     @FXML private TableView<Order> ordersTable;
     @FXML private TableColumn<Order, Long> orderID;
     @FXML private TableColumn<Order, String> orderDate;
     @FXML private TableColumn<Order, Double> orderTotalPrice;
     @FXML private TableColumn<Order, String> orderStatus;
     @FXML private TableColumn<Order, String> orderUsername;
+    //Text field to search for an order
     @FXML private TextField searchField;
 
 
-    // Declare manager instances
     private final OrderManager orderManager = OrderManager.getInstance();
 
 
+    // Initialization of the table columns and setting up the interface
     @FXML
     public void initialize() {
         // Set the table columns
@@ -72,6 +75,7 @@ public class AdminOrdersController {
         }
     }
 
+    //Reloads the orders visible in the table of the table view of the interface
     private void updateTable(){
         loadOrders();
         ordersTable.refresh();
@@ -83,6 +87,7 @@ public class AdminOrdersController {
         ViewFactory.showAdminProductManager();
     }
 
+    // Method to filter orders based on the customer's username written in the search field
     @FXML
     void giveOrdersByUsername(ActionEvent event) {
         if (!(HelperMethod.removeExtraSpaces(searchField.getText()).isEmpty())){
@@ -95,6 +100,7 @@ public class AdminOrdersController {
         }
     }
 
+    //Displays the current state of the selected order
     @FXML
     void onRowClicked(MouseEvent event) {
         inProgress_button.setDisable(false);
@@ -119,6 +125,7 @@ public class AdminOrdersController {
         }
     }
 
+    //Updates the order status of the selected order
     @FXML
     void onClickChangeOrderStatus(ActionEvent event) {
         Order order = ordersTable.getSelectionModel().getSelectedItem();
@@ -136,6 +143,7 @@ public class AdminOrdersController {
         delivered_button.setDisable(false);
     }
 
+    //Deletes the selected order if it has the state IN_PROGRESS
     @FXML
     void onClickDeleteOrder(ActionEvent event) {
         Order order = ordersTable.getSelectionModel().getSelectedItem();

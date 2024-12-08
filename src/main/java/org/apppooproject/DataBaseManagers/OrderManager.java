@@ -2,8 +2,6 @@ package org.apppooproject.DataBaseManagers;
 
 import org.apppooproject.Model.Order;
 import org.apppooproject.Model.Product;
-import org.apppooproject.Model.Pants;
-import org.apppooproject.Model.Top;
 import org.apppooproject.Service.OrderState;
 
 import java.sql.*;
@@ -15,10 +13,12 @@ public class OrderManager implements DataManager<Order> {
     private static OrderManager instance;
     private final Connection connection;
 
+    // Singleton pattern constructor to ensure only one instance of OrderManager
     private OrderManager() {
         this.connection = DatabaseInitializer.getH2Connection();
     }
 
+    // Returns the singleton instance of OrderManager
     public static OrderManager getInstance() {
         if (instance == null) {
             instance = new OrderManager();
@@ -26,6 +26,7 @@ public class OrderManager implements DataManager<Order> {
         return instance;
     }
 
+    // Add a new order to the database
     @Override
     public void addAnElement(Order order) {
         String sql = "INSERT INTO Order_record (customer_id, total_price, order_date, order_state) VALUES (?, ?, ?, ?)";
@@ -54,6 +55,7 @@ public class OrderManager implements DataManager<Order> {
         }
     }
 
+    // Insert the product content (product ID and quantity) into the Content table
     private void addContent(long orderId, long productId, int quantity) throws SQLException {
         String sql = "INSERT INTO Content (order_id, product_id, quantity_ordered) VALUES (?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -64,6 +66,7 @@ public class OrderManager implements DataManager<Order> {
         }
     }
 
+    // Modify an existing order in the database
     @Override
     public void modifyAnElement(Order order) {
         String sql = "UPDATE Order_record SET total_price = ?, order_state = ? WHERE order_id = ?";
@@ -73,7 +76,7 @@ public class OrderManager implements DataManager<Order> {
             stmt.setLong(3, order.getOrderId());
             stmt.executeUpdate();
 
-            // Mettre à jour les contenus associés
+            // Update the products associated with the order in the Content table
             removeOrderContent(order.getOrderId());
             for (Long product : order.getContent().keySet()) {
                 addContent(order.getOrderId(), product, order.getContent().get(product));
@@ -83,6 +86,7 @@ public class OrderManager implements DataManager<Order> {
         }
     }
 
+    // Remove the content (products) associated with an order from the Content table
     private void removeOrderContent(long orderId) throws SQLException {
         String sql = "DELETE FROM Content WHERE order_id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -91,6 +95,7 @@ public class OrderManager implements DataManager<Order> {
         }
     }
 
+    // Delete an order from the database, including its content
     @Override
     public void deleteAnElement(Order order) {
         try {
@@ -106,6 +111,7 @@ public class OrderManager implements DataManager<Order> {
         }
     }
 
+    //Returns all the Order stored in the database
     public ArrayList<Order> getAllElements() {
         ArrayList<Order> orders = new ArrayList<>();
         String sql = "SELECT * FROM Order_record";
@@ -128,7 +134,7 @@ public class OrderManager implements DataManager<Order> {
     }
 
 
-
+    //Returns a specific order by its ID
     public Order getElementById(long id) {
         String sql = "SELECT * FROM Order_record WHERE order_id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -151,6 +157,7 @@ public class OrderManager implements DataManager<Order> {
         return null;
     }
 
+    // Returns a list of orders for a specific customer using its ID
     public ArrayList<Order> getOrdersByCustomerId(long customerId) {
         ArrayList<Order> orders = new ArrayList<>();
         String sql = "SELECT * FROM Order_record WHERE customer_id = ?";
@@ -160,17 +167,14 @@ public class OrderManager implements DataManager<Order> {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                // Créer un objet Order à partir des données de la commande
                 Order order = new Order(
                         rs.getLong("order_id"),
-                        CustomerManager.getInstance().getCustomerById(rs.getLong("customer_id")), // Récupérer le client
+                        CustomerManager.getInstance().getCustomerById(rs.getLong("customer_id")),
                         rs.getDouble("total_price"),
                         rs.getDate("order_date"),
                         OrderState.giveCorrespondingState(rs.getString("order_state"))
                 );
-                // Ajouter le contenu des commandes à l'objet Order
                 order.setContent(getOrderContent(order.getOrderId()));
-                // Ajouter la commande à la liste des commandes
                 orders.add(order);
             }
         } catch (SQLException e) {
@@ -180,6 +184,7 @@ public class OrderManager implements DataManager<Order> {
         return orders;
     }
 
+    // Returns a list of orders for a specific customer using its username
     public ArrayList<Order> getOrdersByCustomerUsername(String username) {
         ArrayList<Order> orders = new ArrayList<>();
         String sql = "SELECT * FROM Order_record o Join customer c on o.customer_id=c.customer_id where c.login_name = ?";
@@ -193,17 +198,14 @@ public class OrderManager implements DataManager<Order> {
                     System.out.println(rs.getString("login_name"));
                     System.out.println(username);
 
-                    // Créer un objet Order à partir des données de la commande
                     Order order = new Order(
                             rs.getLong("order_id"),
-                            CustomerManager.getInstance().getCustomerById(rs.getLong("customer_id")), // Récupérer le client
+                            CustomerManager.getInstance().getCustomerById(rs.getLong("customer_id")),
                             rs.getDouble("total_price"),
                             rs.getDate("order_date"),
                             OrderState.giveCorrespondingState(rs.getString("order_state"))
                     );
-                    // Ajouter le contenu des commandes à l'objet Order
                     order.setContent(getOrderContent(order.getOrderId()));
-                    // Ajouter la commande à la liste des commandes
                     orders.add(order);
                 }
             }
@@ -213,6 +215,8 @@ public class OrderManager implements DataManager<Order> {
         return orders;
     }
 
+    // Update the content of an order, checking the availability of its content
+    // Only used for order with an IN_PROGRESS state
     public void updateOrderContent(Order order){
         Map<Product,Integer> products =order.getProducts();
         for(Map.Entry<Product,Integer> entry : products.entrySet()){
@@ -229,6 +233,8 @@ public class OrderManager implements DataManager<Order> {
     }
 
 
+    // Retrieve the content associated with an order
+    // e.g. the list of id  of the products contained in the order and their quantity
     private HashMap<Long, Integer> getOrderContent(long orderId) {
         HashMap<Long, Integer> content = new HashMap<>();
         String sql = "SELECT * from Content WHERE order_id = ?";
@@ -243,19 +249,6 @@ public class OrderManager implements DataManager<Order> {
             e.printStackTrace();
         }
         return content;
-    }
-
-
-    // Mettre à jour l'état de la commande (annulée)
-    public void updateOrderState(long orderId, String newState){
-        String query = "UPDATE Order_record SET order_state = ? WHERE order_id = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, newState);
-            stmt.setLong(2, orderId);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 
 

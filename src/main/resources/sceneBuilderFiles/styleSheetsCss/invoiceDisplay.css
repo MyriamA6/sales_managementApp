@@ -1,13 +1,11 @@
-/* Style général pour le fond de l'application */
 .root {
-    -fx-background-color: #f8f0f6; /* Couleur de fond douce */
+    -fx-background-color: #f8f0f6;
 }
 
-/* Styles pour les TextArea */
 .text-area {
-    -fx-background-color: white; /* Fond blanc pour la description */
-    -fx-border-color: #aa2fa6; /* Bordure violette douce */
-    -fx-border-radius: 5; /* Coins arrondis */
-    -fx-font-size: 15; /* Taille de police */
+    -fx-background-color: white;
+    -fx-border-color: #aa2fa6;
+    -fx-border-radius: 5;
+    -fx-font-size: 15;
 }
 
