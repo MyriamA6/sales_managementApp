@@ -1,5 +1,6 @@
 package org.apppooproject.Service;
 
+// Enum class to declare the distinct state of an order
 public enum OrderState {IN_PROGRESS("in progress"), PAID("paid"), DELIVERED("delivered");
     private final String state;
     private OrderState(String state) {

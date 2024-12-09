@@ -11,7 +11,7 @@ import org.apppooproject.Service.AlertShowing;
 import org.apppooproject.Service.HelperMethod;
 import org.apppooproject.Service.ViewFactory;
 
-//Class Controller to control the javaFX UI of the customer's account's interface
+//Class Controller to control the javaFX UI of the customer's account interface
 public class CustomerController {
 
     @FXML
@@ -62,6 +62,7 @@ public class CustomerController {
         String loginName = login_name.getText();
         String userPassword = new_password.getText();
 
+        // Check if every field are valid
         if (HelperMethod.nothingIsNullOrEmpty(firstName,lastName,e_mail,phoneNumber,addressText,loginName) && Customer.isPossibleToCreateCustomer(firstName,lastName,e_mail,phoneNumber)){
             connectedCustomer.setFirstName(firstName);
             connectedCustomer.setLastName(lastName);
@@ -70,6 +71,7 @@ public class CustomerController {
             connectedCustomer.setAddress(addressText);
             connectedCustomer.setLoginName(loginName);
             connectedCustomer.setUserPassword(userPassword);
+
             customerManager.modifyAnElement(connectedCustomer);
             AlertShowing.showAlert("Account successfully updated","Account has been updated", Alert.AlertType.INFORMATION);
         }

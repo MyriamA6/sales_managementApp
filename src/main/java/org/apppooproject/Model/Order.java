@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+//Customer class that models an instance of the order_record table of the database
 public class Order {
 
     private long orderId;
@@ -41,6 +42,7 @@ public class Order {
         content.remove(product);
     }
 
+    //Method to update the total price of the content of the order
     public double calculateTotalPrice() {
         totalPrice = 0;
         for (Map.Entry<Long, Integer> entry : content.entrySet()) {
@@ -73,6 +75,8 @@ public class Order {
         return state;
     }
 
+    //Setter of the state of the order
+    //If it is set to "paid" an invoice is generated and associated to this order
     public void setState(OrderState state) {
         this.state = state;
         if(state.equalState("paid")) {
@@ -84,6 +88,8 @@ public class Order {
         return content;
     }
 
+    // helper getter method to return the content of the order
+    // but in the format of a Map<Product,Quantity> and not Map<ProductId,Quantity>
     public Map<Product, Integer> getProducts() {
         Map<Product, Integer> products = new HashMap<>();
         for (Map.Entry<Long, Integer> entry : content.entrySet()) {
@@ -92,7 +98,6 @@ public class Order {
         return products;
     }
 
-    // Ajout de la méthode setContent
     public void setContent(Map<Long, Integer> content) {
         this.content = content;
     }

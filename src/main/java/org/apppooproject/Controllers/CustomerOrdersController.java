@@ -19,16 +19,16 @@ import org.apppooproject.Service.ViewFactory;
 
 import java.util.ArrayList;
 
+//Class Controller to control the javaFX UI of the customer's order manager interface
 public class CustomerOrdersController {
 
-    // Declare UI components
+    // Declare the table view that will contain the orders with its column
     @FXML private TableView<Order> orders;
     @FXML private TableColumn<Order, Long> orderID;
     @FXML private TableColumn<Order, String> orderDate;
     @FXML private TableColumn<Order, Double> orderTotalPrice;
     @FXML private TableColumn<Order, String> orderStatus;
 
-    // Declare manager instances
     private final OrderManager orderManager = OrderManager.getInstance();
 
     private Customer connectedCustomer;
@@ -47,8 +47,8 @@ public class CustomerOrdersController {
         loadCustomerOrders();
     }
 
+    //Add all the orders of the customer to the table view
     private void loadCustomerOrders() {
-        // Fetch all orders for the connected customer
         ArrayList<Order> customerOrders = orderManager.getOrdersByCustomerId(connectedCustomer.getCustomerId());
 
         orders.getItems().addAll(customerOrders);
@@ -59,6 +59,7 @@ public class CustomerOrdersController {
         loadCustomerOrders();
     }
 
+    // On action shows the invoice associated to the selected order if it has been "paid" or "delivered"
     @FXML
     void onClickGenerateAssociatedInvoice(ActionEvent event) {
         Order order = orders.getSelectionModel().getSelectedItem();
@@ -76,6 +77,8 @@ public class CustomerOrdersController {
             AlertShowing.showAlert("Not paid yet","Order not paid yet", Alert.AlertType.WARNING);
         }
     }
+
+    // On action deletes the invoice associated to the selected order if it has not been "paid" nor "delivered"
     @FXML
     void onClickDeleteOrder(ActionEvent event) {
         Order order = orders.getSelectionModel().getSelectedItem();
@@ -88,6 +91,8 @@ public class CustomerOrdersController {
         }
     }
 
+
+    // On action sets the state of an order to "paid" if it was not the case yet
     @FXML
     void onClickPayOrder(ActionEvent event) {
         Order order = orders.getSelectionModel().getSelectedItem();
@@ -111,6 +116,8 @@ public class CustomerOrdersController {
 
     }
 
+    // On action allows the customer to modify its order
+    // Place all the content of the order in the cart of the customer for modification
     @FXML
     void onClickModifyOrder(ActionEvent event) {
         Order order = orders.getSelectionModel().getSelectedItem();

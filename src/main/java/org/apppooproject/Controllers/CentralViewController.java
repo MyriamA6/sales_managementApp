@@ -69,14 +69,8 @@ public class CentralViewController {
             return new SimpleStringProperty(type);
         });
 
-        //Blocking the selection of several buttons for the price filtering
-        ToggleGroup priceGroup = new ToggleGroup();
-        less25_button.setToggleGroup(priceGroup);
-        btw25_50_button.setToggleGroup(priceGroup);
-        btw50_100_button.setToggleGroup(priceGroup);
-        more100_button.setToggleGroup(priceGroup);
 
-        System.out.println("appviex");
+
         // Configuration of the columns
         productName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
         productPrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getPrice()).asObject());
@@ -122,6 +116,7 @@ public class CentralViewController {
         }
     }
 
+
     private void showProductDetails(Product product) {
         try {
             Stage currentStage = (Stage) products.getScene().getWindow();
@@ -140,7 +135,7 @@ public class CentralViewController {
         }
     }
 
-        @FXML
+    @FXML
     void applySelectedFilters(ActionEvent event) {
         products.getItems().clear();
 
@@ -230,16 +225,16 @@ public class CentralViewController {
         if(less25_button.isSelected()){
             filteredProducts.addAll(productManager.showLessThanGivenPrice(productsToFilter,25));
         }
-        else if(more100_button.isSelected()){
+        if(more100_button.isSelected()){
             filteredProducts.addAll(productManager.showMoreThanGivenPrice(productsToFilter,100));
         }
-        else if(btw25_50_button.isSelected()){
+        if(btw25_50_button.isSelected()){
             filteredProducts.addAll(productManager.showBetweenGivenPrice(productsToFilter,25,50));
         }
-        else if(btw50_100_button.isSelected()){
+        if(btw50_100_button.isSelected()){
             filteredProducts.addAll(productManager.showBetweenGivenPrice(productsToFilter,50,100));
         }
-        else{
+        if(!(btw50_100_button.isSelected() || less25_button.isSelected() || more100_button.isSelected() || btw25_50_button.isSelected())){
             filteredProducts.addAll(productsToFilter);
         }
         return filteredProducts;

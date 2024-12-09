@@ -332,7 +332,7 @@ public class ProductManager implements DataManager<Product> {
     public ArrayList<Product> showMoreThanGivenPrice(ArrayList<Product> productsToFilter,int price){
         ArrayList<Product> productsOfGivenPrice = new ArrayList<>();
         for (Product p : productsToFilter) {
-            if (p.getPrice() > price) {
+            if (p.getPrice() >= price) {
                 productsOfGivenPrice.add(p);
             }
         }
@@ -354,7 +354,7 @@ public class ProductManager implements DataManager<Product> {
     public ArrayList<Product> showBetweenGivenPrice(ArrayList<Product> productsToFilter,int price1, int price2){
         ArrayList<Product> productsOfGivenPrice = new ArrayList<>();
         for (Product p : productsToFilter) {
-            if (p.getPrice() >=price1 && p.getPrice() <=price2) {
+            if (p.getPrice() >=price1 && p.getPrice() <price2) {
                 productsOfGivenPrice.add(p);
             }
         }

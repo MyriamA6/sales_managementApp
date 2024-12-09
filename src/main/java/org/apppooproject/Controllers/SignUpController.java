@@ -12,7 +12,7 @@ import org.apppooproject.Service.Password;
 import org.apppooproject.Service.AlertShowing;
 import org.apppooproject.Service.ViewFactory;
 
-//Controller class associated to the Sign Up page
+//Controller class associated to the signup page
 public class SignUpController {
 
     @FXML

@@ -76,7 +76,7 @@ CREATE TABLE Content (
                          CONSTRAINT FK_Content_Order FOREIGN KEY (order_id) REFERENCES Order_record(order_id)
 );
 
--- Insertion des clients
+-- Insertion for the customers
 -- Julien mdp : 123456
 -- Louis mdp : louis
 -- Marie mdp : 0000

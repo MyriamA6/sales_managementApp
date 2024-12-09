@@ -62,7 +62,7 @@ public class Invoice {
         Order order = OrderManager.getInstance().getElementById(orderId);
         if(order.getState().equals(OrderState.PAID) ||
             order.getState().equals(OrderState.DELIVERED)) {
-            // Creation of the header oh the invoice
+
             StringBuilder invoiceText = new StringBuilder();
             invoiceText.append("Invoice ").append(invoiceId).append("\n");
             invoiceText.append("Order Number: ").append(order.getOrderId()).append("\n");
@@ -89,7 +89,6 @@ public class Invoice {
 
                 invoiceText.append(String.format("%-20s %-10.2f %-5d %-10.2f\n", product.getName(), product.getPrice(), quantity, totalForProduct));
 
-                // Computation of the total price of the order
                 totalOrder += totalForProduct;
             }
 
@@ -99,7 +98,7 @@ public class Invoice {
             // Locating the invoice folder in the project
             File customerFolder = new File("src/main/resources/invoices/" + customer.getCustomerId());
 
-            //
+
             if (!customerFolder.exists()) {
                 boolean created = customerFolder.mkdirs();  // Creation of the folder associated to the connected custoemr
                 if (created) {
@@ -110,6 +109,9 @@ public class Invoice {
             }
 
             File invoiceFile = new File(customerFolder, "invoice_" + order.getOrderId() + ".txt");
+            if(invoiceFile.exists()) {// prevents from generating a second time the text invoice
+                return true;
+            }
 
             // Generates a text file containing the invoice associated to the order with id orderId
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(invoiceFile))) {

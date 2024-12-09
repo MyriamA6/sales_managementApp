@@ -116,9 +116,9 @@ public class Customer {
         // Create a new order and set its initial state to "paid"
         Order order = new Order(
                 this,
-                cartCurrentPrice(),  // Total price calculated from the cart
-                new Date(), // Current date as the order date
-                OrderState.PAID // Initializes order state
+                cartCurrentPrice(),
+                new Date(),
+                OrderState.PAID
         );
 
         order.setContent(cart);
@@ -135,9 +135,9 @@ public class Customer {
         // Create a new order and set its initial state to "in progress"
         Order order = new Order(
                 this,
-                cartCurrentPrice(),  // Total price calculated from the cart
-                new Date(), // Current date as the order date
-                OrderState.IN_PROGRESS // Initializes order state
+                cartCurrentPrice(),
+                new Date(),
+                OrderState.IN_PROGRESS
         );
 
         order.setContent(cart);
@@ -232,21 +232,20 @@ public class Customer {
 
         // Check if firstName and lastName contain only letters (A-Z or a-z)
         if (!firstName.matches("[a-zA-Z]+") || !lastName.matches("[a-zA-Z]+")) {
-            return false; // Return false if either firstName or lastName contain non-letter characters
+            return false;
         }
 
-        // Check if email contains "@" and "." and that they are surrounded by letters
+        // Check if email contains "@" and "." and that they are surrounded by alphanumerical symbols
         String emailRegex = "^[a-zA-Z]+[a-zA-Z0-9._-]*[a-zA-Z0-9]+@[a-zA-Z]+\\.[a-zA-Z]+\\.?[a-zA-Z]*$";
         if (!email.matches(emailRegex)) {
-            return false; // Return false if the email does not follow the correct pattern
+            return false;
         }
 
         // Check if phoneNumber contains only digits (no spaces, no symbols), starts with a 0 and have a total of 9 digits
         if (!phoneNumber.matches("0[0-9]{9}")) {
-            return false; // Return false if phoneNumber contains any non-digit characters
+            return false;
         }
 
-        // If all checks pass, return true (it's possible to create the customer)
         return true;
     }
 

@@ -8,20 +8,11 @@ import org.apppooproject.Model.Customer;
 import org.apppooproject.Service.Password;
 import org.apppooproject.Service.ViewFactory;
 
-
+// Controller class to handle the connection of a user to its account
 public class LoginController {
 
     @FXML
-    private Button connection_button;
-
-    @FXML
     private Label error_label;
-
-    @FXML
-    private Hyperlink hyperlinkToAccountCreation;
-
-    @FXML
-    private Hyperlink hyperlinkToAdminConnection;
 
     @FXML
     private TextField login_name;
@@ -35,31 +26,30 @@ public class LoginController {
         error_label.setVisible(false);
     }
 
-    // Action liée au bouton de connexion
+    //On action of the associated button tries to connect to the account of a customer
     @FXML
     public void connectionToUserAccountAction(ActionEvent event) {
         String username = login_name.getText();
-        String pwd = Password.hashPassword(password.getText());
-        Customer customer = customerManager.getCustomerByLogin(username, pwd);
+        String pwd = Password.hashPassword(password.getText()); //hashing of the given password
+        Customer customer = customerManager.getCustomerByLogin(username, pwd); // trying to match the username with the given password to a customer of the database
         if (customer!=null) {
             customerManager.setConnectedCustomer(customer);
             ViewFactory.closeCurrentWindow(event);
             ViewFactory.showAppViewWindow();
         } else {
-            // Si l'utilisateur n'existe pas, afficher le label d'erreur
             error_label.setVisible(true);
         }
     }
 
 
-    // Action liée au clic sur l'hyperlien pour la création de compte
+    // On click of the associated hyperlink, we move to the Admin connection interface
     @FXML
     public void handleHyperlinkAdminConnection(ActionEvent event) {
         ViewFactory.closeCurrentWindow(event);
         ViewFactory.showAdminLoginWindow();
     }
 
-    // Action liée au clic sur l'hyperlien pour la création de compte
+    // On click of the associated hyperlink, we move to the signup interface
     @FXML
     public void handleHyperlinkAccountCreation(ActionEvent event) {
         ViewFactory.closeCurrentWindow(event);

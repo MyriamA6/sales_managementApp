@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+// Class to centralize the navigation between fxml pages
 public class ViewFactory {
 
     public static void showLoginWindow() {

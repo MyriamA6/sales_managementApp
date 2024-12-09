@@ -43,7 +43,7 @@
                   <RadioMenuItem fx:id="less25_button" mnemonicParsing="false" text="&lt;25€" />
                   <RadioMenuItem fx:id="btw25_50_button" mnemonicParsing="false" text="25€-50€" />
                   <RadioMenuItem fx:id="btw50_100_button" mnemonicParsing="false" text="50€-100€" />
-                  <RadioMenuItem fx:id="more100_button" mnemonicParsing="false" text="&gt;100€" />
+                  <RadioMenuItem fx:id="more100_button" mnemonicParsing="false" text="&gt;=100€" />
                </items>
             </MenuButton>
             <MenuButton fx:id="colorFilter" mnemonicParsing="false" prefHeight="29.0" prefWidth="74.0" text="Color">

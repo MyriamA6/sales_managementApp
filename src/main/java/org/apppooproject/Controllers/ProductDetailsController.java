@@ -10,6 +10,7 @@ import org.apppooproject.Model.Product;
 import org.apppooproject.Service.AlertShowing;
 import org.apppooproject.Service.ViewFactory;
 
+//Class Controller to show a selected product and its details
 public class ProductDetailsController {
 
     @FXML
@@ -42,6 +43,7 @@ public class ProductDetailsController {
         noStock_label.setVisible(false);
     }
 
+    // Setting up the details of the products for the interface
     public void setProduct(Product product) {
         this.productSelected = product;
         productDescription.setText(product.getDescription());
@@ -72,6 +74,7 @@ public class ProductDetailsController {
     }
 
 
+    // On action of the selected button, add one unit of the selected product to the cart
     @FXML
     void onClickAddOneToCart(ActionEvent event) {
         if (productSelected != null) {

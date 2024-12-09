@@ -1,7 +1,7 @@
 package org.apppooproject.Model;
 
 
-//Class method that models the Product table from the DataBase
+//Abstract Class Product that models the Product table from the DataBase
 public abstract class Product {
     private long productId;
     private String name;
