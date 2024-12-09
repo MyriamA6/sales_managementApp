@@ -92,7 +92,7 @@
       <SplitMenuButton fx:id="topsButton" layoutX="129.0" layoutY="155.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="89.0" text="Tops">
         <items>
             <CheckMenuItem fx:id="isTshirt_button" mnemonicParsing="false" text="T-shirt" />
-            <CheckMenuItem fx:id="isSweater_button" mnemonicParsing="false" text="Sweatershirt" />
+            <CheckMenuItem fx:id="isSweater_button" mnemonicParsing="false" text="Sweatshirt" />
         </items>
       </SplitMenuButton>
       <SplitMenuButton fx:id="pantsButton" layoutX="28.0" layoutY="155.0" mnemonicParsing="false" text="Pants">

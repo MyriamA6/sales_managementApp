@@ -9,8 +9,8 @@ public class DatabaseInitializer {
     //initialization of the h2 database
 
     public static void initializeDatabase() {
-        String dbPath = System.getProperty("user.home") + "/projetTest2.mv.db"; // Path to the created dataBase
-        String url = "jdbc:h2:~/projetTest2";
+        String dbPath = System.getProperty("user.home") + "/projectDataBase.mv.db"; // Path to the created dataBase
+        String url = "jdbc:h2:~/projectDataBase";
         String user = "sa";
         String password = "";
 
@@ -57,7 +57,7 @@ public class DatabaseInitializer {
     // Method to get the connection from the created dataBase
     public static Connection getH2Connection() {
         try {
-            String url = "jdbc:h2:~/projetTest2"; //url to the created database
+            String url = "jdbc:h2:~/projectDataBase"; //url to the created database
             String user = "sa";
             String password = "";
 

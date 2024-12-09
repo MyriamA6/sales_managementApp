@@ -9,4 +9,15 @@ public class HelperMethod {
         }
         return input.trim().replaceAll("\\s+", " ");
     }
+
+    //method to check if the given arguments are null
+    public static boolean nothingIsNullOrEmpty(String ... strings) {
+        for (String s : strings) {
+            if (s == null) return false;
+            else{
+                if(removeExtraSpaces(s).isEmpty()) return false;
+            }
+        }
+        return true;
+    }
 }

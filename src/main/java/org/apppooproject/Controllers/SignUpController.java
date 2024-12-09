@@ -42,7 +42,7 @@ public class SignUpController {
     private final CustomerManager customerManager = CustomerManager.getInstance();
 
 
-    //Method to hide the label when the Sign Up page is first opened
+    //Method to hide the label when the signup page is first opened
     public void initialize() {
         error_label.setVisible(false);
     }
@@ -59,7 +59,7 @@ public class SignUpController {
         String passwordText = password.getText();
 
         // First we check if the fields are filled and valid
-        if (nothingIsNullOrEmpty(firstNameText, lastNameText, emailText, phoneNumberText, addressText, userIdText, passwordText) &&
+        if (HelperMethod.nothingIsNullOrEmpty(firstNameText, lastNameText, emailText, phoneNumberText, addressText, userIdText, passwordText) &&
                 Customer.isPossibleToCreateCustomer(firstNameText, lastNameText, emailText, phoneNumberText)) {
 
             // Then we check if no other customer has an account with the same email or id
@@ -87,14 +87,5 @@ public class SignUpController {
         ViewFactory.showLoginWindow();
     }
 
-    //method to check if the given arguments are null
-    public boolean nothingIsNullOrEmpty(String ... strings) {
-        for (String s : strings) {
-            if (s == null) return false;
-            else{
-                if(HelperMethod.removeExtraSpaces(s).isEmpty()) return false;
-            }
-        }
-        return true;
-    }
+
 }

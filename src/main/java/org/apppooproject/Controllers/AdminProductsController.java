@@ -188,7 +188,7 @@ public class AdminProductsController {
     @FXML
     void giveProductsByKeywords(ActionEvent event) {
         products.getItems().clear();
-        products.getItems().addAll(productManager.searchByKeyWords(searchField.getText()));
+        products.getItems().addAll(productManager.searchByKeyWords(searchField.getText(), productManager.getAllProducts()));
         products.refresh();
     }
 
@@ -486,6 +486,7 @@ public class AdminProductsController {
             }
             productManager.deleteAnElement(selectedProduct);
         }
+        resetFields();
         updateTable();
     }
 

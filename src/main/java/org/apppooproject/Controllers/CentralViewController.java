@@ -76,6 +76,7 @@ public class CentralViewController {
         btw50_100_button.setToggleGroup(priceGroup);
         more100_button.setToggleGroup(priceGroup);
 
+        System.out.println("appviex");
         // Configuration of the columns
         productName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
         productPrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getPrice()).asObject());
@@ -264,7 +265,7 @@ public class CentralViewController {
     @FXML
     void giveProductsByKeywords(ActionEvent event) {
         products.getItems().clear();
-        products.getItems().addAll(productManager.searchByKeyWords(searchField.getText()));
+        products.getItems().addAll(productManager.searchByKeyWords(searchField.getText(),productManager.getProductsInStock()));
         products.refresh();
     }
 
@@ -282,7 +283,7 @@ public class CentralViewController {
     @FXML
     void resetFilters(ActionEvent event) {
         products.getItems().clear();
-        products.getItems().addAll(productManager.getAllProducts());
+        products.getItems().addAll(productManager.getProductsInStock());
         deselectAllButtons();
         searchField.clear();
         products.refresh();

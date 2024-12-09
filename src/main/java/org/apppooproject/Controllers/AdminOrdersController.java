@@ -129,13 +129,13 @@ public class AdminOrdersController {
     @FXML
     void onClickChangeOrderStatus(ActionEvent event) {
         Order order = ordersTable.getSelectionModel().getSelectedItem();
-        if (payed_button.isSelected()) {
+        if (payed_button.isSelected() && order.getState().equals(OrderState.IN_PROGRESS)) {
             order.setState(OrderState.PAID);
             orderManager.modifyAnElement(order);
             InvoiceManager.getInstance().createInvoice(order);
         }
         else
-            if(delivered_button.isSelected()){
+            if(delivered_button.isSelected() && order.getState().equals(OrderState.PAID)){
             order.setState(OrderState.DELIVERED);
             orderManager.modifyAnElement(order);}
         updateTable();

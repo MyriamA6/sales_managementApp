@@ -92,7 +92,7 @@ VALUES
 -- Insertion into Product table
 INSERT INTO Product (name, price, stock, gender, color, size, description)
 VALUES
-    ('Sweatshirt', 40, 20, 'Unisex', 'Grey', 38, 'A comfortable sweatshirt'),
+    ('Sweatshirt', 40, 2, 'Unisex', 'Grey', 38, 'A comfortable sweatshirt'),
     ('Chino Pants', 60, 15, 'Male', 'Yellow', 34, 'Elegant chino pants'),
     ('Blouse', 35, 25, 'Female', 'White', 36, 'Light cotton blouse'),
     ('Cargo Pants', 55, 10, 'Unisex', 'Black', 38, 'Practical cargo pants'),
@@ -336,9 +336,9 @@ VALUES
     (98, 'T-shirt'), -- Tank Top
     (99, 'T-shirt'), -- Tank Top
     (100, 'T-shirt'), -- Tank Top
-    (103, 'T-shirt'), -- Oversied T-Shirt
-    (104, 'T-shirt'), -- Oversied T-Shirt
-    (105, 'T-shirt'), -- Oversied T-Shirt
+    (103, 'T-shirt'), -- Oversized T-Shirt
+    (104, 'T-shirt'), -- Oversized T-Shirt
+    (105, 'T-shirt'), -- Oversized T-Shirt
     (108, 'T-shirt'), -- T-Shirt
     (109, 'T-shirt'), -- T-Shirt
     (110, 'T-shirt'), -- T-Shirt

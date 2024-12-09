@@ -39,7 +39,10 @@ public class ProductManager implements DataManager<Product> {
 
             while (res.next()) {
                 // Determines if the product is Pants or Top and adds it to the products list
-                products.add(pantsOrTop(res.getLong("product_id"), co));
+                Product p =pantsOrTop(res.getLong("product_id"), co);
+                if(p!=null){
+                    products.add(p);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -157,14 +160,14 @@ public class ProductManager implements DataManager<Product> {
     //method that returns the products containing all the given keywords
     //if it contains logical operators then the method return the list of products
     // respecting the logical query with searchWithLogicalOperator
-    public ArrayList<Product> searchByKeyWords(String searchDemand) {
+    public ArrayList<Product> searchByKeyWords(String searchDemand, ArrayList<Product> products) {
         //if the searchDemand is empty we return all the products
         if (HelperMethod.removeExtraSpaces(searchDemand).isEmpty()) {
-            return getProductsInStock();
+            return products;
         }
 
         if (searchDemand.toLowerCase().contains("and") || searchDemand.toLowerCase().contains("or")) {
-            return searchWithLogicalOperators(searchDemand);
+            return searchWithLogicalOperators(searchDemand,products);
         }
 
 
@@ -180,9 +183,8 @@ public class ProductManager implements DataManager<Product> {
             }
         }
 
-        ArrayList<Product> productInStock = getProductsInStock();
         // Check each product to find the ones containing the keywords
-        for (Product p : productInStock) {
+        for (Product p : products) {
             boolean containsKeyWord = true;
             for (String keyword : keyWords) {
                 //if the product does not contain one of the keyWords we try the next product
@@ -201,14 +203,13 @@ public class ProductManager implements DataManager<Product> {
     }
 
     //We collect all products respecting the logical conditions of searchDemand
-    public ArrayList<Product> searchWithLogicalOperators(String searchDemand) {
+    public ArrayList<Product> searchWithLogicalOperators(String searchDemand,ArrayList<Product> products) {
         ArrayList<Product> resultingProducts = new ArrayList<>();
         String[] andSeparatedWords = searchDemand.toLowerCase().split("and");
-        ArrayList<Product> productInStock = getProductsInStock();
 
         //For each product we check if it contains all the given keywords
         // in the name or description of the product
-        for (Product p : productInStock) {
+        for (Product p : products) {
             boolean matchesAllAndConditions = true;
 
             for (String andCondition : andSeparatedWords) {
@@ -499,6 +500,8 @@ public class ProductManager implements DataManager<Product> {
                 PreparedStatement stmtPants = co.prepareStatement(sqlPants);
                 stmtPants.setLong(1, product.getProductId());
                 stmtPants.executeUpdate();
+                stmtPants.close();
+                System.out.println("deleted pants");
             }
 
             // Otherwise: Delete from the Top table if the product is of type Top
@@ -507,6 +510,8 @@ public class ProductManager implements DataManager<Product> {
                 PreparedStatement stmtTop = co.prepareStatement(sqlTop);
                 stmtTop.setLong(1, product.getProductId());
                 stmtTop.executeUpdate();
+                System.out.println("deleted top");
+                stmtTop.close();
             }
 
             // Finally: Delete from the Product table
@@ -514,7 +519,9 @@ public class ProductManager implements DataManager<Product> {
             PreparedStatement stmtProduct = co.prepareStatement(sqlProduct);
             stmtProduct.setLong(1, product.getProductId());
             stmtProduct.executeUpdate();
+            AlertShowing.showAlert("Product deleted","Product successfully deleted", Alert.AlertType.INFORMATION);
             refresh();
+            stmtProduct.close();
 
         } catch (SQLException e) {
             //If it isn't possible to delete the product, we set its stock to 0.

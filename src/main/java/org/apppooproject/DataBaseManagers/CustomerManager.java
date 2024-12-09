@@ -124,10 +124,12 @@ public class CustomerManager implements DataManager<Customer> {
             String sql = "INSERT INTO Customer(first_name, last_name, email, address, phone_number, login_name, user_password) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = setPreparedStatement(c, sql); // Prepares SQL statement with Customer data
             stmt.executeUpdate();
+            System.out.println("here");
             ResultSet generatedKeys = stmt.getGeneratedKeys();
             if (generatedKeys.next()) {
                 long customerId = generatedKeys.getLong(1);
                 c.setCustomerId(customerId);
+                System.out.println(customerId);
             }
 
             stmt.close();
@@ -157,7 +159,7 @@ public class CustomerManager implements DataManager<Customer> {
 
     // Method to reduce redundancy and set parameters for PreparedStatement based on a Customer's data.
     private PreparedStatement setPreparedStatement(Customer c, String sql) throws SQLException {
-        PreparedStatement stmt = co.prepareStatement(sql);
+        PreparedStatement stmt = co.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
         stmt.setString(1, c.getFirstName());
         stmt.setString(2, c.getLastName());
         stmt.setString(3, c.getEmail());

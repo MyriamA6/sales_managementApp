@@ -236,7 +236,7 @@ public class Customer {
         }
 
         // Check if email contains "@" and "." and that they are surrounded by letters
-        String emailRegex = "^[a-zA-Z]+@[a-zA-Z]+\\.[a-zA-Z]+$";
+        String emailRegex = "^[a-zA-Z]+[a-zA-Z0-9._-]*[a-zA-Z0-9]+@[a-zA-Z]+\\.[a-zA-Z]+\\.?[a-zA-Z]*$";
         if (!email.matches(emailRegex)) {
             return false; // Return false if the email does not follow the correct pattern
         }
