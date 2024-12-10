@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+//Controller class that manages the action operated on the "appView" interface
 public class CentralViewController {
 
     // Declare UI components
@@ -135,6 +136,7 @@ public class CentralViewController {
         }
     }
 
+    // Show the result of the filtering of the products of the database
     @FXML
     void applySelectedFilters(ActionEvent event) {
         products.getItems().clear();
@@ -160,6 +162,7 @@ public class CentralViewController {
         products.refresh();
     }
 
+    // Return a filtered list of product according to the colors selected
     public ArrayList<Product> showByColor(ArrayList<Product> productsToFilter) {
         ArrayList<Product> filteredProducts = new ArrayList<>();
 
@@ -197,6 +200,7 @@ public class CentralViewController {
         return filteredProducts;
     }
 
+    // Return a filtered list of product according to the size selected on the interface
     public ArrayList<Product> showBySize (ArrayList<Product> productsToFilter) {
         ArrayList<Product> filteredProducts = new ArrayList<>();
         if(xs_button.isSelected()){
@@ -220,6 +224,7 @@ public class CentralViewController {
         return filteredProducts;
     }
 
+    // Return a filtered list of product according to the ranges of price selected
     public ArrayList<Product> showByPrice(ArrayList<Product> productsToFilter){
         ArrayList<Product> filteredProducts = new ArrayList<>();
         if(less25_button.isSelected()){
@@ -240,6 +245,7 @@ public class CentralViewController {
         return filteredProducts;
     }
 
+    // Return a filtered list of product according to the genders selected
     public ArrayList<Product> showByGender(ArrayList<Product> productsToFilter){
         ArrayList<Product> filteredProducts = new ArrayList<>();
         if(male_button.isSelected()){
@@ -257,6 +263,7 @@ public class CentralViewController {
         return filteredProducts;
     }
 
+    // Show a filtered list of product according to the keywords written in the search field
     @FXML
     void giveProductsByKeywords(ActionEvent event) {
         products.getItems().clear();

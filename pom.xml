@@ -73,7 +73,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>org.apppooproject/org.apppooproject.MainApp</mainClass>
+                            <mainClass>org.apppooproject/org.apppooproject.App.MainApp</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>
@@ -99,7 +99,7 @@
 
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>org.apppooproject.Main</mainClass>
+                                    <mainClass>org.apppooproject.App.Main</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
@@ -113,7 +113,7 @@
                 <configuration>
                     <archive>
                         <manifestEntries>
-                            <Main-Class>org.apppooproject.Main</Main-Class>
+                            <Main-Class>org.apppooproject.App.Main</Main-Class>
                         </manifestEntries>
                     </archive>
                 </configuration>

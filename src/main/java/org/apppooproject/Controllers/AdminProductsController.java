@@ -123,7 +123,7 @@ public class AdminProductsController {
 
 
 
-    // Initialize the product table and set up the UI elements
+    // Initialize the product table and set up the other elements displayed
     @FXML
     public void initialize() {
 
@@ -133,7 +133,7 @@ public class AdminProductsController {
             return new SimpleStringProperty(type);
         });
 
-        //set up of the table view
+        //setting up the table view
         productName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
         productPrice.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getPrice()).asObject());
         productSize.setCellValueFactory(cellData-> new SimpleIntegerProperty(cellData.getValue().getSize()).asObject());
@@ -465,7 +465,7 @@ public class AdminProductsController {
         if (m_button.isSelected()) return 38;
         if (l_button.isSelected()) return 40;
         if (xl_button.isSelected()) return 42;
-        return 0; // Default value, could be handled differently
+        return 0;
     }
 
     private String getGenderFromSelection() {

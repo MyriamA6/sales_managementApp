@@ -10,10 +10,10 @@ CREATE TABLE Customer (
                           customer_id BIGINT AUTO_INCREMENT PRIMARY KEY,
                           first_name VARCHAR(50) NOT NULL,
                           last_name VARCHAR(50) NOT NULL,
-                          email VARCHAR(100) UNIQUE,
+                          email VARCHAR(100) NOT NULL,
                           address VARCHAR(100) NOT NULL,
                           phone_number VARCHAR(20),
-                          login_name VARCHAR(30) NOT NULL UNIQUE,
+                          login_name VARCHAR(30) NOT NULL,
                           user_password VARCHAR(256) NOT NULL
 );
 
@@ -76,7 +76,7 @@ CREATE TABLE Content (
                          CONSTRAINT FK_Content_Order FOREIGN KEY (order_id) REFERENCES Order_record(order_id)
 );
 
--- Insertion for the customers
+-- Insertions for the customers
 -- Julien mdp : 123456
 -- Louis mdp : louis
 -- Marie mdp : 0000
@@ -130,7 +130,7 @@ VALUES
     ('Crop Top', 25, 40, 'Female', 'Pink', 34, 'Trendy crop top for casual wear'),
     ('Oversized T-Shirt', 35, 20, 'Unisex', 'Orange', 40, 'Comfortable oversized t-shirt'),
     ('Wool Sweater', 60, 15, 'Female', 'Yellow', 40, 'Premium wool sweater for cold weather'),
-    ('Turtle Neck', 45, 20, 'Female', 'Blue', 36, 'Stylish turtle neck top for colder days'),
+    ('Turtleneck', 45, 20, 'Female', 'Blue', 36, 'Stylish turtle neck top for colder days'),
     ('Party Top', 55, 15, 'Female', 'Black', 36, 'Elegant top for evening events'),
     ('Zip Sweatshirt', 50, 25, 'Male', 'White', 40, 'Comfortable sweatshirt with a zip closure'),
     ('Long Sleeve Top', 30, 30, 'Female', 'Pink', 36, 'Soft long-sleeved top for everyday wear'),
@@ -152,7 +152,7 @@ VALUES
     ('Cargo Shorts', 35, 25, 'Male', 'Pink', 36, 'Bright and functional cargo shorts'),
     ('Military Cargo', 50, 20, 'Unisex', 'Green', 38, 'Durable cargo pants with a military design'),
     ('Blouse', 40, 22, 'Female', 'Pink', 36, 'Chic blouse with a flattering fit'),
-    ('Turtle Neck', 48, 18, 'Male', 'Grey', 40, 'Cozy turtle neck sweater for cooler weather'),
+    ('Turtleneck', 48, 18, 'Male', 'Grey', 40, 'Cozy turtle neck sweater for cooler weather'),
     ('Sweatshirt', 40, 20, 'Unisex', 'Grey', 34, 'A comfortable sweatshirt'),
     ('Chino Pants', 60, 15, 'Male', 'Yellow', 36, 'Elegant chino pants'),
     ('Blouse', 35, 25, 'Female', 'White', 34, 'Light cotton blouse'),
@@ -217,7 +217,7 @@ VALUES
     ('Flared Pants', 65, 15, 'Female', 'Black', 40, 'Elegant and stylish flared pants'),
     ('Flared Pants', 65, 15, 'Female', 'Black', 42, 'Elegant and stylish flared pants');
 
--- Insertion des pantalons
+-- Insertion of the pants
 INSERT INTO Pants (product_id, length)
 VALUES
     (2, 'Regular'), -- Chino Pants
@@ -241,7 +241,7 @@ VALUES
     (45, 'Shorts'), -- Military Shorts
     (46, 'Shorts'), -- Fleece Shorts
     (53, 'Regular'), -- Flared Pants
-    (57, 'Regular'), -- Oversied Jeans
+    (57, 'Regular'), -- Oversized Jeans
     (58, 'Shorts'), -- Cargo Shorts
     (59, 'Regular'), -- Military Cargo
     (63, 'Regular'), -- Chino Pants
@@ -273,7 +273,7 @@ VALUES
     (124, 'Regular'); -- Flared Pants
 
 
--- Insertion des hauts
+-- Insertion of the tops
 INSERT INTO Top (product_id, sleevesType)
 VALUES
     (1, 'Sweater'), -- Sweatshirt
@@ -350,19 +350,20 @@ VALUES
     (120, 'T-shirt'), -- Turtle Neck
     (121, 'T-shirt'); -- Turtle Neck -- Formal Shirt
 
--- Insertion des commandes
+-- Insertion of the orders
 INSERT INTO Order_record (customer_id, total_price, order_date, order_state)
 VALUES
     (1, 95, DATE '2024-10-15', 'paid'),
     (2, 60, DATE '2024-10-16', 'in progress'),
     (3, 35, DATE '2024-10-14', 'delivered');
--- Insertion des factures
+
+-- Insertion of the invoices
 INSERT INTO Invoice (order_id, invoice_date)
 VALUES
     (1, DATE '2024-10-16'),
     (3, DATE '2024-10-15');
 
--- Insertion des contenus des commandes
+-- Insertion of the content of the orders
 INSERT INTO Content (product_id, order_id, quantity_ordered)
 VALUES
     (1, 1, 1),

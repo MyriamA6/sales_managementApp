@@ -75,7 +75,7 @@ public class AdminOrdersController {
         }
     }
 
-    //Reloads the orders visible in the table of the table view of the interface
+    //Reload the orders visible in the table of the table view of the interface
     private void updateTable(){
         loadOrders();
         ordersTable.refresh();

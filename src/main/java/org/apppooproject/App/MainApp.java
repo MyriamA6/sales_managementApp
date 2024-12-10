@@ -1,4 +1,4 @@
-package org.apppooproject;
+package org.apppooproject.App;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

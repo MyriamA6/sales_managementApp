@@ -20,6 +20,7 @@ import org.apppooproject.Service.ViewFactory;
 import java.util.ArrayList;
 import java.util.Map;
 
+//Controller class tha manage the actions of the interface "My cart" of a customer
 public class CartController {
 
 

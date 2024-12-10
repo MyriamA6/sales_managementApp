@@ -1,4 +1,4 @@
-package org.apppooproject;
+package org.apppooproject.App;
 
 import org.apppooproject.DataBaseManagers.DatabaseInitializer;
 
